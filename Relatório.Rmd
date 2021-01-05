@@ -35,7 +35,7 @@ link-citations: yes
 Giovanni Chaves RA 173733\\
 Caio Henrique de Sousa Lima RA 214144\\ 
 Júlio Mendes Pazelli RA 219494\\
-Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm] 
+Nathan Blusa Amaalela Soltinho RA 222854} \\[5cm] 
 \end{flushright}
 
 
