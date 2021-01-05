@@ -1,0 +1,509 @@
+Trabalho ME731
+Giovanni Chaves
+Nathan Souto
+Carlos Kamioka
+Júlio Pazelli
+Caio Henrique
+
+Pacotes
+
+```{r}
+library(readr)
+library(ggplot2)
+library(tidyverse)
+library(MASS)
+library(car)
+library(xtable)
+library(moments)
+library(MVA)
+library(mlbench)
+library(plotrix)
+```
+
+Questão 1:
+Lista 3 questão 4
+MANOVA e CBU
+
+Lendo dados
+```{r}
+turtle = read_table2("q1.txt")
+turtle$length = as.numeric(turtle$length)
+turtle$width = as.numeric(turtle$width)
+turtle$height = as.numeric(turtle$height)
+turtleF = turtle %>% filter(sex == "F") %>% dplyr::select(-sex)
+turtleM = turtle %>% filter(sex == "M") %>% dplyr::select(-sex)
+```
+
+Análise descritiva
+
+1) Medidas Resumo
+
+```{r}
+SumF<- cbind(round(apply(turtleF,2,mean),4),round(apply(turtleF,2,var),4),
+                round(apply(turtleF,2,sd),4),
+                round(100*apply(turtleF,2,sd)/apply(turtleF,2,mean),4),
+                round(apply(turtleF,2,min),4),round(apply(turtleF,2,quantile,0.5),4),
+                round(apply(turtleF,2,max),4),
+                round(apply(turtleF,2,skewness),4),
+                round(apply(turtleF,2,kurtosis),4))
+colnames(SumF)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumF)
+SumF
+```
+
+```{r}
+SumM<- cbind(round(apply(turtleM,2,mean),4),round(apply(turtleM,2,var),4),
+                round(apply(turtleM,2,sd),4),
+                round(100*apply(turtleM,2,sd)/apply(turtleM,2,mean),4),
+                round(apply(turtleM,2,min),4),round(apply(turtleM,2,quantile,0.5),4),
+                round(apply(turtleM,2,max),4),
+                round(apply(turtleM,2,skewness),4),
+                round(apply(turtleM,2,kurtosis),4))
+colnames(SumM)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumM)
+SumM
+```
+
+2)Diagrama de dispersão
+
+Feminino
+
+```{r}
+plot(turtleF,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+Masculino
+
+```{r}
+plot(turtleM,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+3) Matriz de covariâncias
+
+Feminino
+
+```{r}
+#xtable(cov(turtleF))
+cov(turtleF)
+```
+
+Masculino
+
+```{r}
+#xtable(cov(turtleM))
+cov(turtleM)
+```
+
+
+4) Matriz de correlações
+
+Feminino
+
+```{r}
+#xtable(cor(turtleF))
+cor(turtleF)
+```
+
+Masculino
+
+```{r}
+#xtable(cor(turtleM))
+cor(turtleM)
+```
+
+5) Boxplot
+
+```{r}
+par(mfrow=c(2,3))
+boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Length (F)")
+boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Width (F)")
+boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Heigth (F)")
+boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Length (M)")
+boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Width (M)")
+boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Heigth (M)")
+```
+
+#histograms
+
+```{r}
+par(mfrow=c(2,3))
+hist(turtleF$length,probability=TRUE,main="Length (F)",xlab="",ylab="")
+hist(turtleF$width,probability=TRUE,main="Width (F)",xlab="",ylab="")
+hist(turtleF$height,probability=TRUE,main="Heigth (F)",xlab="",ylab="")
+hist(turtleM$length,probability=TRUE,main="Length (M)",xlab="",ylab="")
+hist(turtleM$width,probability=TRUE,main="Width (M)",xlab="",ylab="")
+hist(turtleM$height,probability=TRUE,main="Heigth (M)",xlab="",ylab="")
+```
+
+# qqplots
+
+```{r}
+par(mfrow=c(2,3))
+qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (F)",cex=1.2)
+qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (F)",cex=1.2)
+qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (F)",cex=1.2)
+qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (M)",cex=1.2)
+qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (M)",cex=1.2)
+qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (M)",cex=1.2)
+```
+Inferencial
+
+```{r}
+Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
+{
+  # v.grupos (1,2,3...)
+  # m.X.completa : matriz de dados com todos os grupos
+  grupo <- 1
+  p<- ncol(m.X.completa)
+  m.X.k <- m.X.completa[v.grupos==grupo,]
+  Sigma.k <- cov(m.X.k)
+  m.Sigma.completa <- cbind(grupo,Sigma.k)
+  Sigma.P <- (v.n[grupo]-1)*Sigma.k # estimativa ponderada
+  aux.k.1 <- (v.n[grupo] - 1)*log(det(Sigma.k))
+  grupo <- grupo + 1
+  for (i in 2:G)
+  {
+    m.X.k <- m.X.completa[v.grupos==grupo,] # pegar os dados referentes ao grupo i
+    Sigma.k <- cov(m.X.k)
+    m.Sigma.completa <- rbind(m.Sigma.completa,cbind(grupo,Sigma.k))
+    Sigma.P <- Sigma.P + (v.n[grupo]-1)*Sigma.k # estimativa ponderada
+    aux.k.1 <- aux.k.1 + (v.n[grupo] - 1)*log(det(Sigma.k))
+    grupo <- grupo + 1
+  }
+  Sigma.P <- Sigma.P/(sum(v.n)-G)
+  
+  # Estatística de ajuste
+  aux.u <- (sum(1/(v.n - 1)) - (1/(sum(v.n - 1))))*(2*p^2 + 3*p - 1)/(6*(p+1)*(G-1))
+  Q.B <-  (1 - aux.u)*(sum(v.n-1)*log(det(Sigma.P)) - aux.k.1)
+  aux.v <- 0.5*p*(p+1)*(G-1)
+  e.nd.QB <- 1 - pchisq(Q.B,aux.v)
+  cat("Estatística do Teste: ", Q.B, "\n")
+  cat("nível descritivo: ",e.nd.QB,"\n")
+  cat("Matrizes de Covariâncias por grupo: \n")
+  print(m.Sigma.completa)
+  Sigma.P <-as.matrix(data.frame(Sigma.P))
+  list(Sigma.P=Sigma.P)
+} # fim fa função
+```
+
+
+```{r}
+m.Sigma.P<-Box.teste.Igual.MCov(irisd,v.grupos,v.n,G)$Sigma.P
+fit.model<-m.ajuste <- manova(as.matrix(irisd) ~ especie)
+summary.manova(m.ajuste,test="Wilks")
+summary.manova(m.ajuste,test="Pillai")
+summary.manova(m.ajuste,test="Hotelling-Lawley")
+summary.manova(m.ajuste,test="Roy")
+```
+
+
+Questão 2:
+Questão 6 Lista 4
+Análise fatorial
+
+Dados
+
+```{r}
+hep = heptathlon
+```
+
+Análise descritiva
+
+1) Medidas Resumo
+
+```{r}
+SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
+                round(apply(hep,2,sd),4),
+                round(100*apply(hep,2,sd)/apply(hep,2,mean),4),
+                round(apply(hep,2,min),4),round(apply(hep,2,quantile,0.5),4),
+                round(apply(hep,2,max),4),
+                round(apply(hep,2,skewness),4),
+                round(apply(hep,2,kurtosis),4))
+colnames(SumHep)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumHep)
+SumHep
+```
+
+2)Diagrama de dispersão
+
+```{r}
+plot(hep,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+3) Matriz de covariâncias
+
+```{r}
+#xtable(cov(hep))
+cov(hep)
+```
+
+4) Matriz de correlações
+
+```{r}
+#xtable(cor(hep))
+cor(hep)
+```
+
+5) Boxplot
+
+```{r}
+par(mfrow=c(2,4))
+boxplot(hep[,1],cex=1.2,cex.lab=1.2,main="100m Barreiras")
+boxplot(hep[,2],cex=1.2,cex.lab=1.2,main="Salto em altura")
+boxplot(hep[,3],cex=1.2,cex.lab=1.2,main="Arremesso de peso")
+boxplot(hep[,4],cex=1.2,cex.lab=1.2,main="200m rasos")
+boxplot(hep[,5],cex=1.2,cex.lab=1.2,main="Salto em distância")
+boxplot(hep[,6],cex=1.2,cex.lab=1.2,main="Lançamento dardos")
+boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="800m rasos")
+boxplot(hep[,8],cex=1.2,cex.lab=1.2,main="Pontuação total")
+```
+
+#histograms
+
+```{r}
+par(mfrow=c(2,4))
+hist(hep[,1],probability=TRUE,main="100m Barreiras",xlab="",ylab="")
+hist(hep[,2],probability=TRUE,main="Salto em altura",xlab="",ylab="")
+hist(hep[,3],probability=TRUE,main="Arremesso de peso",xlab="",ylab="")
+hist(hep[,4],probability=TRUE,main="200m rasos",xlab="",ylab="")
+hist(hep[,5],probability=TRUE,main="Salto em distância",xlab="",ylab="")
+hist(hep[,6],probability=TRUE,main="Lançamento dardos",xlab="",ylab="")
+hist(hep[,7],probability=TRUE,main="800m rasos",xlab="",ylab="")
+hist(hep[,8],probability=TRUE,main="Pontuação total",xlab="",ylab="")
+```
+
+# qqplots
+
+```{r}
+par(mfrow=c(2,4))
+qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="100m Barreiras",cex=1.2)
+qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em altura",cex=1.2)
+qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Arremesso de peso",cex=1.2)
+qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="200m rasos",cex=1.2)
+qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2)
+qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2)
+qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2)
+qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
+```
+
+Questão 3
+Lista 6 questão 2
+Análise de correspondência
+
+Dados
+
+```{r}
+`Saúde mental`<- array(c(121,188,112,186,
+                57,105,65,60,
+                72,141,77,94,
+                36,97,54,78,
+                21,71,54,71),
+ dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
+ ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
+#xtable(addmargins(`Saúde mental`))
+addmargins(`Saúde mental`)
+chisq.test(`Saúde mental`)
+```
+
+Proporções estimadas (pelo total de observações) (× 100)
+
+```{r}
+margins = addmargins(`Saúde mental`)
+margins/1760*100
+```
+
+Perfil das linhas
+
+```{r}
+n = sum(`Saúde mental`)
+linhas = `Saúde mental`
+lin = dim(linhas)[1]
+for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
+`Total` = c(sum(`Saúde mental`[,1]),sum(`Saúde mental`[,2]),sum(`Saúde mental`[,3]),sum(`Saúde mental`[,4]),sum(`Saúde mental`[,5]))/n*100
+#xtable(addmargins(rbind(linhas,`Total`))[1:5,1:6])
+addmargins(rbind(linhas,`Total`))[1:5,1:6]
+```
+
+Perfil das Colunas
+
+```{r}
+n = sum(`Saúde mental`)
+colunas = `Saúde mental`
+col = dim(linhas)[2]
+for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
+`Total` = c(sum(`Saúde mental`[1,]),sum(`Saúde mental`[2,]),sum(`Saúde mental`[3,]),sum(`Saúde mental`[4,]))/n*100
+#xtable(addmargins(rbind(colunas,`Total`))[1:5,1:6])
+addmargins(cbind(colunas,`Total`))[1:5,1:6]
+```
+
+Inércia
+
+
+
+Questão 4
+Lista 7 questão 11
+Análise discriminate
+
+Dados
+
+```{r}
+data("PimaIndiansDiabetes2")
+indi = PimaIndiansDiabetes2 %>% na.omit()
+indiP = indi %>% filter(diabetes == "pos") %>% dplyr::select(-c(diabetes,pedigree))
+indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigree))
+```
+
+Análise descritiva
+
+1) Medidas Resumo
+
+Positivo
+
+```{r}
+SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
+                round(apply(indiP,2,sd),4),
+                round(100*apply(indiP,2,sd)/apply(indiP,2,mean),4),
+                round(apply(indiP,2,min),4),round(apply(indiP,2,quantile,0.5),4),
+                round(apply(indiP,2,max),4),
+                round(apply(indiP,2,skewness),4),
+                round(apply(indiP,2,kurtosis),4))
+colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumIP)
+SumIP
+```
+
+Negativo
+
+
+```{r}
+SumIN<- cbind(round(apply(indiN,2,mean),4),round(apply(indiN,2,var),4),
+                round(apply(indiN,2,sd),4),
+                round(100*apply(indiN,2,sd)/apply(indiN,2,mean),4),
+                round(apply(indiN,2,min),4),round(apply(indiN,2,quantile,0.5),4),
+                round(apply(indiN,2,max),4),
+                round(apply(indiN,2,skewness),4),
+                round(apply(indiN,2,kurtosis),4))
+colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumIN)
+SumIN
+```
+
+
+2)Diagrama de dispersão
+
+Positivo
+
+```{r}
+plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+Negativo
+
+```{r}
+plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+3) Matriz de covariâncias
+
+Positivo
+
+```{r}
+#xtable(cov(indiP))
+cov(indiP)
+```
+
+Negativo
+
+```{r}
+#xtable(cov(indiN))
+cov(indiN)
+```
+
+4) Matriz de correlações
+
+Positivo
+
+```{r}
+#xtable(cor(indiP))
+cor(indiP)
+```
+
+Negativo
+
+```{r}
+#xtable(cor(indiN))
+cor(indiN)
+```
+
+5) Boxplot
+
+```{r}
+par(mfrow=c(2,4))
+boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez (P)")
+boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose (P)")
+boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão (P)")
+boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps (P)")
+boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulina (P)")
+boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC (P)")
+boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade (P)")
+
+par(mfrow = c(2,4))
+boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez (N)")
+boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose (N)")
+boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão (N)")
+boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps (N)")
+boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulina (N)")
+boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
+boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
+
+```
+
+#histograms
+
+```{r}
+par(mfrow=c(2,4))
+hist(indiP[,1],probability=TRUE,main="Gravidez (P)",xlab="",ylab="")
+hist(indiP[,2],probability=TRUE,main="Glicose (P)",xlab="",ylab="")
+hist(indiP[,3],probability=TRUE,main="Pressão (P)",xlab="",ylab="")
+hist(indiP[,4],probability=TRUE,main="Tríceps (P)",xlab="",ylab="")
+hist(indiP[,5],probability=TRUE,main="Insulina (P)",xlab="",ylab="")
+hist(indiP[,6],probability=TRUE,main="IMC (P)",xlab="",ylab="")
+hist(indiP[,7],probability=TRUE,main="Idade (P)",xlab="",ylab="")
+
+par(mfrow=c(2,4))
+hist(indiN[,1],probability=TRUE,main="Gravidez (N)",xlab="",ylab="")
+hist(indiN[,2],probability=TRUE,main="Glicose (N)",xlab="",ylab="")
+hist(indiN[,3],probability=TRUE,main="Pressão (N)",xlab="",ylab="")
+hist(indiN[,4],probability=TRUE,main="Tríceps (N)",xlab="",ylab="")
+hist(indiN[,5],probability=TRUE,main="Insulina (N)",xlab="",ylab="")
+hist(indiN[,6],probability=TRUE,main="IMC (N)",xlab="",ylab="")
+hist(indiN[,7],probability=TRUE,main="Idade (N)",xlab="",ylab="")
+```
+
+# qqplots
+
+```{r}
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2)
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (P)",cex=1.2)
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2)
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (P)",cex=1.2)
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina (P)",cex=1.2)
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2)
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2)
+
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (N)",cex=1.2)
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (N)",cex=1.2)
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2)
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (N)",cex=1.2)
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina (N)",cex=1.2)
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (N)",cex=1.2)
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2)
+```
+
