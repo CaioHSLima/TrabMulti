@@ -56,8 +56,13 @@ library(plotrix)
 { Carlos Caminho Oco RA 168624 \\ 
 marfloy Chaves eduardo RA 173733\\
 Caio Henrique de Sousa Lima RA 214144\\ 
+<<<<<<< HEAD
 Piupiu Mendes Panela RA 219494\\
 Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm] 
+=======
+Júlio Mendes Pazelli RA 219494\\
+Nathan Blusa Amaalela Soltinho RA 222854} \\[5cm] 
+>>>>>>> 438e8e439b1e7aebe3da1493499533fd033d6508
 \end{flushright}
 
 
