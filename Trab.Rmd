@@ -151,6 +151,8 @@ qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xl
 ```
 Inferencial
 
+
+Funções de interesse
 ```{r}
 Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
 {
@@ -187,6 +189,74 @@ Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
   Sigma.P <-as.matrix(data.frame(Sigma.P))
   list(Sigma.P=Sigma.P)
 } # fim da função
+
+# mY: matriz de dados
+# fit.model: ajuste da função lm
+
+mSigmareg <- function(mY,fit.model)
+{
+  mX <- as.matrix(model.matrix(fit.model))
+  q <- ncol(mX)
+  p<-ncol(mY)
+  n <- nrow(mY)
+  mB <- matrix(coef(fit.model),q,p)
+  mSigma <- t(as.matrix(mY-mX%*%mB))%*%(as.matrix(mY-mX%*%mB))/(n-q)
+  return(mSigma)
+}
+
+# mY: matriz de dados
+# fit.model: ajuste da função lm
+# gama: nível de confiança
+
+estim.par.MRNLM <- function(mY,fit.model,gama)
+
+{
+
+vbeta <- c(t(coef(fit.model)))
+mSigma<-mSigmareg(mY,fit.model)
+mX <-as.matrix(model.matrix(fit.model))
+n<-nrow(mX)
+q<-ncol(mX)
+mSigmabeta <- kronecker(solve(t(mX)%*%mX),mSigma)
+epbeta<-sqrt(diag(mSigmabeta))
+et <- qt(0.5*(1+gama),df=n-q)
+LIIC <- vbeta-et*epbeta
+LSIC <- vbeta+et*epbeta
+estt <- vbeta/epbeta
+pvalor <- 2*(1-pt(abs(estt),df=n-q))
+#
+mresult <- cbind(vbeta,epbeta,LIIC,LSIC,estt,pvalor)
+return(mresult)
+
+  
+}
+
+# fit.model: ajuste da função manova
+# m.Sigma.P: matriz de variâncias e covariâncias estimada via modelo
+# p: número de variáveis
+# q: número de parâmetros por variável
+# m.C,m.U,m.M: matrizes de interesse
+
+Teste.CBU.M<-function(fit.model,m.Sigma.P,p,q,m.C,m.U,m.M)
+{
+  m.B <- matrix(coef(fit.model),q,p)
+  v.beta <- matrix(t(m.B))
+  m.X <- model.matrix(fit.model)
+  m.Ca <- kronecker(m.C,t(m.U))
+  m.Ma <- matrix(t(m.M))
+  v.theta <- m.Ca%*%v.beta - m.Ma
+  m.Sigmabeta <- kronecker(solve(t(m.X)%*%m.X),m.Sigma.P)
+  estat <- t(v.theta)%*%solve(m.Ca%*%(m.Sigmabeta)%*%t(m.Ca))%*%v.theta
+  p.valor <- 1-pchisq(estat,df=nrow(m.C)*ncol(m.U))
+  cat("Estatistica Qui-quadrado = ",round(estat,2),"\n")
+  cat("pvalor = ",round(p.valor,4),"\n")
+  cat("Matriz C :","\n")
+  print(m.C)
+  cat("Matriz U :","\n")
+  print(m.U)
+  cat("Matriz M :","\n")
+  print(m.M)
+}
 ```
 
 ```{r}
@@ -205,6 +275,50 @@ summary.manova(m.ajuste,test="Wilks")
 summary.manova(m.ajuste,test="Pillai")
 summary.manova(m.ajuste,test="Hotelling-Lawley")
 summary.manova(m.ajuste,test="Roy")
+```
+
+CBU
+
+```{r}
+m.C1 <- cbind(0,1) #  F X M
+m.M = 0
+p = 3
+```
+
+
+Variável Length
+
+```{r}
+m.U <- rbind(1,0,0)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+Variável Width
+
+```{r}
+m.U <- rbind(0,1,0)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+Variável Height
+
+```{r}
+m.U <- rbind(0,0,1)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+MRLNM (estimativas parâmetros)
+
+```{r}
+aux<-summary.aov(m.ajuste)
+fit.modelLM <- lm(as.matrix(turtled) ~ sex)
+summary(fit.modelLM)
+
+# Matriz de variâncias e covariâncias via modelo
+mSigmareg(turtled,fit.modelLM)
+
+# Estimativa dos parâmetros
+estim.par.MRNLM(turtled,fit.modelLM,0.95)
 ```
 
 
