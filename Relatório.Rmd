@@ -1,0 +1,45 @@
+---
+output:
+  pdf_document:
+    number_sections: yes
+fig_caption: yes
+margin: auto
+fontsize: 10pt
+header-includes:
+- \usepackage{float}
+- \floatplacement{figure}{H}
+- \usepackage[brazil, english, portuguese]{babel}
+- \usepackage{abstract}
+- \usepackage{hyperref}
+- \usepackage[style=abnt]{biblatex}
+- \addbibresource{ref.bib}
+link-citations: yes
+---
+
+
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+\renewcommand{\baselinestretch}{1.5}
+
+\begin{titlepage}
+\begin{center} 
+
+{\large UNICAMP - Universidade Estadual de Campinas}\\[0.2cm] 
+{\large IMECC - Instituto de Matemática, Estatística e Computação Científica}\\[0.2cm] 
+{\large Departamento de Estatística}\\[0.2cm]
+{\large ME731 - Métodos em Análise Multivariada}\\[6.1cm]
+{\bf \Large Trabalho}\\[6cm] 
+
+\begin{flushright}
+{ Carlos Kamioka RA 168624 \\ 
+Giovanni Chaves RA 173733\\
+Caio Henrique de Sousa Lima RA 214144\\ 
+Júlio Mendes Pazelli RA 219494\\
+Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm] 
+\end{flushright}
+
+
+{Campinas}\\[0.2cm]
+{2020}
+\end{center}
+\end{titlepage}
