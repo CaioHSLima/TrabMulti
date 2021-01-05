@@ -21,6 +21,7 @@ library(plotrix)
 library(corrplot)
 library(ggcorrplot)
 library(psych)
+library(ca)
 ```
 
 Questão 1:
@@ -549,9 +550,24 @@ for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
 addmargins(cbind(colunas,`Total`))[1:5,1:6]
 ```
 
-Inércia
+Análise de corresponcência
 
+```{r}
+resultCA <- ca(`Saúde mental`) # names(resultCA)
+inercia<-summary(resultCA)$scree # names(summary(resultCA))
+#xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
+```
 
+```{r}
+
+# Componentes
+resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
+                  cex=1.4,cex.lab=1.2)
+
+#
+#xtable(resultFCA$rows,digits=4)
+#xtable(resultFCA$cols,digits=4)
+```
 
 Questão 4
 Lista 7 questão 11
