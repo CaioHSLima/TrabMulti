@@ -18,6 +18,9 @@ library(moments)
 library(MVA)
 library(mlbench)
 library(plotrix)
+library(corrplot)
+library(ggcorrplot)
+library(psych)
 ```
 
 Questão 1:
@@ -321,7 +324,6 @@ mSigmareg(turtled,fit.modelLM)
 estim.par.MRNLM(turtled,fit.modelLM,0.95)
 ```
 
-
 Questão 2:
 Questão 6 Lista 4
 Análise fatorial
@@ -330,6 +332,7 @@ Dados
 
 ```{r}
 hep = heptathlon
+nvar <- 8
 ```
 
 Análise descritiva
@@ -411,6 +414,90 @@ qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="qua
 qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2)
 qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
 ```
+
+Análise inferencial
+
+```{r}
+corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
+```
+
+Cargas fatoriais (CP)
+
+```{r}
+p <- ncol(hep)
+m.cor<-cor(hep)
+aut.val <-  eigen(m.cor)$values
+aut.vec <- (eigen(m.cor)$vectors)
+m.aut.val <- t(matrix(((aut.val)),p,p))
+mcarga <- sqrt(m.aut.val)*(-aut.vec)
+round(aut.val,digits = 2)
+100*aut.val/nvar
+sum((100*aut.val/nvar)[1:2])
+vcomunal <- diag(mcarga[,1:2]%*%t(mcarga[,1:2]))
+result <- cbind(mcarga[,1:2],vcomunal,1-vcomunal)
+xtable(result,digits=3)
+LLt <- mcarga[,1:2]%*%t(mcarga[,1:2])
+```
+
+# Diferença entre Sigma - LL' 
+
+```{r}
+#xtable(m.cor -  LLt,digits=3)
+Qmres <- mean(abs(m.cor -  LLt))
+```
+
+
+# Diferença entre Sigma - LL' + Psi
+
+```{r}
+xtable(m.cor -  LLt -  diag(1-vcomunal),digits=3)
+Qmres <- mean(abs(m.cor -  LLt -  diag(1-vcomunal)))
+```
+
+
+
+# Usando a função principal (só resultados iniciais)
+
+```{r}
+reprincomp <- principal(hep,nfactors=2,rotate="none")
+```
+
+```{r}
+# Cargas fatoriais
+reprincomp$loadings
+```
+
+```{r}
+# Comunalidade
+cbind(reprincomp$communality)
+```
+
+```{r}
+# Especificidade
+cbind(reprincomp$uniquenesses)
+```
+
+```{r}
+# Proporção da Variabilidade explicada
+reprincomp$Vaccounted
+```
+
+```{r}
+# Matris de resíduos: R-LL'
+reprincomp$residual
+```
+
+```{r}
+# QMresidual associado a  matriz R-LL'
+reprincomp$rms
+```
+#Classificação
+
+```{r}
+
+```
+
+
 
 Questão 3
 Lista 6 questão 2
