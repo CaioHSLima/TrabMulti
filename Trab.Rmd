@@ -26,7 +26,8 @@ MANOVA e CBU
 
 Lendo dados
 ```{r}
-turtle = read_table2("q1.txt")
+turtle = read_table2("q1.txt") %>% arrange(sex)
+
 turtle$length = as.numeric(turtle$length)
 turtle$width = as.numeric(turtle$width)
 turtle$height = as.numeric(turtle$height)
@@ -188,10 +189,18 @@ Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
 } # fim fa função
 ```
 
-
 ```{r}
-m.Sigma.P<-Box.teste.Igual.MCov(irisd,v.grupos,v.n,G)$Sigma.P
-fit.model<-m.ajuste <- manova(as.matrix(irisd) ~ especie)
+sex = turtle$sex
+turtled = turtle %>% dplyr::select(-sex)
+v.grupos = cbind(as.numeric(factor(sex)))
+v.n = c(24,24)
+G = 2
+```
+
+```{r,warning = FALSE}
+m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
+
+fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 summary.manova(m.ajuste,test="Wilks")
 summary.manova(m.ajuste,test="Pillai")
 summary.manova(m.ajuste,test="Hotelling-Lawley")
