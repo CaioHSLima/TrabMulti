@@ -186,7 +186,7 @@ Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
   print(m.Sigma.completa)
   Sigma.P <-as.matrix(data.frame(Sigma.P))
   list(Sigma.P=Sigma.P)
-} # fim fa função
+} # fim da função
 ```
 
 ```{r}
