@@ -201,13 +201,6 @@ G = 2
 m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
 
 fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
-
-```
-
-```{r}
-m.Sigma.P<-Box.teste.Igual.MCov(irisd,v.grupos,v.n,G)$Sigma.P
-fit.model<-m.ajuste <- manova(as.matrix(irisd) ~ especie)
->>>>>>> 5d9cee0532431f023087696c62f0fd7ea444ee8d
 summary.manova(m.ajuste,test="Wilks")
 summary.manova(m.ajuste,test="Pillai")
 summary.manova(m.ajuste,test="Hotelling-Lawley")
