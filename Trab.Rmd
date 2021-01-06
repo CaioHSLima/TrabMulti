@@ -741,3 +741,88 @@ qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 
 #Classificação:
 
+```{r}
+set.seed(198105)
+indid = indi %>% dplyr::select(-pedigree) %>% arrange(diabetes)
+#treinoP <- sort(sample(1:130,104,replace=FALSE)) #80% das observações para treino
+#treinoN <- sort(sample(131:392,210,replace=FALSE)) #80% das observações para treino
+treinoP <- sort(sample(1:130,65,replace=FALSE)) #50% das observações para treino
+treinoN <- sort(sample(131:392,131,replace=FALSE)) #50% das observações para treino
+treino <- c(treinoP,treinoN)
+```
+
+#Amostra de treino
+
+```{r}
+atrein <- indid[treino,]
+```
+
+Matriz de correlações muito parecidas. Método de Fisher
+
+```{r}
+m.X <- rbind(indid[1:130,1:7],indid[131:392,1:7])
+Sp = c(rep("N",130),rep("P",262))
+m.Indi <- data.frame(m.X,Sp)
+table(m.Indi$Sp[treino])
+#result.ad <- lda(Sp~., m.Iris, prior = c(1,1)/2,subset = treino)
+result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(0.67,0.33),subset = treino)
+result.ad
+```
+
+# predizendo os grupos na amostra teste
+
+```{r}
+pred<-predict(result.ad, m.Indi[-treino, ])$class
+```
+
+#Função discriminante
+
+```{r}
+y <-predict(result.ad, m.Indi[-treino, ])$x 
+```
+
+
+# Pegando a amostra teste
+
+```{r}
+data.teste <- m.Indi[-treino,8]
+```
+
+
+# Tabela de classificação
+
+```{r}
+tc <- table(data.teste,pred)
+tc
+#xtable(tc)
+```
+TEA
+
+```{r}
+TEA <- (tc[1,2]+tc[2,1])/sum(tc)
+100*TEA
+```
+
+Método de normalidade
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
