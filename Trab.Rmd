@@ -8,6 +8,7 @@ Caio Henrique
 Pacotes
 
 ```{r}
+library(plyr)
 library(readr)
 library(ggplot2)
 library(tidyverse)
@@ -22,6 +23,7 @@ library(corrplot)
 library(ggcorrplot)
 library(psych)
 library(ca)
+
 ```
 
 Questão 1:
@@ -765,7 +767,7 @@ Sp = c(rep("N",130),rep("P",262))
 m.Indi <- data.frame(m.X,Sp)
 table(m.Indi$Sp[treino])
 #result.ad <- lda(Sp~., m.Iris, prior = c(1,1)/2,subset = treino)
-result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(0.67,0.33),subset = treino)
+result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(1,1)/2,subset = treino)
 result.ad
 ```
 
@@ -806,23 +808,59 @@ TEA <- (tc[1,2]+tc[2,1])/sum(tc)
 Método de normalidade
 
 ```{r}
-
+m.dados.iris <- m.Indi[treino,]
+#  Dados.1 <- m.dados.iris[m.dados.iris[,5]=="VE",][,]
+#  Dados.2 <- m.dados.iris[m.dados.iris[,5]=="VI",][,]
+Dados.1 <- (m.dados.iris[m.dados.iris[,8]=="N",][,1:7])
+Dados.2 <- (m.dados.iris[m.dados.iris[,8]=="P",][,1:7])
+v.mean1 <- cbind(c(result.ad$means[1,]))
+v.mean2 <- cbind(c(result.ad$means[2,]))
+S21 <- cov(Dados.1[,1:7])
+S22 <- cov(Dados.2[,1:7])
+Sp <- ((nrow(Dados.1)-1)*S21 +  ((nrow(Dados.2)-1)*S22))/(nrow(Dados.1) + nrow(Dados.2) - 2)
+q.classifi <- 0.5*t(v.mean1-v.mean2)%*%solve(Sp)%*%(v.mean1+v.mean2)
+delta2 <-  t(v.mean1-v.mean2)%*%solve(Sp)%*%(v.mean1 - v.mean2)
+#
+TOE <- pnorm(-sqrt(delta2)/2)
+100*TOE
+xtable(cbind(v.mean1,v.mean2))
+xtable(S21)
+xtable(S22)
 ```
 
 
+```{r}
+m = 0.5*(t(v.mean1-v.mean2))%*%solve(Sp)%*%((v.mean1-v.mean2))
+  
+# Função linear discriminante
+  
+Y <- t(v.mean1-v.mean2)%*%solve(Sp)%*%t(as.matrix(m.Indi[-treino,1:7]))
+m = 0.5*(t(v.mean1-v.mean2))%*%solve(Sp)%*%((v.mean1+v.mean2))
+  
+# Comparação entre os coeficientes Coeficientes
+cbind(t(t(v.mean1-v.mean2)%*%solve(Sp)),result.ad$scaling)
+(t(t(v.mean1-v.mean2)%*%solve(Sp)))/result.ad$scaling
 
+# Análise da função discriminante para a amostra teste
+grupo <- as.factor(c(rep("N",131), rep("P",65)))
+# Medidas resumo
+datadados<-data.frame(y,grupo)
+colnames(datadados)<-c("y","dados")
+medados<-ddply(datadados,.(grupo),summarise,media=mean(y),dp=sqrt(var(y)),vari=var(y),minimo=min(y),mediana=quantile(y,0.5),maximo=max(y),n=length(y))
+colnames(medados)<-c("Grupo","Média","DP","Var.","Mínimo","Mediana","Máximo","n")
+xtable(medados)
+```
 
+```{r}
+# boxplot
+par(mfrow=c(1,1))
+boxplot(y~grupo,cex=1.2,cex.lab=1.2)
+#
+# densidades
+plot(density(y[grupo=="P",1]),lwd=2,xlim=c(min(y[,1])-1,max(y[,1])+3),xlab="função discriminante",ylab="densidade",cex=1.2,cex.lab=1.2,cex.main=1.2,main="",ylim=c(0,0.9))
+lines(density(y[grupo=="N",1]),col=2,lwd=2)
+legend(3.8,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex=1.2)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#hist(y[grupo=="P"],probability=TRUE,cex=1.2,cex.lab=1.2)
+#hist(y[grupo=="N"],probability=TRUE,cex=1.2,cex.lab=1.2)
+```
