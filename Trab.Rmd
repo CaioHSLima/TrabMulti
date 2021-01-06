@@ -427,6 +427,7 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 Cargas fatoriais (CP)
 
 ```{r}
+hep = scale(heptathlon)[,1:7] #Padronizando as variáveis para mesma escala
 p <- ncol(hep)
 m.cor<-cor(hep)
 aut.val <-  eigen(m.cor)$values
@@ -495,15 +496,16 @@ reprincomp$residual
 reprincomp$rms
 ```
 #Classificação
+#Escore da primeira componente principal.
 acho q isso ta certo
 ```{r}
 score_comp = reprincomp$loadings[,1]
 escore = as.matrix(addmargins(cbind(hep[,1]*score_comp[1],hep[,2]*score_comp[2],hep[,3]*score_comp[3],hep[,4]*score_comp[4],hep[,5]*score_comp[5],hep[,6]*score_comp[6],hep[,7]*score_comp[7])))[1:25,8]
 rankreal = c(seq(1,25,1))
-hep_score = cbind(hep,rankreal,escore)
-h_new_score = hep_score %>% arrange(-escore) %>% dplyr::select(escore,score,rankreal)
+hep_score = as.tibble(cbind(hep,rankreal,escore))
+h_new_score = hep_score %>% arrange(-escore) #%>% dplyr::select(escore,score,rankreal)
 ranknovo = c(seq(1,25,1))
-h_new_score = cbind(h_new_score,ranknovo)
+h_new_score = cbind(h_new_score,ranknovo)[,8:10] 
 ```
 
 
