@@ -739,3 +739,5 @@ qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2)
 ```
 
+#Classificação:
+
