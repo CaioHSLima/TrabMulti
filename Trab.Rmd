@@ -427,7 +427,7 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 Cargas fatoriais (CP)
 
 ```{r}
-hep = scale(heptathlon)[,1:7] #Padronizando as variáveis para mesma escala
+hep = scale(heptathlon)[,1:8] #Padronizando as variáveis para mesma escala (utilizar  var escore ou nao?)
 p <- ncol(hep)
 m.cor<-cor(hep)
 aut.val <-  eigen(m.cor)$values
@@ -505,7 +505,7 @@ rankreal = c(seq(1,25,1))
 hep_score = as.tibble(cbind(hep,rankreal,escore))
 h_new_score = hep_score %>% arrange(-escore) #%>% dplyr::select(escore,score,rankreal)
 ranknovo = c(seq(1,25,1))
-h_new_score = cbind(h_new_score,ranknovo)[,8:10] 
+h_new_score = cbind(h_new_score,ranknovo)[,9:11] 
 ```
 
 
