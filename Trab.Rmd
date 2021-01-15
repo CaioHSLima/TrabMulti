@@ -337,6 +337,8 @@ Dados
 hep = heptathlon
 nvar <- 8
 ```
+#removido escore pelo fato de ser combinação das demais variaveis (resposta)
+#se fico em primeiro nos 200m ganho 500 pontos
 
 Análise descritiva
 
