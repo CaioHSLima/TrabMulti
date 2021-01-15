@@ -329,7 +329,7 @@ estim.par.MRNLM(turtled,fit.modelLM,0.95)
 
 Questão 2:
 Questão 6 Lista 4
-Análise fatorial
+ACP
 
 Dados
 
@@ -387,7 +387,7 @@ boxplot(hep[,4],cex=1.2,cex.lab=1.2,main="200m rasos")
 boxplot(hep[,5],cex=1.2,cex.lab=1.2,main="Salto em distância")
 boxplot(hep[,6],cex=1.2,cex.lab=1.2,main="Lançamento dardos")
 boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="800m rasos")
-boxplot(hep[,8],cex=1.2,cex.lab=1.2,main="Pontuação total")
+#boxplot(hep[,8],cex=1.2,cex.lab=1.2,main="Pontuação total")
 ```
 
 #histograms
@@ -401,7 +401,7 @@ hist(hep[,4],probability=TRUE,main="200m rasos",xlab="",ylab="")
 hist(hep[,5],probability=TRUE,main="Salto em distância",xlab="",ylab="")
 hist(hep[,6],probability=TRUE,main="Lançamento dardos",xlab="",ylab="")
 hist(hep[,7],probability=TRUE,main="800m rasos",xlab="",ylab="")
-hist(hep[,8],probability=TRUE,main="Pontuação total",xlab="",ylab="")
+#hist(hep[,8],probability=TRUE,main="Pontuação total",xlab="",ylab="")
 ```
 
 # qqplots
@@ -415,97 +415,47 @@ qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="qua
 qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2)
 qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2)
 qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2)
-qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
+#qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
 ```
 
 Análise inferencial
 
 ```{r}
-corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
+hep2 = hep[,1:7]
+corrplot(cor(hep2), order = "hclust", tl.col='black', tl.cex=.75) 
 ```
-
-Cargas fatoriais (CP)
+ACP
 
 ```{r}
-hep = scale(heptathlon)[,1:8] #Padronizando as variáveis para mesma escala (utilizar  var escore ou nao?)
-p <- ncol(hep)
-m.cor<-cor(hep)
+p=7
+m.cor<-cor(hep2)
 aut.val <-  eigen(m.cor)$values
-aut.vec <- (eigen(m.cor)$vectors)
+aut.vec <- -(eigen(m.cor)$vectors)
 m.aut.val <- t(matrix(((aut.val)),p,p))
-mcarga <- sqrt(m.aut.val)*(-aut.vec)
-round(aut.val,digits = 2)
-100*aut.val/nvar
-sum((100*aut.val/nvar)[1:2])
-vcomunal <- diag(mcarga[,1:2]%*%t(mcarga[,1:2]))
-result <- cbind(mcarga[,1:2],vcomunal,1-vcomunal)
-xtable(result,digits=3)
-LLt <- mcarga[,1:2]%*%t(mcarga[,1:2])
+result.cp.cor <- princomp(hep2,cor=TRUE)
+corr.cp.var <- aut.vec*sqrt(m.aut.val)
+summary(result.cp.cor)
+screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,cex.main=1.2)
+result.cp.cor$loadings[1:7,1:2]
+#xtable(result.cp.cor$loadings[1:7,1:2] %>% as.data.frame())
+
 ```
 
-# Diferença entre Sigma - LL' 
-
-```{r}
-#xtable(m.cor -  LLt,digits=3)
-Qmres <- mean(abs(m.cor -  LLt))
-```
-
-
-# Diferença entre Sigma - LL' + Psi
-
-```{r}
-xtable(m.cor -  LLt -  diag(1-vcomunal),digits=3)
-Qmres <- mean(abs(m.cor -  LLt -  diag(1-vcomunal)))
-```
-
-
-
-# Usando a função principal (só resultados iniciais)
-
-```{r}
-reprincomp <- principal(hep,nfactors=2,rotate="none")
-```
-
-```{r}
-# Cargas fatoriais
-reprincomp$loadings
-```
-
-```{r}
-# Comunalidade
-cbind(reprincomp$communality)
-```
-
-```{r}
-# Especificidade
-cbind(reprincomp$uniquenesses)
-```
-
-```{r}
-# Proporção da Variabilidade explicada
-reprincomp$Vaccounted
-```
-
-```{r}
-# Matris de resíduos: R-LL'
-reprincomp$residual
-```
-
-```{r}
-# QMresidual associado a  matriz R-LL'
-reprincomp$rms
-```
 #Classificação
 #Escore da primeira componente principal.
 acho q isso ta certo
 ```{r}
-score_comp = reprincomp$loadings[,1]
-escore = as.matrix(addmargins(cbind(hep[,1]*score_comp[1],hep[,2]*score_comp[2],hep[,3]*score_comp[3],hep[,4]*score_comp[4],hep[,5]*score_comp[5],hep[,6]*score_comp[6],hep[,7]*score_comp[7])))[1:25,8]
+cp1 =result.cp.cor$loadings[1:7,1]
+nominhos = row.names(hep2)
+escore =  hep2 %*% cp1
 rankreal = c(seq(1,25,1))
 hep_score = as.tibble(cbind(hep,rankreal,escore))
-h_new_score = hep_score %>% arrange(-escore) #%>% dplyr::select(escore,score,rankreal)
+h_new_score = hep_score %>% arrange(V10)
 ranknovo = c(seq(1,25,1))
 h_new_score = cbind(h_new_score,ranknovo)[,9:11] 
+h_new_score = h_new_score %>% mutate(V10 = -V10)
+row.names(h_new_score)<- nominhos
+colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 ```
 
 
