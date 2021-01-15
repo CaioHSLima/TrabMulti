@@ -334,7 +334,7 @@ ACP
 Dados
 
 ```{r}
-hep = heptathlon
+hep = heptathlon[,1:7]
 nvar <- 8
 ```
 #removido escore pelo fato de ser combinação das demais variaveis (resposta)
@@ -423,39 +423,39 @@ qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="qua
 Análise inferencial
 
 ```{r}
-hep2 = hep[,1:7]
-corrplot(cor(hep2), order = "hclust", tl.col='black', tl.cex=.75) 
+corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
 ```
 ACP
 
 ```{r}
 p=7
-m.cor<-cor(hep2)
+m.cor<-cor(hep)
 aut.val <-  eigen(m.cor)$values
 aut.vec <- -(eigen(m.cor)$vectors)
 m.aut.val <- t(matrix(((aut.val)),p,p))
-result.cp.cor <- princomp(hep2,cor=TRUE)
+result.cp.cor <- princomp(hep,cor=TRUE)
 corr.cp.var <- aut.vec*sqrt(m.aut.val)
 summary(result.cp.cor)
 screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,cex.main=1.2)
 result.cp.cor$loadings[1:7,1:2]
 #xtable(result.cp.cor$loadings[1:7,1:2] %>% as.data.frame())
-
+cp1 = result.cp.cor$loadings[,1]
 ```
 
 #Classificação
 #Escore da primeira componente principal.
 acho q isso ta certo
 ```{r}
-cp1 =result.cp.cor$loadings[1:7,1]
-nominhos = row.names(hep2)
-escore =  hep2 %*% cp1
+hep = scale(heptathlon[,1:7])
+score_comp =result.cp.cor$loadings[1:7,1]
+nominhos = row.names(hep)
+escore = as.matrix(addmargins(cbind(hep[,1]*score_comp[1],hep[,2]*score_comp[2],hep[,3]*score_comp[3],hep[,4]*score_comp[4],hep[,5]*score_comp[5],hep[,6]*score_comp[6],hep[,7]*score_comp[7])))[1:25,8]
 rankreal = c(seq(1,25,1))
 hep_score = as.tibble(cbind(hep,rankreal,escore))
-h_new_score = hep_score %>% arrange(V10)
+h_new_score = hep_score %>% arrange(escore)
 ranknovo = c(seq(1,25,1))
-h_new_score = cbind(h_new_score,ranknovo)[,9:11] 
-h_new_score = h_new_score %>% mutate(V10 = -V10)
+h_new_score = cbind(h_new_score,ranknovo)[,8:10] 
+h_new_score = h_new_score %>% mutate(escore = -escore)
 row.names(h_new_score)<- nominhos
 colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 ```
