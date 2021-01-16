@@ -490,7 +490,7 @@ Aqui eu não sei o que falar
 OBS: DEPOIS TEM QUE VER A LISTA FEITA PRA VER SE FALTA ALGO
 
 
-#### Questão 2:
+# Questão 2:
 Questão 6 Lista 4
 ACP
 
@@ -500,12 +500,10 @@ Dados
 hep = heptathlon[,1:7]
 nvar <- 8
 ```
-#removido escore pelo fato de ser combinação das demais variaveis (resposta)
-#se fico em primeiro nos 200m ganho 500 pontos
+removido escore pelo fato de ser combinação das demais variaveis (resposta)
+se fico em primeiro nos 200m ganho 500 pontos
 
-Análise descritiva
-
-1) Medidas Resumo
+## Análise descritiva
 
 ```{r}
 SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
@@ -518,32 +516,84 @@ SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
 colnames(SumHep)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
                      "CA","Cur.")
 #xtable(SumHep)
-SumHep
 ```
+
+\begin{table}[ht]
+\centering
+\caption{Medidas resumo dos resultados}
+\label{med_res2}
+\begin{tabular}{rrrrrrrrrr}
+  \hline
+ & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
+  \hline
+hurdles & 13.84 & 0.54 & 0.74 & 5.32 & 12.69 & 13.75 & 16.42 & 1.65 & 7.22 \\ 
+  highjump & 1.78 & 0.01 & 0.08 & 4.37 & 1.50 & 1.80 & 1.86 & -1.99 & 7.87 \\ 
+  shot & 13.12 & 2.23 & 1.49 & 11.37 & 10.00 & 12.88 & 16.23 & 0.18 & 2.78 \\ 
+  run200m & 24.65 & 0.94 & 0.97 & 3.93 & 22.56 & 24.83 & 26.61 & -0.17 & 2.62 \\ 
+  longjump & 6.15 & 0.22 & 0.47 & 7.71 & 4.88 & 6.25 & 7.27 & -0.48 & 4.28 \\ 
+  javelin & 41.48 & 12.57 & 3.55 & 8.55 & 35.68 & 40.28 & 47.50 & 0.16 & 1.89 \\ 
+  run800m & 136.05 & 68.74 & 8.29 & 6.09 & 124.20 & 134.74 & 163.43 & 1.40 & 5.89 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
 2)Diagrama de dispersão
 
-```{r}
+```{r,fig.cap="Matriz de gráfico de dispersões.\\label{disp2}"}
 plot(hep,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
-3) Matriz de covariâncias
-
 ```{r}
 #xtable(cov(hep))
-cov(hep)
+#cov(hep)
 ```
 
-4) Matriz de correlações
+\begin{table}[ht]
+\centering
+\caption{Matriz de covariâncias}
+\label{cov2}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & hurdles & highjump & shot & run200m & longjump & javelin & run800m \\ 
+  \hline
+hurdles & 0.54 & -0.05 & -0.72 & 0.55 & -0.32 & -0.02 & 4.76 \\ 
+  highjump & -0.05 & 0.01 & 0.05 & -0.04 & 0.03 & 0.00 & -0.38 \\ 
+  shot & -0.72 & 0.05 & 2.23 & -0.99 & 0.53 & 1.42 & -5.19 \\ 
+  run200m & 0.55 & -0.04 & -0.99 & 0.94 & -0.38 & -1.14 & 4.96 \\ 
+  longjump & -0.32 & 0.03 & 0.53 & -0.38 & 0.22 & 0.11 & -2.75 \\ 
+  javelin & -0.02 & 0.00 & 1.42 & -1.14 & 0.11 & 12.57 & 0.59 \\ 
+  run800m & 4.76 & -0.38 & -5.19 & 4.96 & -2.75 & 0.59 & 68.74 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
 ```{r}
 #xtable(cor(hep))
-cor(hep)
+#cor(hep)
 ```
+
+\begin{table}[ht]
+\centering
+\caption{Matriz de correlações}
+\label{corr2}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & hurdles & highjump & shot & run200m & longjump & javelin & run800m \\ 
+  \hline
+hurdles & 1.00 & -0.81 & -0.65 & 0.77 & -0.91 & -0.01 & 0.78 \\ 
+  highjump & -0.81 & 1.00 & 0.44 & -0.49 & 0.78 & 0.00 & -0.59 \\ 
+  shot & -0.65 & 0.44 & 1.00 & -0.68 & 0.74 & 0.27 & -0.42 \\ 
+  run200m & 0.77 & -0.49 & -0.68 & 1.00 & -0.82 & -0.33 & 0.62 \\ 
+  longjump & -0.91 & 0.78 & 0.74 & -0.82 & 1.00 & 0.07 & -0.70 \\ 
+  javelin & -0.01 & 0.00 & 0.27 & -0.33 & 0.07 & 1.00 & 0.02 \\ 
+  run800m & 0.78 & -0.59 & -0.42 & 0.62 & -0.70 & 0.02 & 1.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
 5) Boxplot
 
-```{r}
+```{r,fig.cap="Boxplots das variáveis.\\label{box2}"}
 par(mfrow=c(2,4))
 boxplot(hep[,1],cex=1.2,cex.lab=1.2,main="100m Barreiras")
 boxplot(hep[,2],cex=1.2,cex.lab=1.2,main="Salto em altura")
@@ -557,7 +607,7 @@ boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="800m rasos")
 
 #histograms
 
-```{r}
+```{r,fig.cap="Histogramas das variáveis.\\label{hist2}"}
 par(mfrow=c(2,4))
 hist(hep[,1],probability=TRUE,main="100m Barreiras",xlab="",ylab="")
 hist(hep[,2],probability=TRUE,main="Salto em altura",xlab="",ylab="")
@@ -571,24 +621,24 @@ hist(hep[,7],probability=TRUE,main="800m rasos",xlab="",ylab="")
 
 # qqplots
 
-```{r}
+```{r,fig.cap="QQplots das variáveis.\\label{qq2}"}
 par(mfrow=c(2,4))
-qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="100m Barreiras",cex=1.2)
-qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em altura",cex=1.2)
-qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Arremesso de peso",cex=1.2)
-qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="200m rasos",cex=1.2)
-qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2)
-qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2)
-qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2)
+qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="100m Barreiras",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em altura",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Arremesso de peso",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="200m rasos",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2) %>% invisible()
 #qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
 ```
 
 Análise inferencial
 
-```{r}
+```{r,fig.cap="Correlograma das variáveis.\\label{correlo2}"}
 corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
 ```
-ACP
+## ACP
 
 
 0 - Descritiva
@@ -605,17 +655,67 @@ aut.val <-  eigen(m.cor)$values
 aut.vec <- -(eigen(m.cor)$vectors)
 m.aut.val <- t(matrix(((aut.val)),p,p))
 result.cp.cor <- princomp(hep,cor=TRUE)
-corr.cp.var <- aut.vec*sqrt(m.aut.val)
-summary(result.cp.cor)
+
+pca_importance <- function(x) {
+  vars <- x$sdev^2
+  vars <- vars/sum(vars)
+  rbind(`PVE (%)` = vars*100, 
+        `PVEA (%)` = cumsum(vars)*100)
+}
+
+#pca_importance(result.cp.cor)
+#pca_importance(result.cp.cor) %>% xtable()
+
+#corr.cp.var <- aut.vec*sqrt(m.aut.val)
+#summary(result.cp.cor)$importance
+
 screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,cex.main=1.2)
-result.cp.cor$loadings[1:7,1:2]
+
+#result.cp.cor$loadings[1:7,1:2]
 #xtable(result.cp.cor$loadings[1:7,1:2] %>% as.data.frame())
+
 cp1 = result.cp.cor$loadings[,1]
 ```
+
+\begin{table}[ht]
+\centering
+\caption{Variância Explicada}
+\label{var_exp}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & Comp.1 & Comp.2 & Comp.3 & Comp.4 & Comp.5 & Comp.6 & Comp.7 \\ 
+  \hline
+PVE (\%) & 63.72 & 17.06 & 7.44 & 6.53 & 3.50 & 1.04 & 0.70 \\ 
+  PVEA (\%) & 63.72 & 80.78 & 88.22 & 94.75 & 98.26 & 99.30 & 100.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[ht]
+\centering
+\caption{Componentes principais}
+\label{comp2}
+\begin{tabular}{rrr}
+  \hline
+ & Comp.1 & Comp.2 \\ 
+  \hline
+hurdles & 0.45 & 0.16 \\ 
+  highjump & -0.38 & -0.25 \\ 
+  shot & -0.36 & 0.29 \\ 
+  run200m & 0.41 & -0.26 \\ 
+  longjump & -0.46 & -0.06 \\ 
+  javelin & -0.08 & 0.84 \\ 
+  run800m & 0.37 & 0.22 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 
 #Classificação
 #Escore da primeira componente principal.
 acho q isso ta certo
+
 ```{r}
 hep = scale(heptathlon[,1:7])
 score_comp =result.cp.cor$loadings[1:7,1]
@@ -629,8 +729,33 @@ h_new_score = cbind(h_new_score,ranknovo)[,8:10]
 h_new_score = h_new_score %>% mutate(escore = -escore)
 row.names(h_new_score)<- nominhos
 colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
-```
 
+#xtable(h_new_score[14:25,])
+```
+\begin{table}[ht]
+\centering
+\caption{Rankings e escores dos atletas}
+\label{rank}
+\begin{tabular}{r|r p{1cm} p{1cm}|r|r p{1cm} p{1cm}}
+  \hline
+ Atleta & Rank & Escore PCA & Novo rank & Atleta & Rank & Escore PCA & Novo rank\\ 
+  \hline
+Joyner-Kersee (USA) & 1 & 4.12 & 1 & Braun (FRG) & 14 & -0.00 & 14 \\ 
+  John (GDR) & 2 & 2.88 & 2 & Ruotsalainen (FIN) & 13 & -0.02 & 15 \\ 
+  Behmer (GDR) & 3 & 2.65 & 3 & Yuping (CHN) & 15 & -0.09 & 16 \\ 
+  Sablovskaite (URS) & 5 & 1.36 & 4 & Hagger (GB) & 17 & -0.17 & 17 \\ 
+  Choubenkova (URS) & 4 & 1.34 & 5 & Brown (USA) & 18 & -0.52 & 18 \\ 
+  Schulz (GDR) & 12 & 1.19 & 6 & Mulliner (GB) & 20 & -1.09 & 19 \\ 
+  Fleming (AUS) & 7 & 1.10 & 7 & Hautenauve (BEL) & 19 & -1.13 & 20 \\ 
+  Greiner (USA) & 6 & 1.04 & 8 & Kytola (FIN) & 21 & -1.45 & 21 \\ 
+  Lajbnerova (CZE) & 8 & 0.92 & 9 & Geremias (BRA) & 22 & -2.01 & 22 \\ 
+  Bouraga (URS) & 10 & 0.76 & 10 & Hui-Ing (TAI) & 23 & -2.88 & 23 \\ 
+  Wijnsma (HOL) & 11 & 0.56 & 11 & Jeong-Mi (KOR) & 24 & -2.97 & 24 \\ 
+  Dimitrova (BUL) & 9 & 0.53 & 12 & Launa (PNG) & 25 & -6.27 & 25 \\ 
+  Scheider (SWI) & 16 & 0.14 & 13 \\
+   \hline
+\end{tabular}
+\end{table}
 
 
 
