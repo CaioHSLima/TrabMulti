@@ -636,6 +636,86 @@ colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 
 
 
+#Questão 3
+Lista 6 questão 2
+Análise de correspondência
+
+Dados
+#Lista6.pdf
+
+0 - Explorar perfis linhas e colunas
+1- Teste qui quadrado dependencia
+2- CA
+3 - perfis relacionados da tabela
+
+```{r}
+`Saúde mental`<- array(c(121,188,112,186,
+                57,105,65,60,
+                72,141,77,94,
+                36,97,54,78,
+                21,71,54,71),
+ dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
+ ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
+#xtable(addmargins(`Saúde mental`))
+addmargins(`Saúde mental`)
+chisq.test(`Saúde mental`)
+```
+
+Proporções estimadas (pelo total de observações) (× 100)
+
+```{r}
+margins = addmargins(`Saúde mental`)
+margins/1760*100
+```
+
+Perfil das linhas
+
+```{r}
+n = sum(`Saúde mental`)
+linhas = `Saúde mental`
+lin = dim(linhas)[1]
+for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
+`Total` = c(sum(`Saúde mental`[,1]),sum(`Saúde mental`[,2]),sum(`Saúde mental`[,3]),sum(`Saúde mental`[,4]),sum(`Saúde mental`[,5]))/n*100
+#xtable(addmargins(rbind(linhas,`Total`))[1:5,1:6])
+addmargins(rbind(linhas,`Total`))[1:5,1:6]
+```
+
+Perfil das Colunas
+
+```{r}
+n = sum(`Saúde mental`)
+colunas = `Saúde mental`
+col = dim(linhas)[2]
+for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
+`Total` = c(sum(`Saúde mental`[1,]),sum(`Saúde mental`[2,]),sum(`Saúde mental`[3,]),sum(`Saúde mental`[4,]))/n*100
+#xtable(addmargins(rbind(colunas,`Total`))[1:5,1:6])
+addmargins(cbind(colunas,`Total`))[1:5,1:6]
+```
+
+Análise de corresponcência
+
+```{r}
+resultCA <- ca(`Saúde mental`) # names(resultCA)
+inercia<-summary(resultCA)$scree # names(summary(resultCA))
+#xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
+```
+
+```{r}
+
+# Componentes
+resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
+                  cex=1.4,cex.lab=1.2) #Biplot
+#
+#xtable(resultFCA$rows,digits=4)
+#xtable(resultFCA$cols,digits=4)
+
+```
+
+Classe A está mais relacionada com saúde mental debilitada que as demais.
+Classes B e C estão mais relacionadas com presença fraca
+Classe D está mais relacionada à presença moderada
+Classe E está mais longe da saúde mental BOA
+
 
 
 
