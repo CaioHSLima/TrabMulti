@@ -764,14 +764,14 @@ Joyner-Kersee (USA) & 1 & 4.12 & 1 & Braun (FRG) & 14 & -0.00 & 14 \\
 
 
 
-#Questão 3
+# Questão 3
 
-##Introdução
+## Introdução
 
 Os dados são relacionados a um estudo sobre a relação entre status socioeconômico dos pais com  a condição de saúde mental de um total de 1760 indivíduos. A variável de status socioeconômico possui 5 níveis, de "A" (alto) até "E" (baixo) e a variável de saúde mental possui 4 níveis sendo, do melhor para o pior, "Boa", "Presença fraca de sintomas", "Presença moderada de sintomas" e "Debilitado".
 
 
-##a) 
+## LETRA A
 
 O modelo probabilístico gerador da tabela de contigência é uma multinomial de tamanho 1760 e 20 categorias.
 ```{r}
@@ -789,6 +789,7 @@ chisq.test(`Saúde mental`)
 \begin{table}[H]
 \centering
 \caption{Saúde Mental x Status Socioeconômico}
+\label{TabCont}
 \begin{tabular}{r|rrrrr|r}
   \hline
   \multicolumn{7}{c}{Status Socioeconômico} \\
@@ -806,7 +807,7 @@ Total & 607.00 & 287.00 & 384.00 & 265.00 & 217.00 & 1760.00 \\
 \end{table}
 
 
-###Proporções estimadas (pelo total de observações) (× 100)
+### Proporções estimadas (pelo total de observações) (× 100)
 
 ```{r}
 margins = addmargins(`Saúde mental`)
@@ -816,6 +817,7 @@ margins = addmargins(`Saúde mental`)
 \begin{table}[H]
 \centering
 \caption{Proporções estimadas ($\times$100).}
+\label{TabContProp}
 \begin{tabular}{r|rrrrr|r}
   \hline
   \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
@@ -831,7 +833,7 @@ margins = addmargins(`Saúde mental`)
 \end{tabular}
 \end{table}
 
-###Perfil das linhas
+### Perfil das linhas
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -845,6 +847,7 @@ for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
 \begin{table}[H]
 \centering
 \caption{Perfil de Linhas ($\times$100).}
+\label{PerfLin}
 \begin{tabular}{r|rrrrr|r}
   \hline
   \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
@@ -852,15 +855,15 @@ for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
  \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
   \hline
   Boa & \bf{39.41} & \bf{18.57} & \bf{23.45} & 11.73 & 6.84 & 100.00 \\ 
-  Presença fraca de sintomas & \bf{31.23} & 17.44 & 23.42 & \bf{16.11} & 11.79 & 100.00 \\ 
-  Presença moderada de sintomas & \bf{30.94} & 17.96 & 21.27 & 14.92 & \bf{14.92} & 100.00 \\ 
-  Debilitado & \bf{38.04} & 12.27 & 19.22 & 15.95 & 14.52 & 100.00 \\ 
+  Presença fraca de sintomas & 31.23 & \bf{17.44} & \bf{23.42} & \bf{16.11} & 11.79 & 100.00 \\ 
+  Presença moderada de sintomas & 30.94 & \bf{17.96} & 21.27 & 14.92 & \bf{14.92} & 100.00 \\ 
+  Debilitado & \bf{38.04} & 12.27 & 19.22 & \bf{15.95} & \bf{14.52} & 100.00 \\ 
   Total & \bf{34.49} & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
    \hline
 \end{tabular}
 \end{table}
 
-###Perfil das Colunas
+### Perfil das Colunas
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -874,16 +877,17 @@ for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
 \begin{table}[H]
 \centering
 \caption{Perfil de Colunas ($\times$100).}
+\label{PerfCol}
 \begin{tabular}{r|rrrrr|r}
   \hline
   \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
   \hline
  \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
   \hline
-Boa & \bf{19.93} & 19.86 & 18.75 & 13.58 & 9.68 & 17.44 \\ 
-  Presença fraca de sintomas & \bf{30.97} & \bf{36.59} & \bf{36.72} & \bf{36.60} & \bf{32.72} & 34.20 \\ 
-  Presença moderada de sintomas & 18.45 & 22.65 & 20.05 & 20.38 & \bf{24.88} & 20.57 \\ 
-  Debilitado & 30.64 & 20.91 & 24.48 & 29.43 & \bf{32.72} & 27.78 \\ 
+Boa & \bf{19.93} & \bf{19.86} & \bf{18.75} & 13.58 & 9.68 & 17.44 \\ 
+  Presença fraca de sintomas & 30.97 & \bf{36.59} & \bf{36.72} & \bf{36.60} & 32.72 & 34.20 \\ 
+  Presença moderada de sintomas & 18.45 & \bf{22.65} & 20.05 & 20.38 & \bf{24.88} & 20.57 \\ 
+  Debilitado & \bf{30.64} & 20.91 & 24.48 & \bf{29.43} & \bf{32.72} & 27.78 \\ 
   Total & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 \\ 
    \hline
 \end{tabular}
@@ -895,6 +899,8 @@ resultCA <- ca(`Saúde mental`) # names(resultCA)
 inercia<-summary(resultCA)$scree # names(summary(resultCA))
 #xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
 ```
+
+#### Colocar título e ref
 
 \begin{table}[ht]
 \centering
