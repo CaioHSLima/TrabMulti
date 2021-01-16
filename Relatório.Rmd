@@ -712,8 +712,8 @@ hurdles & 0.45 & 0.16 \\
 \end{table}
 
 
-#Classificação
-#Escore da primeira componente principal.
+Classificação
+Escore da primeira componente principal.
 acho q isso ta certo
 
 ```{r}
@@ -731,7 +731,10 @@ row.names(h_new_score)<- nominhos
 colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 
 #xtable(h_new_score[14:25,])
+
 ```
+
+
 \begin{table}[ht]
 \centering
 \caption{Rankings e escores dos atletas}
