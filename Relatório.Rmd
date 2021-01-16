@@ -75,9 +75,8 @@ Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm]
 \end{center}
 \end{titlepage}
 
-# Questão 1:
-Lista 3 questão 4
-MANOVA e CBU
+# Questão 1
+hist apenas no relatorio, qq e boxplot apendice
 
 ## Introdução
 
@@ -163,15 +162,15 @@ Para ambos os sexos, as medidas de altura, largura e comprimento são bastante c
 
 \begin{table}[ht]
 \centering
-\caption{Matriz de covariâncias sexo feminino}
+\caption{Matriz de covariâncias (F = Fem, M = Masc)}
 \label{covF}
-\begin{tabular}{rrrr}
+\begin{tabular}{r|rrr|rrr}
   \hline
- & length & width & height \\ 
+ & length (F) & width (F) & height (F) & length (M) & width (M) & height (M) \\ 
   \hline
-  length & 451.39 & 271.17 & 168.70 \\ 
-  width & 271.17 & 171.73 & 103.29 \\ 
-  height & 168.70 & 103.29 & 66.65 \\ 
+  length & 451.39 & 271.17 & 168.70 & 138.77 & 79.15 & 37.38\\ 
+  width & 271.17 & 171.73 & 103.29 & 79.15 & 50.04 & 21.65\\ 
+  height & 168.70 & 103.29 & 66.65 & 37.38 & 21.65 & 11.26\\ 
    \hline
 \end{tabular}
 \end{table}
@@ -180,22 +179,6 @@ Para ambos os sexos, as medidas de altura, largura e comprimento são bastante c
 ```{r}
 #xtable(cov(turtleM))
 ```
-
-\begin{table}[ht]
-\centering
-\caption{Matriz de covariâncias sexo masculino}
-\label{covM}
-\begin{tabular}{rrrr}
-
-  \hline
- & length & width & height \\ 
-  \hline
-length & 138.77 & 79.15 & 37.38 \\ 
-  width & 79.15 & 50.04 & 21.65 \\ 
-  height & 37.38 & 21.65 & 11.26 \\ 
-   \hline
-\end{tabular}
-\end{table}
 
 
 A matriz de covariância para ambos os sexos parecem ser diferentes, na qual as medidas do sexo masculino aparentam ter variância bem menor se comparado ao sexo feminino.
@@ -376,13 +359,13 @@ G = 2
 
 
 ```{r,warning = FALSE}
-m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
+#m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
 #xtable(m.Sigma.P)
 fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
-summary.manova(m.ajuste,test="Wilks")
-summary.manova(m.ajuste,test="Pillai")
-summary.manova(m.ajuste,test="Hotelling-Lawley")
-summary.manova(m.ajuste,test="Roy")
+#summary.manova(m.ajuste,test="Wilks")
+#summary.manova(m.ajuste,test="Pillai")
+#summary.manova(m.ajuste,test="Hotelling-Lawley")
+#summary.manova(m.ajuste,test="Roy")
 ```
 
 \begin{table}[ht]
@@ -422,12 +405,12 @@ Para observar inferencialmente a diferença entre as matrizes de covariância de
 ```{r}
 aux<-summary.aov(m.ajuste)
 fit.modelLM <- lm(as.matrix(turtled) ~ sex)
-summary(fit.modelLM)
+#summary(fit.modelLM)
 
 
 # Estimativa dos parâmetros
 #xtable(estim.par.MRNLM(turtled,fit.modelLM,0.95)[,c(1,2,5,6)])
-estim.par.MRNLM(turtled,fit.modelLM,0.95)[,c(1,2,5,6)]
+#estim.par.MRNLM(turtled,fit.modelLM,0.95)[,c(1,2,5,6)]
 ```
 
 \begin{table}[ht]
@@ -458,30 +441,40 @@ p = 3
 ```
 
 
-##Variável Length
+\begin{table}[ht]
+\centering
+\caption{Testes CBU ($\alpha_{2i} = 0$)}
+\label{CBUtestes}
+\begin{tabular}{rrr}
+
+  \hline
+ Parâmetro &  Estatística Qui-quadrado & p-valor \\ 
+  \hline
+ $\alpha_{21}$ (Length)  & 20.82 & $<$ 0.0001 \\ 
+  $\alpha_{22}$ (Width) & 22.10 & $<$ 0.0001 \\
+  $\alpha_{23}$ (Height) & 38.99 & $<$ 0.0001 \\
+   \hline
+\end{tabular}
+\end{table}
+
 
 ```{r}
 m.U <- rbind(1,0,0)
-Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+#Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
-
-##Variável Width
 
 ```{r}
 m.U <- rbind(0,1,0)
-Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+#Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
-
-##Variável Height
 
 ```{r}
 m.U <- rbind(0,0,1)
-Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+#Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
 
 Observando o resultado dos teste CBU, podemos observar que as diferenças estão em todas as medidas (largura, comprimento e altura).
 
-#MRLNM (estimativas parâmetros)
 
 
 
