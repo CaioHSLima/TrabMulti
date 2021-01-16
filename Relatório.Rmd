@@ -2,9 +2,10 @@
 output:
   pdf_document:
     number_sections: yes
+    latex_engine: xelatex
 fig_caption: yes
 margin: auto
-fontsize: 10pt
+fontsize: 11pt
 header-includes:
 - \usepackage{float}
 - \floatplacement{figure}{H}
@@ -13,6 +14,8 @@ header-includes:
 - \usepackage{hyperref}
 - \usepackage[style=abnt]{biblatex}
 - \addbibresource{ref.bib}
+- \usepackage{fontspec}
+- \setmainfont{Arial}
 link-citations: yes
 ---
 
@@ -46,11 +49,11 @@ library(plotrix)
 \begin{titlepage}
 \begin{center} 
 
-{\large UNICAMP - Universidade Estadual de Campinas}\\[0.2cm] 
-{\large IMECC - Instituto de Matemática, Estatística e Computação Científica}\\[0.2cm] 
-{\large Departamento de Estatística}\\[0.2cm]
-{\large ME731 - Métodos em Análise Multivariada}\\[6.1cm]
-{\bf \Large Trabalho}\\[6cm] 
+{\LARGE UNICAMP - Universidade Estadual de Campinas}\\[0.2cm] 
+{\Large IMECC - Instituto de Matemática, Estatística e Computação Científica}\\[0.2cm] 
+{\Large Departamento de Estatística}\\[0.2cm]
+{\Large ME731 - Métodos em Análise Multivariada}\\[6.1cm]
+{\bf \Large Trabalho}\\[5.5cm] 
 
 \begin{flushright}
 { Carlos Caminho Oco RA 168624 \\ 
