@@ -490,6 +490,148 @@ Aqui eu não sei o que falar
 OBS: DEPOIS TEM QUE VER A LISTA FEITA PRA VER SE FALTA ALGO
 
 
+#### Questão 2:
+Questão 6 Lista 4
+ACP
+
+Dados
+
+```{r}
+hep = heptathlon[,1:7]
+nvar <- 8
+```
+#removido escore pelo fato de ser combinação das demais variaveis (resposta)
+#se fico em primeiro nos 200m ganho 500 pontos
+
+Análise descritiva
+
+1) Medidas Resumo
+
+```{r}
+SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
+                round(apply(hep,2,sd),4),
+                round(100*apply(hep,2,sd)/apply(hep,2,mean),4),
+                round(apply(hep,2,min),4),round(apply(hep,2,quantile,0.5),4),
+                round(apply(hep,2,max),4),
+                round(apply(hep,2,skewness),4),
+                round(apply(hep,2,kurtosis),4))
+colnames(SumHep)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumHep)
+SumHep
+```
+
+2)Diagrama de dispersão
+
+```{r}
+plot(hep,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+3) Matriz de covariâncias
+
+```{r}
+#xtable(cov(hep))
+cov(hep)
+```
+
+4) Matriz de correlações
+
+```{r}
+#xtable(cor(hep))
+cor(hep)
+```
+
+5) Boxplot
+
+```{r}
+par(mfrow=c(2,4))
+boxplot(hep[,1],cex=1.2,cex.lab=1.2,main="100m Barreiras")
+boxplot(hep[,2],cex=1.2,cex.lab=1.2,main="Salto em altura")
+boxplot(hep[,3],cex=1.2,cex.lab=1.2,main="Arremesso de peso")
+boxplot(hep[,4],cex=1.2,cex.lab=1.2,main="200m rasos")
+boxplot(hep[,5],cex=1.2,cex.lab=1.2,main="Salto em distância")
+boxplot(hep[,6],cex=1.2,cex.lab=1.2,main="Lançamento dardos")
+boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="800m rasos")
+#boxplot(hep[,8],cex=1.2,cex.lab=1.2,main="Pontuação total")
+```
+
+#histograms
+
+```{r}
+par(mfrow=c(2,4))
+hist(hep[,1],probability=TRUE,main="100m Barreiras",xlab="",ylab="")
+hist(hep[,2],probability=TRUE,main="Salto em altura",xlab="",ylab="")
+hist(hep[,3],probability=TRUE,main="Arremesso de peso",xlab="",ylab="")
+hist(hep[,4],probability=TRUE,main="200m rasos",xlab="",ylab="")
+hist(hep[,5],probability=TRUE,main="Salto em distância",xlab="",ylab="")
+hist(hep[,6],probability=TRUE,main="Lançamento dardos",xlab="",ylab="")
+hist(hep[,7],probability=TRUE,main="800m rasos",xlab="",ylab="")
+#hist(hep[,8],probability=TRUE,main="Pontuação total",xlab="",ylab="")
+```
+
+# qqplots
+
+```{r}
+par(mfrow=c(2,4))
+qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="100m Barreiras",cex=1.2)
+qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em altura",cex=1.2)
+qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Arremesso de peso",cex=1.2)
+qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="200m rasos",cex=1.2)
+qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2)
+qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2)
+qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2)
+#qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
+```
+
+Análise inferencial
+
+```{r}
+corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
+```
+ACP
+
+
+0 - Descritiva
+1 - Suposições, dois grupos (variaveis tempo e distancia)
+2 - ACP 2 comp 80%
+3 - CP1 para o rank devido ao fato de fazer sentido com a direção das variáveis.
+4 - Abordar novas classificações bem diferentes (12º->6º)
+
+
+```{r}
+p=7
+m.cor<-cor(hep)
+aut.val <-  eigen(m.cor)$values
+aut.vec <- -(eigen(m.cor)$vectors)
+m.aut.val <- t(matrix(((aut.val)),p,p))
+result.cp.cor <- princomp(hep,cor=TRUE)
+corr.cp.var <- aut.vec*sqrt(m.aut.val)
+summary(result.cp.cor)
+screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,cex.main=1.2)
+result.cp.cor$loadings[1:7,1:2]
+#xtable(result.cp.cor$loadings[1:7,1:2] %>% as.data.frame())
+cp1 = result.cp.cor$loadings[,1]
+```
+
+#Classificação
+#Escore da primeira componente principal.
+acho q isso ta certo
+```{r}
+hep = scale(heptathlon[,1:7])
+score_comp =result.cp.cor$loadings[1:7,1]
+nominhos = row.names(hep)
+escore = as.matrix(addmargins(cbind(hep[,1]*score_comp[1],hep[,2]*score_comp[2],hep[,3]*score_comp[3],hep[,4]*score_comp[4],hep[,5]*score_comp[5],hep[,6]*score_comp[6],hep[,7]*score_comp[7])))[1:25,8]
+rankreal = c(seq(1,25,1))
+hep_score = as.tibble(cbind(hep,rankreal,escore))
+h_new_score = hep_score %>% arrange(escore)
+ranknovo = c(seq(1,25,1))
+h_new_score = cbind(h_new_score,ranknovo)[,8:10] 
+h_new_score = h_new_score %>% mutate(escore = -escore)
+row.names(h_new_score)<- nominhos
+colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
+```
+
+
 
 
 
