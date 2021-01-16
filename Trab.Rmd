@@ -5,6 +5,9 @@ Carlos Kamioka 168624
 Júlio Pazelli
 Caio Henrique
 
+Sempre falar das suposições!!!
+Ler a questão antes de escrever o relatorio. Responder tudo das questões.
+
 Pacotes
 
 ```{r}
