@@ -30,6 +30,7 @@ opts_chunk$set(eval=T)
 opts_chunk$set(include=T)
 opts_chunk$set(fig.align="center")
 opts_chunk$set(fig.height = 2.5)
+library(plyr)
 library(readr)
 library(ggplot2)
 library(tidyverse)
@@ -40,6 +41,11 @@ library(moments)
 library(MVA)
 library(mlbench)
 library(plotrix)
+library(corrplot)
+library(ggcorrplot)
+library(psych)
+library(ca)
+
 ```
 
 \renewcommand{\figurename}{Figura}
@@ -68,6 +74,418 @@ Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm]
 {2020}
 \end{center}
 \end{titlepage}
+
+# Questão 1:
+Lista 3 questão 4
+MANOVA e CBU
+
+## Introdução
+
+O banco de dados é composto pelo perfil de tamanho e formato de 48 tartarugas, sendo 24 machos e 24 fêmeas.As informações obtidas foram largura, comprimento e altura. O estudo tinha como objetivo observar e comparar o sexo ao qual o animal pertencia e sua relação com essas medidas físicas. Para realizar a análise desse banco, foi utilizado o software estatístico R e aplicado algumas metodologias como a Análise de Variância Multivariada (MANOVA).
+
+```{r}
+turtle = read_table2("q1.txt") %>% arrange(sex)
+
+turtle$length = as.numeric(turtle$length)
+turtle$width = as.numeric(turtle$width)
+turtle$height = as.numeric(turtle$height)
+turtleF = turtle %>% filter(sex == "F") %>% dplyr::select(-sex)
+turtleM = turtle %>% filter(sex == "M") %>% dplyr::select(-sex)
+```
+
+## Análise descritiva 
+
+
+```{r}
+SumF<- cbind(round(apply(turtleF,2,mean),4),round(apply(turtleF,2,var),4),
+                round(apply(turtleF,2,sd),4),
+                round(100*apply(turtleF,2,sd)/apply(turtleF,2,mean),4),
+                round(apply(turtleF,2,min),4),round(apply(turtleF,2,quantile,0.5),4),
+                round(apply(turtleF,2,max),4),
+                round(apply(turtleF,2,skewness),4),
+                round(apply(turtleF,2,kurtosis),4))
+colnames(SumF)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumF)
+```
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrrrrr}
+\caption{Medidas resumo sexo feminino}
+\label{turtleF}
+  \hline
+ & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
+  \hline
+length & 136.00 & 451.39 & 21.25 & 15.62 & 98.00 & 136.50 & 177.00 & -0.23 & 2.26 \\ 
+  width & 102.58 & 171.73 & 13.10 & 12.77 & 81.00 & 102.00 & 132.00 & 0.31 & 2.55 \\ 
+  height & 51.96 & 66.65 & 8.16 & 15.71 & 38.00 & 51.00 & 67.00 & -0.03 & 2.19 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+```{r}
+SumM<- cbind(round(apply(turtleM,2,mean),4),round(apply(turtleM,2,var),4),
+                round(apply(turtleM,2,sd),4),
+                round(100*apply(turtleM,2,sd)/apply(turtleM,2,mean),4),
+                round(apply(turtleM,2,min),4),round(apply(turtleM,2,quantile,0.5),4),
+                round(apply(turtleM,2,max),4),
+                round(apply(turtleM,2,skewness),4),
+                round(apply(turtleM,2,kurtosis),4))
+colnames(SumM)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumM)
+```
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrrrrr}
+\caption{Medidas resumo sexo masculino}
+\label{turtleM}
+  \hline
+ & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
+  \hline
+length & 113.38 & 138.77 & 11.78 & 10.39 & 93.00 & 115.00 & 135.00 & -0.08 & 2.10 \\ 
+  width & 88.29 & 50.04 & 7.07 & 8.01 & 74.00 & 89.00 & 106.00 & 0.20 & 3.15 \\ 
+  height & 40.71 & 11.26 & 3.36 & 8.24 & 35.00 & 40.00 & 47.00 & 0.18 & 2.20 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+Inicialmente, visualizando as medidas resumo para cada sexo, podemos observar que aparentemente o sexo feminino tem, em média, medidas maiores que o sexo masculino.
+
+
+```{r,fig.cap="Matriz de gráfico de dispersões sexo feminino.\\label{dispF}"}
+plot(turtleF,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+
+```{r,fig.cap="Matriz de gráfico de dispersões sexo masculino.\\label{dispM}"}
+plot(turtleM,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+Para ambos os sexos, as medidas de altura, largura e comprimento são bastante correlacionadas.
+
+
+```{r}
+#xtable(cov(turtleF))
+```
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+\caption{Matriz de covariâncias sexo feminino}
+\label{covF}
+  \hline
+ & length & width & height \\ 
+  \hline
+  length & 451.39 & 271.17 & 168.70 \\ 
+  width & 271.17 & 171.73 & 103.29 \\ 
+  height & 168.70 & 103.29 & 66.65 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+```{r}
+xtable(cov(turtleM))
+```
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+\caption{Matriz de covariâncias sexo masculino}
+\label{covM}
+  \hline
+ & length & width & height \\ 
+  \hline
+length & 138.77 & 79.15 & 37.38 \\ 
+  width & 79.15 & 50.04 & 21.65 \\ 
+  height & 37.38 & 21.65 & 11.26 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+A matriz de covariância para ambos os sexos parecem ser diferentes, na qual as medidas do sexo masculino aparentam ter variância bem menor se comparado ao sexo feminino.
+
+
+##########
+4) Matriz de correlações
+
+Feminino
+
+```{r}
+#xtable(cor(turtleF))
+cor(turtleF)
+```
+
+Masculino
+
+```{r}
+#xtable(cor(turtleM))
+cor(turtleM)
+```
+
+Como dito anteriormente, as correlações parecem ser bem altas entre as medidas (já era esperado).
+##########
+
+5) Boxplot
+
+```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
+par(mfrow=c(2,3))
+boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Length (F)")
+boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Width (F)")
+boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Heigth (F)")
+boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Length (M)")
+boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Width (M)")
+boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Heigth (M)")
+```
+
+#histograms
+
+```{r,fig.cap="Histogramas das variáveis por sexo.\\label{histTurtle}"}
+par(mfrow=c(2,3))
+hist(turtleF$length,probability=TRUE,main="Length (F)",xlab="",ylab="")
+hist(turtleF$width,probability=TRUE,main="Width (F)",xlab="",ylab="")
+hist(turtleF$height,probability=TRUE,main="Heigth (F)",xlab="",ylab="")
+hist(turtleM$length,probability=TRUE,main="Length (M)",xlab="",ylab="")
+hist(turtleM$width,probability=TRUE,main="Width (M)",xlab="",ylab="")
+hist(turtleM$height,probability=TRUE,main="Heigth (M)",xlab="",ylab="")
+```
+
+# qqplots
+
+```{r,fig.cap="QQplots das variáveis por sexo.\\label{qqTurtle}"}
+par(mfrow=c(2,3))
+qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (F)",cex=1.2) %>% invisible()
+qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (M)",cex=1.2)%>% invisible()
+```
+
+Olhando para boxplot,histogramas e qqplots, as variáveis não parecem seguir uma distribuição normal.
+
+## Análise inferencial
+
+
+```{r}
+Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
+{
+  # v.grupos (1,2,3...)
+  # m.X.completa : matriz de dados com todos os grupos
+  grupo <- 1
+  p<- ncol(m.X.completa)
+  m.X.k <- m.X.completa[v.grupos==grupo,]
+  Sigma.k <- cov(m.X.k)
+  m.Sigma.completa <- cbind(grupo,Sigma.k)
+  Sigma.P <- (v.n[grupo]-1)*Sigma.k # estimativa ponderada
+  aux.k.1 <- (v.n[grupo] - 1)*log(det(Sigma.k))
+  grupo <- grupo + 1
+  for (i in 2:G)
+  {
+    m.X.k <- m.X.completa[v.grupos==grupo,] # pegar os dados referentes ao grupo i
+    Sigma.k <- cov(m.X.k)
+    m.Sigma.completa <- rbind(m.Sigma.completa,cbind(grupo,Sigma.k))
+    Sigma.P <- Sigma.P + (v.n[grupo]-1)*Sigma.k # estimativa ponderada
+    aux.k.1 <- aux.k.1 + (v.n[grupo] - 1)*log(det(Sigma.k))
+    grupo <- grupo + 1
+  }
+  Sigma.P <- Sigma.P/(sum(v.n)-G)
+  
+  # Estatística de ajuste
+  aux.u <- (sum(1/(v.n - 1)) - (1/(sum(v.n - 1))))*(2*p^2 + 3*p - 1)/(6*(p+1)*(G-1))
+  Q.B <-  (1 - aux.u)*(sum(v.n-1)*log(det(Sigma.P)) - aux.k.1)
+  aux.v <- 0.5*p*(p+1)*(G-1)
+  e.nd.QB <- 1 - pchisq(Q.B,aux.v)
+  cat("Estatística do Teste: ", Q.B, "\n")
+  cat("nível descritivo: ",e.nd.QB,"\n")
+  cat("Matrizes de Covariâncias por grupo: \n")
+  print(m.Sigma.completa)
+  Sigma.P <-as.matrix(data.frame(Sigma.P))
+  list(Sigma.P=Sigma.P)
+} # fim da função
+
+# mY: matriz de dados
+# fit.model: ajuste da função lm
+
+mSigmareg <- function(mY,fit.model)
+{
+  mX <- as.matrix(model.matrix(fit.model))
+  q <- ncol(mX)
+  p<-ncol(mY)
+  n <- nrow(mY)
+  mB <- matrix(coef(fit.model),q,p)
+  mSigma <- t(as.matrix(mY-mX%*%mB))%*%(as.matrix(mY-mX%*%mB))/(n-q)
+  return(mSigma)
+}
+
+# mY: matriz de dados
+# fit.model: ajuste da função lm
+# gama: nível de confiança
+
+estim.par.MRNLM <- function(mY,fit.model,gama)
+
+{
+
+vbeta <- c(t(coef(fit.model)))
+mSigma<-mSigmareg(mY,fit.model)
+mX <-as.matrix(model.matrix(fit.model))
+n<-nrow(mX)
+q<-ncol(mX)
+mSigmabeta <- kronecker(solve(t(mX)%*%mX),mSigma)
+epbeta<-sqrt(diag(mSigmabeta))
+et <- qt(0.5*(1+gama),df=n-q)
+LIIC <- vbeta-et*epbeta
+LSIC <- vbeta+et*epbeta
+estt <- vbeta/epbeta
+pvalor <- 2*(1-pt(abs(estt),df=n-q))
+#
+mresult <- cbind(vbeta,epbeta,LIIC,LSIC,estt,pvalor)
+return(mresult)
+
+  
+}
+
+# fit.model: ajuste da função manova
+# m.Sigma.P: matriz de variâncias e covariâncias estimada via modelo
+# p: número de variáveis
+# q: número de parâmetros por variável
+# m.C,m.U,m.M: matrizes de interesse
+
+Teste.CBU.M<-function(fit.model,m.Sigma.P,p,q,m.C,m.U,m.M)
+{
+  m.B <- matrix(coef(fit.model),q,p)
+  v.beta <- matrix(t(m.B))
+  m.X <- model.matrix(fit.model)
+  m.Ca <- kronecker(m.C,t(m.U))
+  m.Ma <- matrix(t(m.M))
+  v.theta <- m.Ca%*%v.beta - m.Ma
+  m.Sigmabeta <- kronecker(solve(t(m.X)%*%m.X),m.Sigma.P)
+  estat <- t(v.theta)%*%solve(m.Ca%*%(m.Sigmabeta)%*%t(m.Ca))%*%v.theta
+  p.valor <- 1-pchisq(estat,df=nrow(m.C)*ncol(m.U))
+  cat("Estatistica Qui-quadrado = ",round(estat,2),"\n")
+  cat("pvalor = ",round(p.valor,4),"\n")
+  cat("Matriz C :","\n")
+  print(m.C)
+  cat("Matriz U :","\n")
+  print(m.U)
+  cat("Matriz M :","\n")
+  print(m.M)
+}
+```
+
+```{r}
+sex = turtle$sex
+turtled = turtle %>% dplyr::select(-sex)
+v.grupos = as.vector(cbind(as.numeric(factor(sex))))
+v.n = c(24,24)
+G = 2
+```
+
+
+
+```{r,warning = FALSE}
+m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
+#xtable(m.Sigma.P)
+fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
+summary.manova(m.ajuste,test="Wilks")
+summary.manova(m.ajuste,test="Pillai")
+summary.manova(m.ajuste,test="Hotelling-Lawley")
+summary.manova(m.ajuste,test="Roy")
+```
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+\caption{Teste de Box-Cox para homocedasticidade}
+\label{Boxhom}
+  \hline
+ & length & width & height \\ 
+  \hline
+length & 295.08 & 175.16 & 103.04 \\ 
+  width & 175.16 & 110.89 & 62.47 \\ 
+  height & 103.04 & 62.47 & 38.95 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+\caption{Resultados da MANOVA}
+\label{MANOVA1}
+  \hline
+ & Valor & Aproximação pela distribuição F & p-valor \\ 
+  \hline
+Wilks & 0.41 & 21.28 & $<$ 0.0001 \\ 
+Pillai & 0.59 & 21.28 & $<$ 0.0001 \\ 
+Hotelling-Lawley & 1.45 & 21.28  & $<$ 0.0001 \\ 
+Roy & 1.45 & 21.28 & $<$ 0.0001  \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+Para observar inferencialmente a diferença entre as matrizes de covariância de cada grupo, foi realizado um teste de Box-cox, e tivemos como resultado que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e também foi rejeitada a hipótese de que elas são iguais. Dessa forma, queremos ver em qual medidas essas diferenças são mais acentuadas, portanto aplicamos um teste CBU.
+
+#CBU
+
+```{r}
+aux<-summary.aov(m.ajuste)
+fit.modelLM <- lm(as.matrix(turtled) ~ sex)
+#summary(fit.modelLM)
+
+
+# Estimativa dos parâmetros
+estim.par.MRNLM(turtled,fit.modelLM,0.95)
+```
+
+```{r}
+m.C1 <- cbind(0,1) #  F X M
+m.M = 0
+p = 3
+```
+
+
+##Variável Length
+
+```{r}
+m.U <- rbind(1,0,0)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+##Variável Width
+
+```{r}
+m.U <- rbind(0,1,0)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+##Variável Height
+
+```{r}
+m.U <- rbind(0,0,1)
+Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
+```
+
+Observando o resultado dos teste CBU, podemos observar que as diferenças estão em todas as medidas (largura, comprimento e altura).
+
+#MRLNM (estimativas parâmetros)
+
+
+
+Aqui eu não sei o que falar
+
+OBS: DEPOIS TEM QUE VER A LISTA FEITA PRA VER SE FALTA ALGO
+
+
+
+
+
+
+
 
 
 
