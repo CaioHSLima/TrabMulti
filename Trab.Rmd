@@ -29,9 +29,13 @@ library(ca)
 
 ```
 
-Questão 1:
+#####Questão 1:
 Lista 3 questão 4
 MANOVA e CBU
+
+# Introducão Questão 1
+
+O banco de dados é composto pelo perfil de tamanho e formato de 48 tartarugas, sendo 24 machos e 24 fêmeas.As informações obtidas foram largura, comprimento e altura. O estudo tinha como objetivo observar e comparar o sexo ao qual o animal pertencia e sua relação com essas medidas físicas. Para realizar a análise desse banco, foi utilizado o software estatístico R e aplicado algumas metodologias como a Análise de Variância Multivariada (MANOVA).
 
 Lendo dados
 ```{r}
@@ -44,7 +48,7 @@ turtleF = turtle %>% filter(sex == "F") %>% dplyr::select(-sex)
 turtleM = turtle %>% filter(sex == "M") %>% dplyr::select(-sex)
 ```
 
-Análise descritiva (comentar o básico dos gráficos)
+# Análise descritiva (comentar o básico dos gráficos)
 
 1) Medidas Resumo
 
@@ -62,6 +66,7 @@ colnames(SumF)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 SumF
 ```
 
+
 ```{r}
 SumM<- cbind(round(apply(turtleM,2,mean),4),round(apply(turtleM,2,var),4),
                 round(apply(turtleM,2,sd),4),
@@ -76,6 +81,9 @@ colnames(SumM)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 SumM
 ```
 
+Inicialmente, visualizando as medidas resumo para cada sexo, podemos observar que aparentemente o sexo feminino tem, em média, medidas maiores que o sexo masculino.
+
+
 2)Diagrama de dispersão
 
 Feminino
@@ -89,6 +97,8 @@ Masculino
 ```{r}
 plot(turtleM,cex=1.5,cex.lab=1.5,pch=1)
 ```
+
+Para ambos os sexos, as medidas de altura, largura e comprimento são bastante correlacionadas.
 
 3) Matriz de covariâncias
 
@@ -106,6 +116,7 @@ Masculino
 cov(turtleM)
 ```
 
+A matriz de covariância para ambos os sexos parecem ser diferentes, na qual as medidas do sexo masculino aparentam ter variância bem menor se comparado ao sexo feminino.
 
 4) Matriz de correlações
 
@@ -122,6 +133,8 @@ Masculino
 #xtable(cor(turtleM))
 cor(turtleM)
 ```
+
+Como dito anteriormente, as correlações parecem ser bem altas entre as medidas (já era esperado).
 
 5) Boxplot
 
@@ -158,6 +171,9 @@ qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xl
 qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (M)",cex=1.2)
 qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (M)",cex=1.2)
 ```
+
+Olhando para boxplot,histogramas e qqplots, as variáveis não parecem seguir uma distribuição normal.
+
 Inferencial
 
 
@@ -271,7 +287,7 @@ Teste.CBU.M<-function(fit.model,m.Sigma.P,p,q,m.C,m.U,m.M)
 ```{r}
 sex = turtle$sex
 turtled = turtle %>% dplyr::select(-sex)
-v.grupos = cbind(as.numeric(factor(sex)))
+v.grupos = as.vector(cbind(as.numeric(factor(sex))))
 v.n = c(24,24)
 G = 2
 ```
@@ -293,7 +309,9 @@ summary.manova(m.ajuste,test="Hotelling-Lawley")
 summary.manova(m.ajuste,test="Roy")
 ```
 
-CBU
+Para observar inferencialmente a diferença entre as matrizes de covariância de cada grupo, foi realizado um teste de Box-cox, e tivemos como resultado que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e também foi rejeitada a hipótese de que elas são iguais. Dessa forma, queremos ver em qual medidas essas diferenças são mais acentuadas, portanto aplicamos um teste CBU.
+
+#CBU
 
 ```{r}
 m.C1 <- cbind(0,1) #  F X M
@@ -302,28 +320,30 @@ p = 3
 ```
 
 
-Variável Length
+##Variável Length
 
 ```{r}
 m.U <- rbind(1,0,0)
 Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
 
-Variável Width
+##Variável Width
 
 ```{r}
 m.U <- rbind(0,1,0)
 Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
 
-Variável Height
+##Variável Height
 
 ```{r}
 m.U <- rbind(0,0,1)
 Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
 
-MRLNM (estimativas parâmetros)
+Observando o resultado dos teste CBU, podemos observar que as diferenças estão em todas as medidas (largura, comprimento e altura).
+
+#MRLNM (estimativas parâmetros)
 
 ```{r}
 aux<-summary.aov(m.ajuste)
@@ -337,7 +357,11 @@ mSigmareg(turtled,fit.modelLM)
 estim.par.MRNLM(turtled,fit.modelLM,0.95)
 ```
 
-Questão 2:
+Aqui eu não sei o que falar
+
+OBS: DEPOIS TEM QUE VER A LISTA FEITA PRA VER SE FALTA ALGO
+
+#### Questão 2:
 Questão 6 Lista 4
 ACP
 
