@@ -36,7 +36,7 @@ opts_chunk$set(message= FALSE)
 opts_chunk$set(eval=T)
 opts_chunk$set(include=T)
 opts_chunk$set(fig.align="center")
-opts_chunk$set(fig.height = 2.5)
+opts_chunk$set(fig.height = 4)
 library(plyr)
 library(readr)
 library(ggplot2)
@@ -61,6 +61,8 @@ library(ca)
 
 \begin{titlepage}
 \begin{center} 
+
+\vspace*{1.5cm}
 
 {\LARGE UNICAMP - Universidade Estadual de Campinas}\\[0.2cm] 
 {\Large IMECC - Instituto de Matemática, Estatística e Computação Científica}\\[0.2cm] 
@@ -127,28 +129,27 @@ colnames(SumM)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
                      "CA","Cur.")
 #xtable(rbind(SumF,SumM))
 ```
-\begin{table}[ht]
+
+A Tabela \ref{desc} apresenta as medidas resumo das tartarugas, dividas por sexo. Observa-se que as médias das medidas das fêmeas foram maiores que as dos machos, e do mesmo modo as variâncias são bem maiores para o sexo feminino. 
+
+\begin{table}[H]
 \centering
 \caption{Medidas resumo (F = Fem, M = Masc)}
 \label{desc}
-\begin{tabular}{rrrrrrrrrr}
+\begin{tabular}{lrrrrrrrrr}
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
   \hline
-length (F) & 136.00 & 451.39 & 21.25 & 15.62 & 98.00 & 136.50 & 177.00 & -0.23 & 2.26 \\ 
-  width (F)& 102.58 & 171.73 & 13.10 & 12.77 & 81.00 & 102.00 & 132.00 & 0.31 & 2.55 \\ 
-  height (F) & 51.96 & 66.65 & 8.16 & 15.71 & 38.00 & 51.00 & 67.00 & -0.03 & 2.19 \\ 
-  length (M) & 113.38 & 138.77 & 11.78 & 10.39 & 93.00 & 115.00 & 135.00 & -0.08 & 2.10 \\ 
-  width (M) & 88.29 & 50.04 & 7.07 & 8.01 & 74.00 & 89.00 & 106.00 & 0.20 & 3.15 \\ 
-  height (M) & 40.71 & 11.26 & 3.36 & 8.24 & 35.00 & 40.00 & 47.00 & 0.18 & 2.20 \\ 
+Comprimento (F)& 136.00 & 451.39 & 21.25 & 15.62 & 98.00 & 136.50 & 177.00 & -0.23 & 2.26 \\ 
+  Largura (F)& 102.58 & 171.73 & 13.10 & 12.77 & 81.00 & 102.00 & 132.00 & 0.31 & 2.55 \\ 
+  Altura (F) & 51.96 & 66.65 & 8.16 & 15.71 & 38.00 & 51.00 & 67.00 & -0.03 & 2.19 \\ 
+  \hline
+  Comprimento (M)& 113.38 & 138.77 & 11.78 & 10.39 & 93.00 & 115.00 & 135.00 & -0.08 & 2.10 \\ 
+  Largura (M) & 88.29 & 50.04 & 7.07 & 8.01 & 74.00 & 89.00 & 106.00 & 0.20 & 3.15 \\ 
+  Altura (M) & 40.71 & 11.26 & 3.36 & 8.24 & 35.00 & 40.00 & 47.00 & 0.18 & 2.20 \\ 
    \hline
 \end{tabular}
 \end{table}
-
-
-
-
-Inicialmente, visualizando as medidas resumo para cada sexo, podemos observar que aparentemente o sexo feminino tem, em média, medidas maiores que o sexo masculino.
 
 
 ```{r,fig.cap="Matriz de gráfico de dispersões sexo feminino.\\label{dispF}"}
@@ -167,13 +168,13 @@ Para ambos os sexos, as medidas de altura, largura e comprimento são bastante c
 #xtable(cov(turtleF))
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de covariâncias (F = Fem, M = Masc)}
 \label{covF}
 \begin{tabular}{r|rrr|rrr}
   \hline
- & length (F) & width (F) & height (F) & length (M) & width (M) & height (M) \\ 
+ & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\ 
   \hline
   length & 451.39 & 271.17 & 168.70 & 138.77 & 79.15 & 37.38\\ 
   width & 271.17 & 171.73 & 103.29 & 79.15 & 50.04 & 21.65\\ 
@@ -214,34 +215,34 @@ Como dito anteriormente, as correlações parecem ser bem altas entre as medidas
 
 ```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
 par(mfrow=c(2,3))
-boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Length (F)")
-boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Width (F)")
-boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Heigth (F)")
-boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Length (M)")
-boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Width (M)")
-boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Heigth (M)")
+boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Comprimento (F)")
+boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Largura (F)")
+boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Altura (F)")
+boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Comprimento (M)")
+boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Largura (M)")
+boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Altura (M)")
 ```
 
 
 ```{r,fig.cap="Histogramas das variáveis por sexo.\\label{histTurtle}"}
 par(mfrow=c(2,3))
-hist(turtleF$length,probability=TRUE,main="Length (F)",xlab="",ylab="")
-hist(turtleF$width,probability=TRUE,main="Width (F)",xlab="",ylab="")
-hist(turtleF$height,probability=TRUE,main="Heigth (F)",xlab="",ylab="")
-hist(turtleM$length,probability=TRUE,main="Length (M)",xlab="",ylab="")
-hist(turtleM$width,probability=TRUE,main="Width (M)",xlab="",ylab="")
-hist(turtleM$height,probability=TRUE,main="Heigth (M)",xlab="",ylab="")
+hist(turtleF$length,probability=TRUE,main="Comprimento (F)",xlab="",ylab="")
+hist(turtleF$width,probability=TRUE,main="Largura (F)",xlab="",ylab="")
+hist(turtleF$height,probability=TRUE,main="Altura (F)",xlab="",ylab="")
+hist(turtleM$length,probability=TRUE,main="Comprimento (M)",xlab="",ylab="")
+hist(turtleM$width,probability=TRUE,main="Largura (M)",xlab="",ylab="")
+hist(turtleM$height,probability=TRUE,main="Altura (M)",xlab="",ylab="")
 ```
 
 
 ```{r,fig.cap="QQplots das variáveis por sexo.\\label{qqTurtle}"}
 par(mfrow=c(2,3))
-qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (F)",cex=1.2) %>% invisible()
-qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Length (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Width (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Heigth (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (F)",cex=1.2) %>% invisible()
+qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (M)",cex=1.2)%>% invisible()
 ```
 
 Olhando para boxplot,histogramas e qqplots, as variáveis não parecem seguir uma distribuição normal.
@@ -375,7 +376,7 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 #summary.manova(m.ajuste,test="Roy")
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Teste de Box-Cox para homocedasticidade}
 \label{Boxhom}
@@ -389,7 +390,7 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Resultados da MANOVA}
 \label{MANOVA1}
@@ -420,7 +421,7 @@ fit.modelLM <- lm(as.matrix(turtled) ~ sex)
 #estim.par.MRNLM(turtled,fit.modelLM,0.95)[,c(1,2,5,6)]
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Estimativas dos parâmetros do modelo}
 \label{MRNLM}
@@ -448,7 +449,7 @@ p = 3
 ```
 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Testes CBU ($\alpha_{2i} = 0$)}
 \label{CBUtestes}
@@ -518,7 +519,7 @@ colnames(SumHep)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #xtable(SumHep)
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Medidas resumo dos resultados}
 \label{med_res2}
@@ -548,7 +549,7 @@ plot(hep,cex=1.5,cex.lab=1.5,pch=1)
 #cov(hep)
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de covariâncias}
 \label{cov2}
@@ -572,7 +573,7 @@ hurdles & 0.54 & -0.05 & -0.72 & 0.55 & -0.32 & -0.02 & 4.76 \\
 #cor(hep)
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de correlações}
 \label{corr2}
@@ -677,7 +678,7 @@ screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,c
 cp1 = result.cp.cor$loadings[,1]
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Variância Explicada}
 \label{var_exp}
@@ -692,7 +693,7 @@ PVE (\%) & 63.72 & 17.06 & 7.44 & 6.53 & 3.50 & 1.04 & 0.70 \\
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Componentes principais}
 \label{comp2}
@@ -735,7 +736,7 @@ colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 ```
 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Rankings e escores dos atletas}
 \label{rank}
@@ -792,7 +793,7 @@ chisq.test(`Saúde mental`)
 \label{TabCont}
 \begin{tabular}{r|rrrrr|r}
   \hline
-  \multicolumn{7}{c}{Status Socioeconômico} \\
+  & \multicolumn{5}{c}{Status Socioeconômico} & \\
   \hline
 Saúde Mental & A & B & C & D & E & Total \\ 
   \hline
@@ -902,11 +903,12 @@ inercia<-summary(resultCA)$scree # names(summary(resultCA))
 
 #### Colocar título e ref
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
+\caption{Inércia}
 \begin{tabular}{rrrrr}
   \hline
- & 1 & 2 & 3 & 4 \\ 
+ \bf{Componentes} & \bf{Valor singular} & \bf{Inércia Princ.} & \bf{Percentual} & \bf{Percentual acum.} \\ 
   \hline
   1 & 0.1023 & 0.0105 & 59.0863 & 59.0863 \\ 
   2 & 0.0797 & 0.0064 & 35.8758 & 94.9621 \\ 
@@ -918,7 +920,7 @@ inercia<-summary(resultCA)$scree # names(summary(resultCA))
 ```{r,fig.cap="Bi-Plot.\\label{biplot3}", fig.height=4.5}
 
 # Componentes
-resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
+resultFCA <- plot(resultCA,xlab="Componente 1",ylab="Componente 2",
                   cex=1.4,cex.lab=1.2) #Biplot
 #
 #xtable(resultFCA$rows,digits=4)
@@ -929,33 +931,23 @@ resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
 
 \begin{table}[H]
 \centering
-\begin{tabular}{rrr}
+\begin{tabular}{l|l|rr}
   \hline
- & Dim1 & Dim2 \\ 
+   &\bf{Categoria} & \bf{Componente 1} & \bf{Componente 2} \\ 
   \hline
-Boa & 0.1923 & 0.0773 \\ 
-  Presença fraca de sintomas & 0.0202 & -0.0676 \\ 
-  Presença moderada de sintomas & -0.0467 & -0.0797 \\ 
-  Debilitado & -0.1111 & 0.0937 \\ 
+  Perfil das Linhas & Boa & 0.1923 & 0.0773 \\ 
+  & Presença fraca de sintomas & 0.0202 & -0.0676 \\ 
+  & Presença moderada de sintomas & -0.0467 & -0.0797 \\ 
+  & Debilitado & -0.1111 & 0.0937 \\
+  \hline
+  Perfil das Colunas & A & 0.0191 & 0.1064 \\ 
+  & B & 0.1153 & -0.0984 \\ 
+  & C & 0.0678 & -0.0423 \\ 
+  & D & -0.0848 & -0.0365 \\ 
+  & E & -0.2222 & -0.0479 \\ 
    \hline
 \end{tabular}
 \end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{rrr}
-  \hline
- & Dim1 & Dim2 \\ 
-  \hline
-A & 0.0191 & 0.1064 \\ 
-  B & 0.1153 & -0.0984 \\ 
-  C & 0.0678 & -0.0423 \\ 
-  D & -0.0848 & -0.0365 \\ 
-  E & -0.2222 & -0.0479 \\ 
-   \hline
-\end{tabular}
-\end{table}
-
 
 
 Classe A está mais relacionada com saúde mental debilitada que as demais.
@@ -1005,7 +997,7 @@ colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #SumIP
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Medidas resumo das variáveis dos pacientes com diabetes positivo}
 \label{med_pos}
@@ -1038,7 +1030,7 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #SumIN
 ```
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Medidas resumo das variáveis dos pacientes com diabetes negativo}
 \label{med_neg}
@@ -1080,7 +1072,7 @@ Positivo
 #xtable(cov(indiP))
 #cov(indiP)
 ```
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de covariâncias dos pacientes com diabetes positivo}
 \label{cov_pos}
@@ -1106,7 +1098,7 @@ Negativo
 #xtable(cov(indiN))
 #cov(indiN)
 ```
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de covariâncias dos pacientes com diabetes negativo}
 \label{cov_neg}
@@ -1134,7 +1126,7 @@ Positivo
 #xtable(cor(indiP))
 #cor(indiP)
 ```
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de correlações dos pacientes com diabetes positivo}
 \label{corr_pos}
@@ -1161,7 +1153,7 @@ Negativo
 #xtable(cor(indiN))
 #cor(indiN)
 ```
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Matriz de correlações dos pacientes com diabetes negativo}
 \label{corr_neg}
@@ -1277,11 +1269,11 @@ Matriz de correlações muito parecidas. Método de Fisher
 
 ```{r}
 m.X <- rbind(indid[1:130,1:7],indid[131:392,1:7])
-Sp = c(rep("N",130),rep("P",262))
+Sp = c(rep("P",130),rep("N",262))
 m.Indi <- data.frame(m.X,Sp)
 table(m.Indi$Sp[treino])
 #result.ad <- lda(Sp~., m.Iris, prior = c(1,1)/2,subset = treino)
-result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(1,1)/2,subset = treino)
+result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(2,1)/3,subset = treino)
 result.ad
 ```
 
@@ -1312,6 +1304,18 @@ tc <- table(data.teste,pred)
 tc
 #xtable(tc)
 ```
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & N & P \\ 
+  \hline
+  N & 123 &   8 \\ 
+  P &  53 &  12 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 TEA
 
 ```{r}
@@ -1337,9 +1341,9 @@ delta2 <-  t(v.mean1-v.mean2)%*%solve(Sp)%*%(v.mean1 - v.mean2)
 #
 TOE <- pnorm(-sqrt(delta2)/2)
 100*TOE
-xtable(cbind(v.mean1,v.mean2))
-xtable(S21)
-xtable(S22)
+#xtable(cbind(v.mean1,v.mean2))
+#xtable(S21)
+#xtable(S22)
 ```
 
 
