@@ -770,6 +770,10 @@ Joyner-Kersee (USA) & 1 & 4.12 & 1 & Braun (FRG) & 14 & -0.00 & 14 \\
 
 Os dados são relacionados a um estudo sobre a relação entre status socioeconômico dos pais com  a condição de saúde mental de um total de 1760 indivíduos. A variável de status socioeconômico possui 5 níveis, de "A" (alto) até "E" (baixo) e a variável de saúde mental possui 4 níveis sendo, do melhor para o pior, "Boa", "Presença fraca de sintomas", "Presença moderada de sintomas" e "Debilitado".
 
+
+##a) 
+
+O modelo probabilístico gerador da tabela de contigência é uma multinomial de tamanho 1760 e 20 categorias.
 ```{r}
 `Saúde mental`<- array(c(121,188,112,186,
                 57,105,65,60,
@@ -778,13 +782,14 @@ Os dados são relacionados a um estudo sobre a relação entre status socioecon�
                 21,71,54,71),
  dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
  ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
-xtable(addmargins(`Saúde mental`))
-addmargins(`Saúde mental`)
+#xtable(addmargins(`Saúde mental`))
+#addmargins(`Saúde mental`)
 chisq.test(`Saúde mental`)
 ```
-\begin{table}[ht]
+\begin{table}[H]
 \centering
-\begin{tabular}{rrrrrr|r}
+\caption{Saúde Mental x Status Socioeconômico}
+\begin{tabular}{r|rrrrr|r}
   \hline
   \multicolumn{7}{c}{Status Socioeconômico} \\
   \hline
@@ -801,14 +806,32 @@ Total & 607.00 & 287.00 & 384.00 & 265.00 & 217.00 & 1760.00 \\
 \end{table}
 
 
-Proporções estimadas (pelo total de observações) (× 100)
+###Proporções estimadas (pelo total de observações) (× 100)
 
 ```{r}
 margins = addmargins(`Saúde mental`)
-margins/1760*100
+#xtable(margins/1760*100)
 ```
 
-Perfil das linhas
+\begin{table}[H]
+\centering
+\caption{Proporções estimadas ($\times$100).}
+\begin{tabular}{r|rrrrr|r}
+  \hline
+  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
+  \hline
+ \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
+  \hline
+  Boa & 6.88 & 3.24 & 4.09 & 2.05 & 1.19 & 17.44 \\ 
+  Presença fraca de sintomas & 10.68 & 5.97 & 8.01 & 5.51 & 4.03 & 34.20 \\ 
+  Presença moderada de sintomas & 6.36 & 3.69 & 4.38 & 3.07 & 3.07 & 20.57 \\ 
+  Debilitado & 10.57 & 3.41 & 5.34 & 4.43 & 4.03 & 27.78 \\ 
+  Total & 34.49 & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+###Perfil das linhas
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -817,10 +840,27 @@ lin = dim(linhas)[1]
 for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
 `Total` = c(sum(`Saúde mental`[,1]),sum(`Saúde mental`[,2]),sum(`Saúde mental`[,3]),sum(`Saúde mental`[,4]),sum(`Saúde mental`[,5]))/n*100
 #xtable(addmargins(rbind(linhas,`Total`))[1:5,1:6])
-addmargins(rbind(linhas,`Total`))[1:5,1:6]
+#xtable(addmargins(rbind(linhas,`Total`))[1:5,1:6])
 ```
+\begin{table}[H]
+\centering
+\caption{Perfil de Linhas ($\times$100).}
+\begin{tabular}{r|rrrrr|r}
+  \hline
+  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
+  \hline
+ \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
+  \hline
+  Boa & \bf{39.41} & \bf{18.57} & \bf{23.45} & 11.73 & 6.84 & 100.00 \\ 
+  Presença fraca de sintomas & \bf{31.23} & 17.44 & 23.42 & \bf{16.11} & 11.79 & 100.00 \\ 
+  Presença moderada de sintomas & \bf{30.94} & 17.96 & 21.27 & 14.92 & \bf{14.92} & 100.00 \\ 
+  Debilitado & \bf{38.04} & 12.27 & 19.22 & 15.95 & 14.52 & 100.00 \\ 
+  Total & \bf{34.49} & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
-Perfil das Colunas
+###Perfil das Colunas
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -829,9 +869,25 @@ col = dim(linhas)[2]
 for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
 `Total` = c(sum(`Saúde mental`[1,]),sum(`Saúde mental`[2,]),sum(`Saúde mental`[3,]),sum(`Saúde mental`[4,]))/n*100
 #xtable(addmargins(rbind(colunas,`Total`))[1:5,1:6])
-addmargins(cbind(colunas,`Total`))[1:5,1:6]
+#xtable(addmargins(cbind(colunas,`Total`))[1:5,1:6])
 ```
-
+\begin{table}[H]
+\centering
+\caption{Perfil de Colunas ($\times$100).}
+\begin{tabular}{r|rrrrr|r}
+  \hline
+  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
+  \hline
+ \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
+  \hline
+Boa & \bf{19.93} & 19.86 & 18.75 & 13.58 & 9.68 & 17.44 \\ 
+  Presença fraca de sintomas & \bf{30.97} & \bf{36.59} & \bf{36.72} & \bf{36.60} & \bf{32.72} & 34.20 \\ 
+  Presença moderada de sintomas & 18.45 & 22.65 & 20.05 & 20.38 & \bf{24.88} & 20.57 \\ 
+  Debilitado & 30.64 & 20.91 & 24.48 & 29.43 & \bf{32.72} & 27.78 \\ 
+  Total & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
 Análise de corresponcência
 
 ```{r}
@@ -840,7 +896,20 @@ inercia<-summary(resultCA)$scree # names(summary(resultCA))
 #xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
 ```
 
-```{r}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & 1 & 2 & 3 & 4 \\ 
+  \hline
+  1 & 0.1023 & 0.0105 & 59.0863 & 59.0863 \\ 
+  2 & 0.0797 & 0.0064 & 35.8758 & 94.9621 \\ 
+  3 & 0.0299 & 0.0009 & 5.0379 & 100.0000 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+```{r,fig.cap="Bi-Plot.\\label{biplot3}", fig.height=4.5}
 
 # Componentes
 resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
@@ -850,6 +919,38 @@ resultFCA <- plot(resultCA,xlab="componente 1",ylab="componente 2",
 #xtable(resultFCA$cols,digits=4)
 
 ```
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & Dim1 & Dim2 \\ 
+  \hline
+Boa & 0.1923 & 0.0773 \\ 
+  Presença fraca de sintomas & 0.0202 & -0.0676 \\ 
+  Presença moderada de sintomas & -0.0467 & -0.0797 \\ 
+  Debilitado & -0.1111 & 0.0937 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & Dim1 & Dim2 \\ 
+  \hline
+A & 0.0191 & 0.1064 \\ 
+  B & 0.1153 & -0.0984 \\ 
+  C & 0.0678 & -0.0423 \\ 
+  D & -0.0848 & -0.0365 \\ 
+  E & -0.2222 & -0.0479 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
 
 Classe A está mais relacionada com saúde mental debilitada que as demais.
 Classes B e C estão mais relacionadas com presença fraca
