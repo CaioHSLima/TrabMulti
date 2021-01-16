@@ -860,3 +860,418 @@ Classe E está mais longe da saúde mental BOA
 
 
 
+
+
+
+
+
+
+# Questão 4
+Lista 7 questão 11
+Análise discriminate
+
+
+```{r}
+data("PimaIndiansDiabetes2")
+indi = PimaIndiansDiabetes2 %>% na.omit()
+indiP = indi %>% filter(diabetes == "pos") %>% dplyr::select(-c(diabetes,pedigree))
+indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigree))
+```
+
+## Análise descritiva
+
+1) Medidas Resumo
+
+Positivo
+
+```{r}
+SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
+                round(apply(indiP,2,sd),4),
+                round(100*apply(indiP,2,sd)/apply(indiP,2,mean),4),
+                round(apply(indiP,2,min),4),round(apply(indiP,2,quantile,0.5),4),
+                round(apply(indiP,2,max),4),
+                round(apply(indiP,2,skewness),4),
+                round(apply(indiP,2,kurtosis),4))
+colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumIP)
+#SumIP
+```
+
+\begin{table}[ht]
+\centering
+\caption{Medidas resumo das variáveis dos pacientes com diabetes positivo}
+\label{med_pos}
+\begin{tabular}{rrrrrrrrrr}
+  \hline
+ & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
+  \hline
+pregnant & 4.47 & 15.34 & 3.92 & 87.62 & 0.00 & 3.00 & 17.00 & 0.81 & 2.91 \\ 
+  glucose & 145.19 & 890.39 & 29.84 & 20.55 & 78.00 & 144.50 & 198.00 & -0.14 & 2.08 \\ 
+  pressure & 74.08 & 169.56 & 13.02 & 17.58 & 30.00 & 74.00 & 110.00 & -0.13 & 3.96 \\ 
+  triceps & 32.96 & 92.98 & 9.64 & 29.25 & 7.00 & 33.00 & 63.00 & 0.10 & 3.01 \\ 
+  insulin & 206.85 & 17609.26 & 132.70 & 64.15 & 14.00 & 169.50 & 846.00 & 1.86 & 7.31 \\ 
+  mass & 35.78 & 45.36 & 6.73 & 18.82 & 22.90 & 34.60 & 67.10 & 1.36 & 6.78 \\ 
+  age & 35.94 & 113.10 & 10.63 & 29.59 & 21.00 & 33.00 & 60.00 & 0.57 & 2.20 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+```{r}
+SumIN<- cbind(round(apply(indiN,2,mean),4),round(apply(indiN,2,var),4),
+                round(apply(indiN,2,sd),4),
+                round(100*apply(indiN,2,sd)/apply(indiN,2,mean),4),
+                round(apply(indiN,2,min),4),round(apply(indiN,2,quantile,0.5),4),
+                round(apply(indiN,2,max),4),
+                round(apply(indiN,2,skewness),4),
+                round(apply(indiN,2,kurtosis),4))
+colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumIN)
+#SumIN
+```
+
+\begin{table}[ht]
+\centering
+\caption{Medidas resumo das variáveis dos pacientes com diabetes negativo}
+\label{med_neg}
+\begin{tabular}{rrrrrrrrrr}
+  \hline
+ & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
+  \hline
+pregnant & 2.72 & 6.85 & 2.62 & 96.20 & 0.00 & 2.00 & 13.00 & 1.49 & 5.23 \\ 
+  glucose & 111.43 & 607.23 & 24.64 & 22.11 & 56.00 & 107.50 & 197.00 & 0.72 & 3.51 \\ 
+  pressure & 68.97 & 141.44 & 11.89 & 17.24 & 24.00 & 70.00 & 106.00 & -0.16 & 3.68 \\ 
+  triceps & 27.25 & 108.87 & 10.43 & 38.29 & 7.00 & 27.00 & 60.00 & 0.35 & 2.49 \\ 
+  insulin & 130.85 & 10532.13 & 102.63 & 78.43 & 15.00 & 105.00 & 744.00 & 2.50 & 11.81 \\ 
+  mass & 31.75 & 46.17 & 6.79 & 21.40 & 18.20 & 31.25 & 57.30 & 0.43 & 3.13 \\ 
+  age & 28.35 & 80.80 & 8.99 & 31.71 & 21.00 & 25.00 & 81.00 & 2.20 & 9.13 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+2)Diagrama de dispersão
+
+Positivo
+
+```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes positivo.\\label{disp_pos}"}
+plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+Negativo
+
+```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes negativo.\\label{disp_neg}"}
+plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
+```
+
+3) Matriz de covariâncias
+
+Positivo
+
+```{r}
+#xtable(cov(indiP))
+#cov(indiP)
+```
+\begin{table}[ht]
+\centering
+\caption{Matriz de covariâncias dos pacientes com diabetes positivo}
+\label{cov_pos}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & pregnant & glucose & pressure & triceps & insulin & mass & age \\ 
+  \hline
+pregnant & 15.34 & 2.17 & 9.00 & -2.67 & -1.73 & -4.90 & 25.19 \\ 
+  glucose & 2.17 & 890.39 & 35.98 & 10.82 & 1576.11 & -5.35 & 60.11 \\ 
+  pressure & 9.00 & 35.98 & 169.56 & 19.72 & -126.61 & 17.02 & 37.49 \\ 
+  triceps & -2.67 & 10.82 & 19.72 & 92.98 & 66.34 & 38.44 & -12.60 \\ 
+  insulin & -1.73 & 1576.11 & -126.61 & 66.34 & 17609.26 & -17.50 & 310.66 \\ 
+  mass & -4.90 & -5.35 & 17.02 & 38.44 & -17.50 & 45.36 & -12.63 \\ 
+  age & 25.19 & 60.11 & 37.49 & -12.60 & 310.66 & -12.63 & 113.10 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+Negativo
+
+```{r}
+#xtable(cov(indiN))
+#cov(indiN)
+```
+\begin{table}[ht]
+\centering
+\caption{Matriz de covariâncias dos pacientes com diabetes negativo}
+\label{cov_neg}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & pregnant & glucose & pressure & triceps & insulin & mass & age \\ 
+  \hline
+pregnant & 6.85 & 8.72 & 5.41 & 2.71 & 1.80 & -0.78 & 16.48 \\ 
+  glucose & 8.72 & 607.23 & 46.15 & 27.16 & 1560.34 & 25.46 & 47.03 \\ 
+  pressure & 5.41 & 46.15 & 141.44 & 26.33 & 152.53 & 24.79 & 25.86 \\ 
+  triceps & 2.71 & 27.16 & 26.33 & 108.87 & 163.90 & 46.90 & 18.76 \\ 
+  insulin & 1.80 & 1560.34 & 152.53 & 163.90 & 10532.13 & 190.04 & 48.66 \\ 
+  mass & -0.78 & 25.46 & 24.79 & 46.90 & 190.04 & 46.17 & 3.56 \\ 
+  age & 16.48 & 47.03 & 25.86 & 18.76 & 48.66 & 3.56 & 80.80 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+4) Matriz de correlações
+
+Positivo
+
+```{r}
+#xtable(cor(indiP))
+#cor(indiP)
+```
+\begin{table}[ht]
+\centering
+\caption{Matriz de correlações dos pacientes com diabetes positivo}
+\label{corr_pos}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & pregnant & glucose & pressure & triceps & insulin & mass & age \\ 
+  \hline
+pregnant & 1.00 & 0.02 & 0.18 & -0.07 & -0.00 & -0.19 & 0.60 \\ 
+  glucose & 0.02 & 1.00 & 0.09 & 0.04 & 0.40 & -0.03 & 0.19 \\ 
+  pressure & 0.18 & 0.09 & 1.00 & 0.16 & -0.07 & 0.19 & 0.27 \\ 
+  triceps & -0.07 & 0.04 & 0.16 & 1.00 & 0.05 & 0.59 & -0.12 \\ 
+  insulin & -0.00 & 0.40 & -0.07 & 0.05 & 1.00 & -0.02 & 0.22 \\ 
+  mass & -0.19 & -0.03 & 0.19 & 0.59 & -0.02 & 1.00 & -0.18 \\ 
+  age & 0.60 & 0.19 & 0.27 & -0.12 & 0.22 & -0.18 & 1.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+
+Negativo
+
+```{r}
+#xtable(cor(indiN))
+#cor(indiN)
+```
+\begin{table}[ht]
+\centering
+\caption{Matriz de correlações dos pacientes com diabetes negativo}
+\label{corr_neg}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & pregnant & glucose & pressure & triceps & insulin & mass & age \\ 
+  \hline
+pregnant & 1.00 & 0.14 & 0.17 & 0.10 & 0.01 & -0.04 & 0.70 \\ 
+  glucose & 0.14 & 1.00 & 0.16 & 0.11 & 0.62 & 0.15 & 0.21 \\ 
+  pressure & 0.17 & 0.16 & 1.00 & 0.21 & 0.12 & 0.31 & 0.24 \\ 
+  triceps & 0.10 & 0.11 & 0.21 & 1.00 & 0.15 & 0.66 & 0.20 \\ 
+  insulin & 0.01 & 0.62 & 0.12 & 0.15 & 1.00 & 0.27 & 0.05 \\ 
+  mass & -0.04 & 0.15 & 0.31 & 0.66 & 0.27 & 1.00 & 0.06 \\ 
+  age & 0.70 & 0.21 & 0.24 & 0.20 & 0.05 & 0.06 & 1.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+
+Boxplot
+
+```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes positivo.\\label{box_pos}"}
+par(mfrow=c(2,4))
+boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez (P)")
+boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose (P)")
+boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão (P)")
+boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps (P)")
+boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulina (P)")
+boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC (P)")
+boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade (P)")
+```
+
+```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes negativo.\\label{box_neg}"}
+par(mfrow = c(2,4))
+boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez (N)")
+boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose (N)")
+boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão (N)")
+boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps (N)")
+boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulina (N)")
+boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
+boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
+```
+
+histograms
+
+```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes positivo.\\label{hist_pos}"}
+par(mfrow=c(2,4))
+hist(indiP[,1],probability=TRUE,main="Gravidez (P)",xlab="",ylab="")
+hist(indiP[,2],probability=TRUE,main="Glicose (P)",xlab="",ylab="")
+hist(indiP[,3],probability=TRUE,main="Pressão (P)",xlab="",ylab="")
+hist(indiP[,4],probability=TRUE,main="Tríceps (P)",xlab="",ylab="")
+hist(indiP[,5],probability=TRUE,main="Insulina (P)",xlab="",ylab="")
+hist(indiP[,6],probability=TRUE,main="IMC (P)",xlab="",ylab="")
+hist(indiP[,7],probability=TRUE,main="Idade (P)",xlab="",ylab="")
+```
+
+```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes negativo.\\label{hist_neg}"}
+par(mfrow=c(2,4))
+hist(indiN[,1],probability=TRUE,main="Gravidez (N)",xlab="",ylab="")
+hist(indiN[,2],probability=TRUE,main="Glicose (N)",xlab="",ylab="")
+hist(indiN[,3],probability=TRUE,main="Pressão (N)",xlab="",ylab="")
+hist(indiN[,4],probability=TRUE,main="Tríceps (N)",xlab="",ylab="")
+hist(indiN[,5],probability=TRUE,main="Insulina (N)",xlab="",ylab="")
+hist(indiN[,6],probability=TRUE,main="IMC (N)",xlab="",ylab="")
+hist(indiN[,7],probability=TRUE,main="Idade (N)",xlab="",ylab="")
+```
+
+ qqplots
+
+```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_pos}"}
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2)
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (P)",cex=1.2)
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2)
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (P)",cex=1.2)
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina (P)",cex=1.2)
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2)
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2)
+```
+
+
+```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_neg}"}
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (N)",cex=1.2)
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (N)",cex=1.2)
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2)
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (N)",cex=1.2)
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina (N)",cex=1.2)
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (N)",cex=1.2)
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2)
+```
+
+# Classificação:
+
+```{r}
+set.seed(198105)
+indid = indi %>% dplyr::select(-pedigree) %>% arrange(diabetes)
+#treinoP <- sort(sample(1:130,104,replace=FALSE)) #80% das observações para treino
+#treinoN <- sort(sample(131:392,210,replace=FALSE)) #80% das observações para treino
+treinoP <- sort(sample(1:130,65,replace=FALSE)) #50% das observações para treino
+treinoN <- sort(sample(131:392,131,replace=FALSE)) #50% das observações para treino
+treino <- c(treinoP,treinoN)
+```
+
+Amostra de treino
+
+```{r}
+atrein <- indid[treino,]
+```
+
+Matriz de correlações muito parecidas. Método de Fisher
+
+```{r}
+m.X <- rbind(indid[1:130,1:7],indid[131:392,1:7])
+Sp = c(rep("N",130),rep("P",262))
+m.Indi <- data.frame(m.X,Sp)
+table(m.Indi$Sp[treino])
+#result.ad <- lda(Sp~., m.Iris, prior = c(1,1)/2,subset = treino)
+result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(1,1)/2,subset = treino)
+result.ad
+```
+
+# predizendo os grupos na amostra teste
+
+```{r}
+pred<-predict(result.ad, m.Indi[-treino, ])$class
+```
+
+#Função discriminante
+
+```{r}
+y <-predict(result.ad, m.Indi[-treino, ])$x 
+```
+
+
+# Pegando a amostra teste
+
+```{r}
+data.teste <- m.Indi[-treino,8]
+```
+
+
+# Tabela de classificação
+
+```{r}
+tc <- table(data.teste,pred)
+tc
+#xtable(tc)
+```
+TEA
+
+```{r}
+TEA <- (tc[1,2]+tc[2,1])/sum(tc)
+100*TEA
+```
+
+Método de normalidade
+
+```{r}
+m.dados.iris <- m.Indi[treino,]
+#  Dados.1 <- m.dados.iris[m.dados.iris[,5]=="VE",][,]
+#  Dados.2 <- m.dados.iris[m.dados.iris[,5]=="VI",][,]
+Dados.1 <- (m.dados.iris[m.dados.iris[,8]=="N",][,1:7])
+Dados.2 <- (m.dados.iris[m.dados.iris[,8]=="P",][,1:7])
+v.mean1 <- cbind(c(result.ad$means[1,]))
+v.mean2 <- cbind(c(result.ad$means[2,]))
+S21 <- cov(Dados.1[,1:7])
+S22 <- cov(Dados.2[,1:7])
+Sp <- ((nrow(Dados.1)-1)*S21 +  ((nrow(Dados.2)-1)*S22))/(nrow(Dados.1) + nrow(Dados.2) - 2)
+q.classifi <- 0.5*t(v.mean1-v.mean2)%*%solve(Sp)%*%(v.mean1+v.mean2)
+delta2 <-  t(v.mean1-v.mean2)%*%solve(Sp)%*%(v.mean1 - v.mean2)
+#
+TOE <- pnorm(-sqrt(delta2)/2)
+100*TOE
+xtable(cbind(v.mean1,v.mean2))
+xtable(S21)
+xtable(S22)
+```
+
+
+```{r}
+m = 0.5*(t(v.mean1-v.mean2))%*%solve(Sp)%*%((v.mean1-v.mean2))
+  
+# Função linear discriminante
+  
+Y <- t(v.mean1-v.mean2)%*%solve(Sp)%*%t(as.matrix(m.Indi[-treino,1:7]))
+m = 0.5*(t(v.mean1-v.mean2))%*%solve(Sp)%*%((v.mean1+v.mean2))
+  
+# Comparação entre os coeficientes Coeficientes
+cbind(t(t(v.mean1-v.mean2)%*%solve(Sp)),result.ad$scaling)
+(t(t(v.mean1-v.mean2)%*%solve(Sp)))/result.ad$scaling
+
+# Análise da função discriminante para a amostra teste
+grupo <- as.factor(c(rep("N",131), rep("P",65)))
+# Medidas resumo
+datadados<-data.frame(y,grupo)
+colnames(datadados)<-c("y","dados")
+medados<-ddply(datadados,.(grupo),summarise,media=mean(y),dp=sqrt(var(y)),vari=var(y),minimo=min(y),mediana=quantile(y,0.5),maximo=max(y),n=length(y))
+colnames(medados)<-c("Grupo","Média","DP","Var.","Mínimo","Mediana","Máximo","n")
+xtable(medados)
+```
+
+```{r}
+# boxplot
+par(mfrow=c(1,1))
+boxplot(y~grupo,cex=1.2,cex.lab=1.2)
+#
+# densidades
+plot(density(y[grupo=="P",1]),lwd=2,xlim=c(min(y[,1])-1,max(y[,1])+3),xlab="função discriminante",ylab="densidade",cex=1.2,cex.lab=1.2,cex.main=1.2,main="",ylim=c(0,0.9))
+lines(density(y[grupo=="N",1]),col=2,lwd=2)
+legend(3.8,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex=1.2)
+
+#hist(y[grupo=="P"],probability=TRUE,cex=1.2,cex.lab=1.2)
+#hist(y[grupo=="N"],probability=TRUE,cex=1.2,cex.lab=1.2)
+```
+
+
+
+
