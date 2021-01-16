@@ -637,16 +637,10 @@ colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 
 
 #Questão 3
-Lista 6 questão 2
-Análise de correspondência
 
-Dados
-#Lista6.pdf
+##Introdução
 
-0 - Explorar perfis linhas e colunas
-1- Teste qui quadrado dependencia
-2- CA
-3 - perfis relacionados da tabela
+Os dados são relacionados a um estudo sobre a relação entre status socioeconômico dos pais com  a condição de saúde mental de um total de 1760 indivíduos. A variável de status socioeconômico possui 5 níveis, de "A" (alto) até "E" (baixo) e a variável de saúde mental possui 4 níveis sendo, do melhor para o pior, "Boa", "Presença fraca de sintomas", "Presença moderada de sintomas" e "Debilitado".
 
 ```{r}
 `Saúde mental`<- array(c(121,188,112,186,
@@ -656,10 +650,28 @@ Dados
                 21,71,54,71),
  dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
  ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
-#xtable(addmargins(`Saúde mental`))
+xtable(addmargins(`Saúde mental`))
 addmargins(`Saúde mental`)
 chisq.test(`Saúde mental`)
 ```
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr|r}
+  \hline
+  \multicolumn{7}{c}{Status Socioeconômico} \\
+  \hline
+Saúde Mental & A & B & C & D & E & Total \\ 
+  \hline
+Boa & 121.00 & 57.00 & 72.00 & 36.00 & 21.00 & 307.00 \\ 
+  Presença fraca de sintomas & 188.00 & 105.00 & 141.00 & 97.00 & 71.00 & 602.00 \\ 
+  Presença moderada de sintomas & 112.00 & 65.00 & 77.00 & 54.00 & 54.00 & 362.00 \\ 
+  Debilitado & 186.00 & 60.00 & 94.00 & 78.00 & 71.00 & 489.00 \\ 
+  \hline
+Total & 607.00 & 287.00 & 384.00 & 265.00 & 217.00 & 1760.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 
 Proporções estimadas (pelo total de observações) (× 100)
 
