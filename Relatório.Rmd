@@ -64,7 +64,7 @@ Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm]
 \end{flushright}
 
 
-{Campinas}\\[0.2cm]
+{Campinas}\\
 {2020}
 \end{center}
 \end{titlepage}
