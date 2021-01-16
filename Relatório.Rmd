@@ -15,6 +15,13 @@ header-includes:
 - \usepackage[style=abnt]{biblatex}
 - \addbibresource{ref.bib}
 - \usepackage{fontspec}
+- \usepackage{geometry}
+   \geometry{
+   a4paper,
+   total={180mm,240mm},
+   left=15mm,
+   top=20mm,
+   }
 - \setmainfont{Arial}
 link-citations: yes
 ---
