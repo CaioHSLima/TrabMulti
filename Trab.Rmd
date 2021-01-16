@@ -41,7 +41,7 @@ turtleF = turtle %>% filter(sex == "F") %>% dplyr::select(-sex)
 turtleM = turtle %>% filter(sex == "M") %>% dplyr::select(-sex)
 ```
 
-Análise descritiva
+Análise descritiva (comentar o básico dos gráficos)
 
 1) Medidas Resumo
 
@@ -273,6 +273,13 @@ v.n = c(24,24)
 G = 2
 ```
 
+#Olhar Lista3.pdf
+0 - descritiva
+1- não normalidade e nao homocedasticidade e ressalvas e suposições
+2- diferença entre os grupos pela MANOVA
+3 - CBU
+4 - estimações (redução médias FEM)
+
 ```{r,warning = FALSE}
 m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
 
@@ -427,6 +434,14 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 ```
 ACP
 
+
+0 - Descritiva
+1 - Suposições, dois grupos (variaveis tempo e distancia)
+2 - ACP 2 comp 80%
+3 - CP1 para o rank devido ao fato de fazer sentido com a direção das variáveis.
+4 - Abordar novas classificações bem diferentes (12º->6º)
+
+
 ```{r}
 p=7
 m.cor<-cor(hep)
@@ -467,6 +482,12 @@ Lista 6 questão 2
 Análise de correspondência
 
 Dados
+#Lista6.pdf
+
+0 - Explorar perfis linhas e colunas
+1- Teste qui quadrado dependencia
+2- CA
+3 - perfis relacionados da tabela
 
 ```{r}
 `Saúde mental`<- array(c(121,188,112,186,
