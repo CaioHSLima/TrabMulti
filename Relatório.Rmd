@@ -822,33 +822,17 @@ hurdles & 1,00 & -0,81 & -0,65 & 0,77 & -0,91 & -0,01 & 0,78 \\
 
 ## Introdução
 
-Os dados são relacionados a um estudo sobre a relação entre status socioeconômico dos pais com  a condição de saúde mental de um total de 1760 indivíduos. A variável de status socioeconômico possui 5 níveis, de "A" (alto) até "E" (baixo) e a variável de saúde mental possui 4 níveis sendo, do melhor para o pior, "Boa", "Presença fraca de sintomas", "Presença moderada de sintomas" e "Debilitado".
+Os dados foram retirados de um estudo feita para comparar a relação entre status socioeconômico dos pais com a saúde mental dos estudados. As classificações de status foram de A (alto) até E (baixo) e para saúde foram boa, presença fraca de sintomas, presença moderada de sintomas e debilitado. O número de indivíduos testados foi de 1760 indivíduos, distribuídos da seguinte forma:
 
-
-## LETRA A
-
-O modelo probabilístico gerador da tabela de contigência é uma multinomial de tamanho 1760 e 20 categorias.
-```{r}
-`Saúde mental`<- array(c(121,188,112,186,
-                57,105,65,60,
-                72,141,77,94,
-                36,97,54,78,
-                21,71,54,71),
- dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
- ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
-#xtable(addmargins(`Saúde mental`))
-#addmargins(`Saúde mental`)
-chisq.test(`Saúde mental`)
-```
 \begin{table}[H]
 \centering
-\caption{Saúde Mental x Status Socioeconômico}
+\caption{Saúde Mental x Status Socioeconômico dos pais}
 \label{TabCont}
-\begin{tabular}{r|rrrrr|r}
+\begin{tabular}{|l|ccccc|c|}
   \hline
-  & \multicolumn{5}{c}{Status Socioeconômico} & \\
+  & \multicolumn{5}{c|}{\bf{Status Socioeconômico dos pais}} & \\
   \hline
-Saúde Mental & A & B & C & D & E & Total \\ 
+ \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
   \hline
 Boa & 121.00 & 57.00 & 72.00 & 36.00 & 21.00 & 307.00 \\ 
   Presença fraca de sintomas & 188.00 & 105.00 & 141.00 & 97.00 & 71.00 & 602.00 \\ 
@@ -861,33 +845,48 @@ Total & 607.00 & 287.00 & 384.00 & 265.00 & 217.00 & 1760.00 \\
 \end{table}
 
 
-### Proporções estimadas (pelo total de observações) (× 100)
+## LETRA A
+
+O modelo probabilístico gerador da tabela de contigência é uma multinomial de tamanho 1760 e 20 categorias. Considerando $p_{ij}$ a probabilidade de pertencer as categorias $i$ de Saúde Mental e $j$ de Status socioeconômico dos pais, em que $p_{i.} = \sum_{j = 1}^Jp_{ij}$ e $p_{.j} = \sum_{i = 1}^Ip_{ij}$ são as probabilidades marginais de cada unidade amostral pertencer, respectivamente, à categoria $i$ de Saúde Mental e à categoria $j$ de Status socioeconômico dos pais. Há então o interesse de testar a seguinte hipótese:
+
+\begin{equation}
+\label{modeloanovaRCBD}
+\left\{\begin{array}{l}
+H_0: p_{ij} = p_{i.}p_{.j}, \forall \space i,j  \\
+H_1: p_{ij} \neq p_{i.}p_{.j}, \textit{para pelo menos um par (i,j)} 
+\end{array}\right.
+\end{equation}
+
+Ou seja, $H_0$: as variáveis são estatísticamente independentes e $H_1$: caso contrário. Deste modo, sob $H_0$, temos a estatística do teste $Q = \sum_{i=1}^I\sum_{j=1}^J\frac{(X_{ij} - E_{ij})^2}{E_{ij}}$, em que $E_{ij} = \frac{X_{i.}X_{.j}}{X_{..}}$. Sob a suposição de idependência e com tamanho amostral suficiente grande, temos que $Q \approx \chi^2_{(I-1)(J-1)}$.
+
+
+
+```{r}
+`Saúde mental`<- array(c(121,188,112,186,
+                57,105,65,60,
+                72,141,77,94,
+                36,97,54,78,
+                21,71,54,71),
+ dim = c(4, 5), dimnames = list(`Saúde mental` = c("Boa","Presença fraca de sintomas","Presença moderada de sintomas","Debilitado"),
+ ` Status socioeconômico dos pais` = c("A","B","C","D","E")))
+#xtable(addmargins(`Saúde mental`))
+#addmargins(`Saúde mental`)
+teste3 <- chisq.test(`Saúde mental`)
+```
+
+
+Levando em conta um nível de significância de 5%, obteve-se uma estatística do teste $Q = 31,17$ e um p-valor = 0,0002, e rejeitamos então a hipótese de independência entre Saúde Mental e Status Socioeconômico dos pais.
+
+## LETRA B
+
 
 ```{r}
 margins = addmargins(`Saúde mental`)
 #xtable(margins/1760*100)
 ```
 
-\begin{table}[H]
-\centering
-\caption{Proporções estimadas ($\times$100).}
-\label{TabContProp}
-\begin{tabular}{r|rrrrr|r}
-  \hline
-  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
-  \hline
- \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
-  \hline
-  Boa & 6.88 & 3.24 & 4.09 & 2.05 & 1.19 & 17.44 \\ 
-  Presença fraca de sintomas & 10.68 & 5.97 & 8.01 & 5.51 & 4.03 & 34.20 \\ 
-  Presença moderada de sintomas & 6.36 & 3.69 & 4.38 & 3.07 & 3.07 & 20.57 \\ 
-  Debilitado & 10.57 & 3.41 & 5.34 & 4.43 & 4.03 & 27.78 \\ 
-  Total & 34.49 & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
-   \hline
-\end{tabular}
-\end{table}
+Observando a Tabela \ref{PerfLin}, com o perfil de linhas, vemos que em relação as pessoas com saúde mental boa, 39,41%, 18,57% e 23,45% são por terem pais com condições socioeconômicas mais altas A, B e C, respectivamente, que são maiores do que as respectivas proporções na população geral. Do mesmo modo, pessoas com presença fraca de sintomas se destacam em status medianos (B, C e D), pessoas com sintomas moderados nos status B e E, e por fim, pessoas debilitadas são maioria no maior status (A) e nos menores (D e E).
 
-### Perfil das linhas
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -902,9 +901,9 @@ for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
 \centering
 \caption{Perfil de Linhas ($\times$100).}
 \label{PerfLin}
-\begin{tabular}{r|rrrrr|r}
+\begin{tabular}{|l|ccccc|c|}
   \hline
-  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
+  & \multicolumn{5}{c|}{\space \bf{Status Socioeconômico dos pais}} &\\
   \hline
  \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
   \hline
@@ -912,12 +911,12 @@ for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
   Presença fraca de sintomas & 31.23 & \bf{17.44} & \bf{23.42} & \bf{16.11} & 11.79 & 100.00 \\ 
   Presença moderada de sintomas & 30.94 & \bf{17.96} & 21.27 & 14.92 & \bf{14.92} & 100.00 \\ 
   Debilitado & \bf{38.04} & 12.27 & 19.22 & \bf{15.95} & \bf{14.52} & 100.00 \\ 
-  Total & \bf{34.49} & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
+  Total & 34.49 & 16.31 & 21.82 & 15.06 & 12.33 & 100.00 \\ 
    \hline
 \end{tabular}
 \end{table}
 
-### Perfil das Colunas
+Analisando o perfil de colunas na Tabela \ref{PerfCol}, vemos que a maioria das pessoas com pais nos status A possuem saúde mental boa ou debilitada, em relação ao status B com saude mental boa, sintomas fracos ou sintomas moderados, o status C com saúde mental boa ou sinomas fracos, o status D com sintomas fracos ou debilitado, e por fim, no status E a maioria tem sintomas moderados ou estão debilitadas.
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -932,9 +931,9 @@ for (i in 1:col){colunas[,i] = colunas[,i]/sum(colunas[,i])*100}
 \centering
 \caption{Perfil de Colunas ($\times$100).}
 \label{PerfCol}
-\begin{tabular}{r|rrrrr|r}
+\begin{tabular}{|l|ccccc|c|}
   \hline
-  \multicolumn{7}{c}{\bf{Status Socioeconômico}} \\
+  & \multicolumn{5}{c|}{\bf{Status Socioeconômico dos pais}} & \\
   \hline
  \bf{Saúde Mental} & \bf{A} & \bf{B} & \bf{C} & \bf{D} & \bf{E} & \bf{Total} \\ 
   \hline
@@ -946,7 +945,9 @@ Boa & \bf{19.93} & \bf{19.86} & \bf{18.75} & 13.58 & 9.68 & 17.44 \\
    \hline
 \end{tabular}
 \end{table}
-Análise de corresponcência
+
+
+## LETRA C
 
 ```{r}
 resultCA <- ca(`Saúde mental`) # names(resultCA)
@@ -954,23 +955,27 @@ inercia<-summary(resultCA)$scree # names(summary(resultCA))
 #xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
 ```
 
-#### Colocar título e ref
+A Tabela \ref{inercia} apresenta a incércia e a proporção de variabilidade explicada das duas primeiras componentes. Vemos que o percentual de variabilidade explicada pelas duas é de quase 95%, ou seja, explicam muito sobre os dados.
 
 \begin{table}[H]
 \centering
-\caption{Inércia}
+\caption{Inércia e Proporção de Variabilidade Explicada}
+\label{inercia}
 \begin{tabular}{rrrrr}
   \hline
  \bf{Componentes} & \bf{Valor singular} & \bf{Inércia Princ.} & \bf{Percentual} & \bf{Percentual acum.} \\ 
   \hline
-  1 & 0.1023 & 0.0105 & 59.0863 & 59.0863 \\ 
-  2 & 0.0797 & 0.0064 & 35.8758 & 94.9621 \\ 
-  3 & 0.0299 & 0.0009 & 5.0379 & 100.0000 \\ 
+  1 & 0.1023 & 0.0105 & 59.08 & 59.08 \\ 
+  2 & 0.0797 & 0.0064 & 35.87 & 94.96 \\ 
+  3 & 0.0299 & 0.0009 & 5.03 & 100.00 \\ 
    \hline
 \end{tabular}
 \end{table}
 
-```{r,fig.cap="Bi-Plot.\\label{biplot3}", fig.height=4.5}
+Vemos na Figura \ref{biplot3} o gráfico Bi-plot. Podemos dizer que o status A está mais relacionada com saúde mental debilitada que as demais, os status B e C estão mais relacionadas com presença fraca, o status D está mais relacionada à presença moderada e o status E está mais longe da saúde mental boa.
+
+
+```{r,fig.cap="Bi-Plot das duas primeiras componentes.\\label{biplot3}", fig.height=4.5}
 
 # Componentes
 resultFCA <- plot(resultCA,xlab="Componente 1",ylab="Componente 2",
@@ -982,31 +987,7 @@ resultFCA <- plot(resultCA,xlab="Componente 1",ylab="Componente 2",
 ```
 
 
-\begin{table}[H]
-\centering
-\begin{tabular}{l|l|rr}
-  \hline
-   &\bf{Categoria} & \bf{Componente 1} & \bf{Componente 2} \\ 
-  \hline
-  Perfil das Linhas & Boa & 0.1923 & 0.0773 \\ 
-  & Presença fraca de sintomas & 0.0202 & -0.0676 \\ 
-  & Presença moderada de sintomas & -0.0467 & -0.0797 \\ 
-  & Debilitado & -0.1111 & 0.0937 \\
-  \hline
-  Perfil das Colunas & A & 0.0191 & 0.1064 \\ 
-  & B & 0.1153 & -0.0984 \\ 
-  & C & 0.0678 & -0.0423 \\ 
-  & D & -0.0848 & -0.0365 \\ 
-  & E & -0.2222 & -0.0479 \\ 
-   \hline
-\end{tabular}
-\end{table}
 
-
-Classe A está mais relacionada com saúde mental debilitada que as demais.
-Classes B e C estão mais relacionadas com presença fraca
-Classe D está mais relacionada à presença moderada
-Classe E está mais longe da saúde mental BOA
 
 
 
