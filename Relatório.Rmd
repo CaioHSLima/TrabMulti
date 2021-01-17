@@ -1205,6 +1205,8 @@ qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 
 ## Análise Inferencial
 
+A análise discriminante para duas populações foi a metodologia escolhida para a classificação entre diabetes positiva e diabetes negativa. A probabilidade à priori foi definida como a proporção de observações de cada categoria do banco de dados (cerca de 66% sem diabetes e 34% com diabetes). Mais informações sobre a metodologia podem ser encontradas em Azevedo (2020).
+
 #Classificação:
 
 ```{r}
@@ -1238,13 +1240,13 @@ result.ad
 #predizendo os grupos na amostra teste
 
 ```{r}
-pred<-predict(result.ad, m.Indi[-treino, ])$class
+pred <- predict(result.ad, m.Indi[-treino, ])$class
 ```
 
 #Função discriminante
 
 ```{r}
-y <-predict(result.ad, m.Indi[-treino, ])$x 
+y <-predict(result.ad, m.Indi[-treino, ])$x
 ```
 
 
