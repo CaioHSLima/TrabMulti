@@ -69,7 +69,7 @@ library(ca)
 {\Large IMECC - Instituto de Matemática, Estatística e Computação Científica}\\[0.2cm] 
 {\Large Departamento de Estatística}\\[0.2cm]
 {\Large ME731 - Métodos em Análise Multivariada}\\[6.1cm]
-{\bf \Large Trabalho}\\[5.5cm] 
+{\bf \Large Trabalho Final - ME731}\\[5.5cm] 
 
 \begin{flushright}
 { Caio Henrique de Sousa Lima RA 214144\\
@@ -86,11 +86,10 @@ Nathan Blusamarello de Souto RA 222854} \\[5cm]
 \end{titlepage}
 
 # Questão 1
-hist apenas no relatorio, qq e boxplot apendice
 
 ## Introdução
 
-O banco de dados é composto pelo perfil de tamanho e formato de 48 tartarugas, sendo 24 machos e 24 fêmeas.As informações obtidas foram largura, comprimento e altura. O estudo tinha como objetivo observar e comparar o sexo ao qual o animal pertencia e sua relação com essas medidas físicas. Para realizar a análise desse banco, foi utilizado o software estatístico R e aplicado algumas metodologias como a Análise de Variância Multivariada (MANOVA).
+O banco de dados é composto pelo perfil de tamanho e formato de 48 tartarugas, sendo 24 machos e 24 fêmeas. As informações obtidas foram largura, comprimento e altura. O estudo tinha como objetivo observar e comparar o sexo ao qual o animal pertencia e sua relação com essas medidas físicas. Para realizar a análise desse banco, foi utilizado o software estatístico R e aplicado algumas metodologias como a Análise de Variância Multivariada (MANOVA).
 
 ```{r}
 turtle = read_table2("q1.txt") %>% arrange(sex)
@@ -134,19 +133,23 @@ A Tabela \ref{desc} apresenta as medidas resumo das tartarugas, dividas por sexo
 
 \begin{table}[H]
 \centering
-\caption{Medidas resumo (F = Fem, M = Masc)}
+\caption{Medidas resumo}
 \label{desc}
 \begin{tabular}{lrrrrrrrrr}
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
   \hline
-Comprimento (F)& 136,00 & 451,39 & 21,25 & 15,62 & 98,00 & 136,50 & 177,00 & -0,23 & 2,26 \\ 
-  Largura (F)& 102,58 & 171,73 & 13,10 & 12,77 & 81,00 & 102,00 & 132,00 & 0,31 & 2,55 \\ 
-  Altura (F) & 51,96 & 66,65 & 8,16 & 15,71 & 38,00 & 51,00 & 67,00 & -0,03 & 2,19 \\ 
+  \multicolumn{10}{||c||}{Feminino} \\
   \hline
-  Comprimento (M)& 113,38 & 138,77 & 11,78 & 10,39 & 93,00 & 115,00 & 135,00 & -0,08 & 2,10 \\ 
-  Largura (M) & 88,29 & 50,04 & 7,07 & 8,01 & 74,00 & 89,00 & 106,00 & 0,20 & 3,15 \\ 
-  Altura (M) & 40,71 & 11,26 & 3,36 & 8,24 & 35,00 & 40,00 & 47,00 & 0,18 & 2,20 \\ 
+Comprimento & 136,00 & 451,39 & 21,25 & 15,62 & 98,00 & 136,50 & 177,00 & -0,23 & 2,26 \\ 
+  Largura & 102,58 & 171,73 & 13,10 & 12,77 & 81,00 & 102,00 & 132,00 & 0,31 & 2,55 \\ 
+  Altura & 51,96 & 66,65 & 8,16 & 15,71 & 38,00 & 51,00 & 67,00 & -0,03 & 2,19 \\ 
+  \hline
+  \multicolumn{10}{||c||}{Masculino} \\
+  \hline
+  Comprimento & 113,38 & 138,77 & 11,78 & 10,39 & 93,00 & 115,00 & 135,00 & -0,08 & 2,10 \\ 
+  Largura & 88,29 & 50,04 & 7,07 & 8,01 & 74,00 & 89,00 & 106,00 & 0,20 & 3,15 \\ 
+  Altura & 40,71 & 11,26 & 3,36 & 8,24 & 35,00 & 40,00 & 47,00 & 0,18 & 2,20 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -208,12 +211,7 @@ Comprimento & 1,00 & 0,97 & 0,97 & 1,00 & 0,95 & 0,95 \\
 
 Os boxplots da Figura \ref{boxTurtle} mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} e os gráficos quantil-quantil da Figura \ref{qqTurtle} aparentam seguir uma distribuição diferente da normal, visto que não são simetricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
 
-
-
-
 ## Análise inferencial
-
-
 
 ```{r}
 Box.teste.Igual.MCov<-function(m.X.completa,v.grupos,v.n,G)
@@ -384,8 +382,6 @@ v.n = c(24,24)
 G = 2
 ```
 
-
-
 ```{r,warning = FALSE}
 #m.Sigma.P<-Box.teste.Igual.MCov(turtled,v.grupos,v.n,G)$Sigma.P
 #xtable(m.Sigma.P)
@@ -396,7 +392,6 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 #summary.manova(m.ajuste,test="Roy")
 ```
 
-
 Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram serem diferentes entre os sexos, e assim, para observar inferencialmente essa diferença foi realizado um teste de Box. Obteve-se uma estatística de 24,04 e um p-valor de 0.0005, logo temos que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e como visto na Tabela \ref{MANOVA1}, rejeitamos a hipótese dos vetores serem iguais. 
 
 \begin{table}[H]
@@ -404,7 +399,6 @@ Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram sere
 \caption{Resultados da MANOVA}
 \label{MANOVA1}
 \begin{tabular}{rrrr}
-
   \hline
  & Valor & Aproximação pela distribuição F & p-valor \\ 
   \hline
@@ -988,8 +982,7 @@ resultFCA <- plot(resultCA,xlab="Componente 1",ylab="Componente 2",
 
 ```
 
-
-
+\newpage
 
 # Questão 4
 
@@ -1332,6 +1325,11 @@ boxplot(y~grupo,cex=1.2,cex.lab=1.2)
 
 
 ```{r,fig.cap="Densidades estimadas das funções discriminantes.\\label{dendisc}"}
+grupo <- as.character(grupo)
+grupo[grupo == "Negativo"] <- "N"
+grupo[grupo == "Positivo"] <- "P"
+grupo <- factor(grupo, levels = c("N", "P"))
+
 # densidades
 plot(density(y[grupo=="P",1]),lwd=2,xlim=c(min(y[,1])-1,max(y[,1])+3),xlab="função discriminante",ylab="densidade",cex=1.2,cex.lab=1.2,cex.main=1.2,main="",ylim=c(0,0.9))
 lines(density(y[grupo=="N",1]),col=2,lwd=2)
