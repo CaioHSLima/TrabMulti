@@ -140,13 +140,13 @@ A Tabela \ref{desc} apresenta as medidas resumo das tartarugas, dividas por sexo
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
   \hline
-Comprimento (F)& 136.00 & 451.39 & 21.25 & 15.62 & 98.00 & 136.50 & 177.00 & -0.23 & 2.26 \\ 
-  Largura (F)& 102.58 & 171.73 & 13.10 & 12.77 & 81.00 & 102.00 & 132.00 & 0.31 & 2.55 \\ 
-  Altura (F) & 51.96 & 66.65 & 8.16 & 15.71 & 38.00 & 51.00 & 67.00 & -0.03 & 2.19 \\ 
+Comprimento (F)& 136,00 & 451,39 & 21,25 & 15,62 & 98,00 & 136,50 & 177,00 & -0,23 & 2,26 \\ 
+  Largura (F)& 102,58 & 171,73 & 13,10 & 12,77 & 81,00 & 102,00 & 132,00 & 0,31 & 2,55 \\ 
+  Altura (F) & 51,96 & 66,65 & 8,16 & 15,71 & 38,00 & 51,00 & 67,00 & -0,03 & 2,19 \\ 
   \hline
-  Comprimento (M)& 113.38 & 138.77 & 11.78 & 10.39 & 93.00 & 115.00 & 135.00 & -0.08 & 2.10 \\ 
-  Largura (M) & 88.29 & 50.04 & 7.07 & 8.01 & 74.00 & 89.00 & 106.00 & 0.20 & 3.15 \\ 
-  Altura (M) & 40.71 & 11.26 & 3.36 & 8.24 & 35.00 & 40.00 & 47.00 & 0.18 & 2.20 \\ 
+  Comprimento (M)& 113,38 & 138,77 & 11,78 & 10,39 & 93,00 & 115,00 & 135,00 & -0,08 & 2,10 \\ 
+  Largura (M) & 88,29 & 50,04 & 7,07 & 8,01 & 74,00 & 89,00 & 106,00 & 0,20 & 3,15 \\ 
+  Altura (M) & 40,71 & 11,26 & 3,36 & 8,24 & 35,00 & 40,00 & 47,00 & 0,18 & 2,20 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -173,9 +173,9 @@ A matriz de covariância para ambos os sexos, vista na Tabela \ref{covF}, parece
   \hline
  & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\ 
   \hline
-  length & 451.39 & 271.17 & 168.70 & 138.77 & 79.15 & 37.38\\ 
-  width & 271.17 & 171.73 & 103.29 & 79.15 & 50.04 & 21.65\\ 
-  height & 168.70 & 103.29 & 66.65 & 37.38 & 21.65 & 11.26\\ 
+  length & 451,39 & 271,17 & 168,70 & 138,77 & 79,15 & 37,38\\ 
+  width & 271,17 & 171,73 & 103,29 & 79,15 & 50,04 & 21,65\\ 
+  height & 168,70 & 103,29 & 66,65 & 37,38 & 21,65 & 11,26\\ 
    \hline
 \end{tabular}
 \end{table}
@@ -199,9 +199,9 @@ A matriz de covariância para ambos os sexos, vista na Tabela \ref{covF}, parece
   \hline
  & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\  
   \hline
-Comprimento & 1.00 & 0.97 & 0.97 & 1.00 & 0.95 & 0.95 \\  
-  Largura & 0.97 & 1.00 & 0.97 & 0.95 & 1.00 & 0.91 \\ 
-  Altura & 0.97 & 0.97 & 1.00 & 0.95 & 0.91 & 1.00 \\ 
+Comprimento & 1,00 & 0,97 & 0,97 & 1,00 & 0,95 & 0,95 \\  
+  Largura & 0,97 & 1,00 & 0,97 & 0,95 & 1,00 & 0,91 \\ 
+  Altura & 0,97 & 0,97 & 1,00 & 0,95 & 0,91 & 1,00 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -408,10 +408,10 @@ Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram sere
   \hline
  & Valor & Aproximação pela distribuição F & p-valor \\ 
   \hline
-Wilks & 0.41 & 21.28 & $<$ 0.0001 \\ 
-Pillai & 0.59 & 21.28 & $<$ 0.0001 \\ 
-Hotelling-Lawley & 1.45 & 21.28  & $<$ 0.0001 \\ 
-Roy & 1.45 & 21.28 & $<$ 0.0001  \\ 
+Wilks & 0,41 & 21,28 & $<$ 0,0001 \\ 
+Pillai & 0,59 & 21,28 & $<$ 0,0001 \\ 
+Hotelling-Lawley & 1,45 & 21,28  & $<$ 0,0001 \\ 
+Roy & 1,45 & 21,28 & $<$ 0,0001  \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -439,12 +439,12 @@ fit.modelLM <- lm(as.matrix(turtled) ~ sex)
   \hline
  & Estimativa & EP & Estatística t & p-valor \\ 
   \hline
-$\mu_1$ & 136.00 & 3.51 & 38.79 & $<$ 0.0001 \\ 
-  $\mu_2$ & 102.58 & 2.15 & 47.72 & $<$ 0.0001 \\ 
-  $\mu_3$ & 51.96 & 1.27 & 40.78 & $<$ 0.0001 \\ 
- $\alpha_{21}$ & -22.63 & 4.96 & -4.56 & $<$ 0.0001 \\ 
-  $\alpha_{22}$ & -14.29 & 3.04 & -4.70 & $<$ 0.0001 \\ 
-  $\alpha_{23}$ & -11.25 & 1.80 & -6.24 & $<$ 0.0001 \\ 
+$\mu_1$ & 136,00 & 3,51 & 38,79 & $<$ 0,0001 \\ 
+  $\mu_2$ & 102,58 & 2,15 & 47,72 & $<$ 0,0001 \\ 
+  $\mu_3$ & 51,96 & 1,27 & 40,78 & $<$ 0,0001 \\ 
+ $\alpha_{21}$ & -22,63 & 4,96 & -4,56 & $<$ 0,0001 \\ 
+  $\alpha_{22}$ & -14,29 & 3,04 & -4,70 & $<$ 0,0001 \\ 
+  $\alpha_{23}$ & -11,25 & 1,80 & -6,24 & $<$ 0,0001 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -467,9 +467,9 @@ p = 3
   \hline
  Parâmetro &  Estatística Qui-quadrado & p-valor \\ 
   \hline
- $\alpha_{21}$ (Length)  & 20.82 & $<$ 0.0001 \\ 
-  $\alpha_{22}$ (Width) & 22.10 & $<$ 0.0001 \\
-  $\alpha_{23}$ (Height) & 38.99 & $<$ 0.0001 \\
+ $\alpha_{21}$ (Length)  & 20,82 & $<$ 0,0001 \\ 
+  $\alpha_{22}$ (Width) & 22,10 & $<$ 0,0001 \\
+  $\alpha_{23}$ (Height) & 38,99 & $<$ 0,0001 \\
    \hline
 \end{tabular}
 \end{table}
