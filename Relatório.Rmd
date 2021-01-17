@@ -1203,7 +1203,7 @@ data.teste <- m.Indi[-treino,8]
 
 ```{r}
 tc <- table(data.teste,pred)
-#tc
+tc
 #xtable(tc)
 ```
 \begin{table}[ht]
@@ -1268,7 +1268,7 @@ datadados<-data.frame(y,grupo)
 colnames(datadados)<-c("y","dados")
 medados<-ddply(datadados,.(grupo),summarise,media=mean(y),dp=sqrt(var(y)),vari=var(y),minimo=min(y),mediana=quantile(y,0.5),maximo=max(y),n=length(y))
 colnames(medados)<-c("Grupo","Média","DP","Var.","Mínimo","Mediana","Máximo","n")
-xtable(medados)
+#xtable(medados)
 ```
 
 
