@@ -414,7 +414,7 @@ Roy & 1,45 & 21,28 & $<$ 0,0001  \\
 \end{tabular}
 \end{table}
 
-Foi estimado então os parâmetros do Modelo de Regressão Normal Linear Multivariada (MRNLM), dado por $\bf{Y} = \bf{X}\bf{B} + \bf{\xi}$, onde $\bf{Y}$ é a matriz de dados (supõe que $\bf{Y}$ segue uma normal 3-variada), $\bf{X}$ a matriz de planejamento, $\bf{B}$ a matriz parâmetros de regressão e $\xi$ a matriz de erros. Como visto na Tabela \ref{MRNLM}, todas as estimativas foram significativas. Dessa forma, é interessante verificar quais medidas se diferem entre os sexos, e portanto aplicamos um teste CBU. 
+Foi estimado então os parâmetros do Modelo de Regressão Normal Linear Multivariada (MRNLM), dado por $\bf{Y} = \bf{X}\bf{B} + \bf{E}$, onde $\bf{Y}$ é a matriz de dados (supõe que $\bf{Y}$ segue uma normal 3-variada), $\bf{X}$ a matriz de planejamento, $\bf{B}$ a matriz parâmetros de regressão e $\bf{E}$ a matriz de erros. Como visto na Tabela \ref{MRNLM}, todas as estimativas foram significativas. Dessa forma, é interessante verificar quais medidas se diferem entre os sexos, e portanto aplicamos um teste CBU. 
 
 O teste CBU tem as seguintes hipóteses: $H_0: \bf{C}\bf{B}\bf{U} = \bf{M}$ versus $H_1: \bf{C}\bf{B}\bf{U} \neq \bf{M}$. A Tabela \ref{CBUtestes}, mostra que todas as medidas são estatísticasmente diferentes entre os sexos.
 
