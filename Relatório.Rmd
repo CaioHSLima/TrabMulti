@@ -549,7 +549,7 @@ qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xl
 
 \newpage
 
-# Questão 2:
+# Questão 2
 
 ## Introdução
 
@@ -772,7 +772,7 @@ Joyner-Kersee (USA) & 1 & 4,12 & 1 & Braun (FRG) & 14 & -0,00 & 14 \\
 
 ## Conclusão
 
-A partir da classificação pela Análise de Componentes Principais (ACP), foi possível notar que o ranking gerado pelo escore da ACP foi diferente comparado com o ranking original do escore total. Como por exemplo, a atleta Schulz, da República Democrática Alemã, tinha ficado em décimo segundo lugar. Com o ranking feito a partir da primeira componente principal, a mesma atleta ficou em sexto lugar.
+A partir da classificação pela Análise de Componentes Principais (ACP), foi possível notar que o ranking gerado pelo escore da ACP foi diferente comparado com o ranking original do escore total. Como por exemplo, a atleta Schulz, da República Democrática Alemã, tinha ficado em 12º lugar. Com o ranking feito a partir da primeira componente principal, a mesma atleta ficou em 6º lugar.
 
 \subsection*{Referências}
 
@@ -1014,23 +1014,6 @@ indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigre
 
 A Tabela \ref{med_res4} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
 
-A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela \ref{corr4} contém a matriz de correlação das pacientes com e sem diabetes.
-
-As Figuras \ref{box_pos}, \ref{hist_pos} e \ref{qq_pos} contém, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg}, ref{hist_pos} e \ref{qq_neg} possuem, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
-
-```{r}
-SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
-                round(apply(indiP,2,sd),4),
-                round(100*apply(indiP,2,sd)/apply(indiP,2,mean),4),
-                round(apply(indiP,2,min),4),round(apply(indiP,2,quantile,0.5),4),
-                round(apply(indiP,2,max),4),
-                round(apply(indiP,2,skewness),4),
-                round(apply(indiP,2,kurtosis),4))
-colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
-                     "CA","Cur.")
-#xtable(SumIP)
-#SumIP
-```
 
 \begin{table}[H]
 \centering
@@ -1063,6 +1046,25 @@ Gravidez & 4,47 & 15,34 & 3,92 & 87,62 & 0,00 & 3,00 & 17,00 & 0,81 & 2,91 \\
 \end{tabular}
 \end{table}
 
+Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela \ref{corr4} contém a matriz de correlação das pacientes com e sem diabetes.
+
+As Figuras \ref{box_pos}, \ref{hist_pos} e \ref{qq_pos} contém, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg}, ref{hist_pos} e \ref{qq_neg} possuem, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
+
+```{r}
+SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
+                round(apply(indiP,2,sd),4),
+                round(100*apply(indiP,2,sd)/apply(indiP,2,mean),4),
+                round(apply(indiP,2,min),4),round(apply(indiP,2,quantile,0.5),4),
+                round(apply(indiP,2,max),4),
+                round(apply(indiP,2,skewness),4),
+                round(apply(indiP,2,kurtosis),4))
+colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
+                     "CA","Cur.")
+#xtable(SumIP)
+#SumIP
+```
+
+
 ```{r}
 SumIN<- cbind(round(apply(indiN,2,mean),4),round(apply(indiN,2,var),4),
                 round(apply(indiN,2,sd),4),
@@ -1078,11 +1080,11 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 ```
 
 ```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes positivo.\\label{disp_pos}"}
-plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
+#plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
 ```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes negativo.\\label{disp_neg}"}
-plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
+#plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
 ```{r}
@@ -1124,28 +1126,6 @@ Gravidez & 1,00 & 0,02 & 0,18 & -0,07 & -0,00 & -0,19 & 0,60 \\
 \end{table}
 
 
-```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes positivo.\\label{box_pos}"}
-par(mfrow=c(2,4))
-boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez (P)")
-boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose (P)")
-boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão (P)")
-boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps (P)")
-boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (P)")
-boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC (P)")
-boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade (P)")
-```
-
-```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes negativo.\\label{box_neg}"}
-par(mfrow = c(2,4))
-boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez (N)")
-boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose (N)")
-boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão (N)")
-boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps (N)")
-boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (N)")
-boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
-boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
-```
-
 ```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes positivo.\\label{hist_pos}"}
 par(mfrow=c(2,4))
 hist(indiP[,1],probability=TRUE,main="Gravidez (P)",xlab="",ylab="")
@@ -1168,27 +1148,6 @@ hist(indiN[,6],probability=TRUE,main="IMC (N)",xlab="",ylab="")
 hist(indiN[,7],probability=TRUE,main="Idade (N)",xlab="",ylab="")
 ```
 
-```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_pos}"}
-par(mfrow=c(2,4))
-qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2) %>% invisible()
-```
-
-```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_neg}"}
-par(mfrow=c(2,4))
-qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2) %>% invisible()
-```
 
 ## Análise Inferencial
 
@@ -1309,7 +1268,7 @@ colnames(medados)<-c("Grupo","Média","DP","Var.","Mínimo","Mediana","Máximo",
 #xtable(medados)
 ```
 
-A Tabela \ref{discmed} contém as medidas resumo das funções discriminantes. O grupo positivo tem a média negativa para a função discriminante, enquanto que o grupo positivo tem a média positiva. Nas Figuras \ref{boxdisc} e \ref{dendisc} temos os boxplot das funções discriminantes e as densidades estimadas das funções discriminantes, respectivamente. Através delas podemos notar que grande parte dos valores das funções discriminantes estão sobrepostos. Com isso, a classificação se torna confusa, obtendo a taxa de erro aparente e taxa de erro ótimo altos.
+A Tabela \ref{discmed} contém as medidas resumo das funções discriminantes. O grupo positivo tem a média negativa para a função discriminante, enquanto que o grupo negativo tem a média positiva. Na Figura \ref{dendisc} temos os boxplots das funções discriminantes (A) e as densidades estimadas das funções discriminantes (B), respectivamente. Através delas podemos notar que grande parte dos valores das funções discriminantes estão sobrepostos. Com isso, a classificação se torna confusa, obtendo a taxa de erro aparente e taxa de erro ótimo altos.
 
 \begin{table}[ht]
 \centering
@@ -1325,36 +1284,42 @@ A Tabela \ref{discmed} contém as medidas resumo das funções discriminantes. O
 \end{tabular}
 \end{table}
 
-```{r,fig.cap="Boxplots das funções discriminantes.\\label{boxdisc}"}
-# boxplot
+
+```{r,fig.cap="Boxplots (A) e Densidades estimadas (B) das funções discriminantes.\\label{dendisc}", fig.height = 3, fig.width= 8}
+
 grupo <- as.character(grupo)
 grupo[grupo == "N"] <- "Negativo"
 grupo[grupo == "P"] <- "Positivo"
 grupo <- factor(grupo, levels = c("Negativo", "Positivo"))
-par(mfrow=c(1,1))
-boxplot(y~grupo,cex=1.2,cex.lab=1.2)
+par(mfrow=c(1,2))
+boxplot(y~grupo,cex=1.2,cex.lab=1.2, main ="A" )
 #
-```
 
-
-```{r,fig.cap="Densidades estimadas das funções discriminantes.\\label{dendisc}"}
 grupo <- as.character(grupo)
 grupo[grupo == "Negativo"] <- "N"
 grupo[grupo == "Positivo"] <- "P"
 grupo <- factor(grupo, levels = c("N", "P"))
 
 # densidades
-plot(density(y[grupo=="P",1]),lwd=2,xlim=c(min(y[,1])-1,max(y[,1])+3),xlab="função discriminante",ylab="densidade",cex=1.2,cex.lab=1.2,cex.main=1.2,main="",ylim=c(0,0.9))
+plot(density(y[grupo=="P",1]),lwd=2,xlim=c(min(y[,1])-1,max(y[,1])+3),xlab="função discriminante",ylab="densidade",cex=1.2,cex.lab=1.2,cex.main=1.2,main="B",ylim=c(0,0.9))
 lines(density(y[grupo=="N",1]),col=2,lwd=2)
-legend(2,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex=1.2)
+legend(2,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex=0.6)
 
 #hist(y[grupo=="P"],probability=TRUE,cex=1.2,cex.lab=1.2)
 #hist(y[grupo=="N"],probability=TRUE,cex=1.2,cex.lab=1.2)
 ```
 
+## Conclusão
+
+Com a função discriminante calculada, para ambos os grupos, é possível realizar a classificação entre os mesmos. Como visto em Azevedo (2020), quanto maior forem as diferenças entre os vetores de médias dos grupos, temos que a probabilidade total de classificação incorreta (PTCI) diminuirá e quanto menor a diferença entre o vetor de médias, maior será a PTCI. 
+
+Portanto, para o conjunto de dados em questão, como os vetores de médias são semelhantes, como visto na Tabela \ref{med_res4}, a classificação não ficará muito alta e apresentará TEA e TOE relativamente altas.
+
 \subsection*{Referências}
 
 \textit{Azevedo, C. L. N. (2020). Notas de aula sobre análise discriminante} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
+
+\newpage
 
 ## Apêndice
 
@@ -1365,37 +1330,48 @@ legend(2,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex=1
 #Box.teste.Igual.MCov(dplyr::select(dplyr::arrange(indi, diabetes), -diabetes), v.grupos = as.vector(cbind(as.numeric(factor(indi$diabetes)))), v.n = c(262,130), G = 2)
 ```
 
-\begin{table}[H]
-\centering
-\caption{Matriz de covariâncias dos pacientes com diabetes positivo}
-\label{cov4}
-\begin{tabular}{rrrrrrrr}
-  \hline
-  \multicolumn{8}{||c||}{Positivo} \\
-  \hline
- & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\ 
-  \hline
-Gravidez & 15,34 & 2,17 & 9,00 & -2,67 & -1,73 & -4,90 & 25,19 \\ 
-  Glicose & 2,17 & 890,39 & 35,98 & 10,82 & 1576,11 & -5,35 & 60,11 \\ 
-  Pressão & 9,00 & 35,98 & 169,56 & 19,72 & -126,61 & 17,02 & 37,49 \\ 
-  Tríceps & -2,67 & 10,82 & 19,72 & 92,98 & 66,34 & 38,44 & -12,60 \\ 
-  Insulina & -1,73 & 1576,11 & -126,61 & 66,34 & 17609,26 & -17,50 & 310,66 \\ 
-  Massa & -4,90 & -5,35 & 17,02 & 38,44 & -17,50 & 45,36 & -12,63 \\ 
-  Idade & 25,19 & 60,11 & 37,49 & -12,60 & 310,66 & -12,63 & 113,10 \\
-  \hline
-  \multicolumn{8}{||c||}{Negativo} \\
-  \hline
-  & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\
-  \hline
-  Gravidez & 6,85 & 8,72 & 5,41 & 2,71 & 1,80 & -0,78 & 16,48 \\ 
-  Glicose & 8,72 & 607,23 & 46,15 & 27,16 & 1560,34 & 25,46 & 47,03 \\ 
-  Pressão & 5,41 & 46,15 & 141,44 & 26,33 & 152,53 & 24,79 & 25,86 \\ 
-  Tríceps & 2,71 & 27,16 & 26,33 & 108,87 & 163,90 & 46,90 & 18,76 \\ 
-  Insulina & 1,80 & 1560,34 & 152,53 & 163,90 & 10532,13 & 190,04 & 48,66 \\ 
-  Massa & -0,78 & 25,46 & 24,79 & 46,90 & 190,04 & 46,17 & 3,56 \\ 
-  Idade & 16,48 & 47,03 & 25,86 & 18,76 & 48,66 & 3,56 & 80,80 \\
-   \hline
-\end{tabular}
-\end{table}
+```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes positivo.\\label{box_pos}"}
+par(mfrow=c(2,4))
+boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez (P)")
+boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose (P)")
+boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão (P)")
+boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps (P)")
+boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (P)")
+boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC (P)")
+boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade (P)")
+```
+
+```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes negativo.\\label{box_neg}"}
+par(mfrow = c(2,4))
+boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez (N)")
+boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose (N)")
+boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão (N)")
+boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps (N)")
+boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (N)")
+boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
+boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
+```
+
+```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_pos}"}
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2) %>% invisible()
+```
+
+```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_neg}"}
+par(mfrow=c(2,4))
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2) %>% invisible()
+```
 
 
