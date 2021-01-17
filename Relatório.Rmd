@@ -76,8 +76,7 @@ library(ca)
 { Caio Henrique de Sousa Lima RA 214144\\
 Carlos Eduardo Lima Kamioka RA 168624 \\ 
 Giovanni Torres Chaves RA 198105\\
-Júlio Mendes Pazelli RA 219494\\
-Nathan Brusamarello de Souto RA 222854} \\[4.5cm] 
+Júlio Mendes Pazelli RA 219494} \\[4.5cm] 
 \end{flushright}
 
 
