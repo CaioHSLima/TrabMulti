@@ -1356,7 +1356,7 @@ Portanto, para o conjunto de dados em questão, como os vetores de médias são 
 
 \newpage
 
-## Apêndice
+\subsection*{Apêndice}
 
 ```{r}
 #xtable(cov(indiP))
