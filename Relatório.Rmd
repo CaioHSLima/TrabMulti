@@ -1023,14 +1023,11 @@ indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigre
 
 ## Análise descritiva
 
-A Tabela \ref{med_pos} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
+A Tabela \ref{med} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
 
-A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos no-
-tar correlações positivas e correlações negativas entre as variáveis. A Tabela 8 contem a matriz
-de covariância dos resultados de cada prova. Podemos notar que as provas de corrida são ne-
-gativamente correlacionadas com as provas de desempenho medidas em metros. A mesma coisa
-acontece comparando a covariância entre as provas de desempenho medidas em metros com as
-provas de corrida.
+A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela...
+
+As Figuras \ref{box_pos}, \ref{hist_pos} e \ref{qq_pos} contém, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg}, ref{hist_pos} e \ref{qq_neg} possuem, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
 
 ```{r}
 SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
@@ -1049,7 +1046,7 @@ colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 \begin{table}[H]
 \centering
 \caption{Medidas resumo das variáveis dos pacientes com diabetes positivo e negativo}
-\label{med_pos}
+\label{med}
 \begin{tabular}{rrrrrrrrrr}
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
@@ -1091,25 +1088,16 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #SumIN
 ```
 
-2)Diagrama de dispersão
-
-
-
-Positivo
 
 ```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes positivo.\\label{disp_pos}"}
 plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
-Negativo
-
 ```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes negativo.\\label{disp_neg}"}
 plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
-3) Matriz de covariâncias
 
-Positivo
 
 ```{r}
 #xtable(cov(indiP))
