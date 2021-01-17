@@ -213,7 +213,7 @@ Comprimento & 1,00 & 0,97 & 0,97 & 1,00 & 0,95 & 0,95 \\
 \end{tabular}
 \end{table}
 
-Os boxplots da Figura \ref{boxTurtle} (Apêndice) mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} (Apêndice) e os gráficos quantil-quantil da Figura \ref{qqTurtle} (Apêndice) aparentam seguir uma distribuição diferente da normal, visto que não são simetricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
+Os boxplots da Figura \ref{boxTurtle} (Apêndice) mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} (Apêndice) e os gráficos quantil-quantil da Figura \ref{qqTurtle} (Apêndice) aparentam seguir uma distribuição diferente da normal, visto que não são simétricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
 
 ## Análise inferencial
 
@@ -396,7 +396,7 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 #summary.manova(m.ajuste,test="Roy")
 ```
 
-Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram serem diferentes entre os sexos, e assim, para observar inferencialmente essa diferença foi realizado um teste de Box. Obteve-se uma estatística de 24,04 e um p-valor de 0.0005, logo temos que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e como visto na Tabela \ref{MANOVA1}, rejeitamos a hipótese dos vetores serem iguais. 
+Como visto na Análise Descritiva, as matrizes de covariâncias aparentam serem diferentes entre os sexos, e assim, para observar inferencialmente essa diferença foi realizado um teste de Box. Obteve-se uma estatística de 24,04 e um p-valor de 0.0005, logo temos que as matrizes realmente são diferentes. Após isso, foi realizada uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e como visto na Tabela \ref{MANOVA1}, rejeitamos a hipótese dos vetores serem iguais. 
 
 \begin{table}[H]
 \centering
@@ -416,7 +416,7 @@ Roy & 1,45 & 21,28 & $<$ 0,0001  \\
 
 Foi estimado então os parâmetros do Modelo de Regressão Normal Linear Multivariada (MRNLM), dado por $\bf{Y} = \bf{X}\bf{B} + \bf{E}$, onde $\bf{Y}$ é a matriz de dados (supõe que $\bf{Y}$ segue uma normal 3-variada), $\bf{X}$ a matriz de planejamento, $\bf{B}$ a matriz parâmetros de regressão e $\bf{E}$ a matriz de erros. Como visto na Tabela \ref{MRNLM}, todas as estimativas foram significativas. Dessa forma, é interessante verificar quais medidas se diferem entre os sexos, e portanto aplicamos um teste CBU. 
 
-O teste CBU tem as seguintes hipóteses: $H_0: \bf{C}\bf{B}\bf{U} = \bf{M}$ versus $H_1: \bf{C}\bf{B}\bf{U} \neq \bf{M}$. A Tabela \ref{CBUtestes}, mostra que todas as medidas são estatísticasmente diferentes entre os sexos.
+O teste CBU tem as seguintes hipóteses: $H_0: \bf{C}\bf{B}\bf{U} = \bf{M}$ versus $H_1: \bf{C}\bf{B}\bf{U} \neq \bf{M}$. A Tabela \ref{CBUtestes}, mostra que todas as medidas são estatisticamente diferentes entre os sexos.
 
 ```{r}
 aux<-summary.aov(m.ajuste)
@@ -506,7 +506,7 @@ gen.graf.resid(turtled %>% as.matrix(), fit.model, 3, "univariate", "diagnostics
 
 ## Conclusão
 
-Utilizando a metodologia MRNLM e o teste CBU, concluimos que as médias entre os sexos para todas as variáveis são diferentes. Porém, como as suposições do modelo não foram satisfeitas, essa conclusão pode ser falsa. É necessário, então, um outro tipo de análise para melhores conclusões.
+Utilizando a metodologia MRNLM e o teste CBU, concluímos que as médias entre os sexos para todas as variáveis são diferentes. Porém, como as suposições do modelo não foram satisfeitas, essa conclusão pode ser falsa. É necessário, então, um outro tipo de análise para melhores conclusões.
 
 \subsection*{Referências}
 
@@ -559,7 +559,7 @@ qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xl
 
 ## Introdução
 
-O banco de dados é composto pelos resultados de 25 atletas em provas que compõem o heptatlo, nas olímpiadas de 1988, em Seul. São 7 resultados de cada prova do heptatlo e o escore total na competição. O estudo tem como objetivo utilizar a metodologia das componentes principais para caracterizar as atletas, com relação as variáveis medidas. Para realizar a análise desse banco, foi utilizado o software estatístico R (R Core Team (2020)), realizando uma análise descritiva com o auxílio dos pacotes \textit{Tidyverse} (Wickham et al. (2019)) e \textit{Corrplot} (Taiyun Wei and Viliam Simko (2017)), e aplicando as metodologias necessárias.
+O banco de dados é composto pelos resultados de 25 atletas em provas que compõem o heptatlo, nas olimpíadas de 1988, em Seul. São 7 resultados de cada prova do heptatlo e o escore total na competição. O estudo tem como objetivo utilizar a metodologia das componentes principais para caracterizar as atletas, com relação às variáveis medidas. Para realizar a análise desse banco, foi utilizado o software estatístico R (R Core Team (2020)), realizando uma análise descritiva com o auxílio dos pacotes \textit{Tidyverse} (Wickham et al. (2019)) e \textit{Corrplot} (Taiyun Wei and Viliam Simko (2017)), e aplicando as metodologias necessárias.
 
 ```{r}
 hep = heptathlon[,1:7]
@@ -568,9 +568,9 @@ nvar <- 8
 
 ## Análise descritiva
 
-Antes de iniciar nossa análise, foi retirado a variável escore total. O motivo da remoção, foi devido ao fato de que a variável é, de certa forma, uma combinação linear das outras variáveis. Podendo trazer viés para o futuro rank gerado.
+Antes de iniciar nossa análise, foi retirado a variável escore total. O motivo da remoção foi devido ao fato de que a variável é, de certa forma, uma combinação linear das outras variáveis. Podendo trazer viés para o futuro rank gerado.
 
-A Tabela \ref{med_res2} contem as medidas resumo dos resultados das provas. Podemos notar que a maioria das variáveis não tem uma curtose ideal (próxima de 3) e que os coeficientes de assimetria também não foram ideais. Também é possível notar que para as provas shot, javelin e run800m, os resultados das atletas foram mais dispersos comparado com as outras variáveis.
+A Tabela \ref{med_res2} contém as medidas resumo dos resultados das provas. Podemos notar que a maioria das variáveis não tem uma curtose ideal (próxima de 3) e que os coeficientes de assimetria também não foram ideais. Também é possível notar que para as provas shot, javelin e run800m, os resultados das atletas foram mais dispersos comparado com as outras variáveis.
 
 ```{r}
 SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
@@ -604,9 +604,9 @@ hurdles & 13,84 & 0,54 & 0,74 & 5,32 & 12,69 & 13,75 & 16,42 & 1,65 & 7,22 \\
 \end{tabular}
 \end{table}
 
-A Figura \ref{disp2} contém a matriz de gráfico de dispersões dos resultados de cada prova. Podemos notar correlações positivas e correlações negativas entre as variáveis. As Tabelas \ref{cov2} e \ref{corr2} contém a matriz de covariâncias e a matriz de correlações dos resultados de cada prova. Podemos notar que as provas de corrida são negativamente correlacionadas com as provas de desempenho medidas em metros. A mesma coisa acontece comparando a covariância entre as provas de desempenho medidas em metros com as provas de corrida.
+A Figura \ref{disp2} contém a matriz de gráfico de dispersão dos resultados de cada prova. Podemos notar correlações positivas e correlações negativas entre as variáveis. As Tabelas \ref{cov2} e \ref{corr2} contém a matriz de covariâncias e a matriz de correlações dos resultados de cada prova. Podemos notar que as provas de corrida são negativamente correlacionadas com as provas de desempenho medidas em metros. A mesma coisa acontece comparando a covariância entre as provas de desempenho medidas em metros com as provas de corrida.
 
-```{r,fig.cap="Matriz de gráfico de dispersões entre as variáveis.\\label{disp2}"}
+```{r,fig.cap="Matriz de gráfico de dispersão entre as variáveis.\\label{disp2}"}
 plot(hep,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
@@ -658,13 +658,13 @@ hurdles & 1,00 & -0,81 & -0,65 & 0,77 & -0,91 & -0,01 & 0,78 \\
 \end{tabular}
 \end{table}
 
-As Figuras \ref{box2}, \ref{hist2} e \ref{qq2} (estão no Apêndice) contém os boxplots, os histogramas e os QQplots dos resultados de cada prova, respectivamente. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada. Já a Figura \ref{correlo2} (Apêndice) contém o correlograma dos resultados de cada prova. Nele, reforça-se a ideia de que as provas de corrida pertencem a um grupo e as provas de desempenho medidas em distância a outro. Ou seja, a correlações entre provas de grupos distintos são negativas e, correlações do mesmo grupo, positivas.
+As Figuras \ref{box2}, \ref{hist2} e \ref{qq2} (estão no Apêndice) contém os boxplots, os histogramas e os QQplots dos resultados de cada prova, respectivamente. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada. Já a Figura \ref{correlo2} (Apêndice) contém o correlograma dos resultados de cada prova. Nele, reforça-se a ideia de que as provas de corrida pertencem a um grupo e as provas de desempenho medidas em distância a outro. Ou seja, as correlações entre provas de grupos distintos são negativas e, correlações do mesmo grupo, positivas.
 
 ## Análise inferencial
 
-O objetivo principal da análise é classificar os atletas, com relação as variáveis medidas, bem como reduzir a dimensão dos dados, para futuras análises. A metodologia utilizada para a devida classificação foi a Análise de Componentes Principais, veja mais em Azevedo, C. L. N. (2020).
+O objetivo principal da análise é classificar os atletas, com relação às variáveis medidas, bem como reduzir a dimensão dos dados, para futuras análises. A metodologia utilizada para a devida classificação foi a Análise de Componentes Principais, veja mais em Azevedo, C. L. N. (2020).
 
-Podemos ver pela Figura \ref{scree} e Tabela \ref{var_exp} que duas componentes principais explicam, aproximadamente, 80\% da variabilidade dos dados. Com isso, como podemos ver na Tabela \ref{comp2}, foram retidas apenas duas componentes. Nessa tabela, também é possível ver que para criar o rank, a componente principal mais indicada é a primeira, pois é um contraste entre os resultados das provas de tempo e distância, o que reforça as correlações encontradas anteriormente. Os pesos das provas de corrida são positivos, já os pesos das provas de desempenho medidas em distância são negativos. Como estamos utilizando a matriz de correlações, os resultados do desempenho de cada atleta estão padronizados. Ou seja, para variáveis de tempo, atletas com valores negativos (tempo abaixo da média) possuem um desempenho melhor. Para as variáveis de distância, atletas com valores negativos (distância abaixo da média) possuem um desempenho pior. Com isso, os atletas que se destacaram no heptatlo teriam um escore menor. Portanto, para melhor interpretabilidade do escore, o mesmo foi multiplicado por -1, pois, desta forma, atletas com escore mais alto tiveram um desempenho melhor.
+Podemos ver pela Figura \ref{scree} e Tabela \ref{var_exp} que duas componentes principais explicam, aproximadamente, 80\% da variabilidade dos dados. Com isso, como podemos ver na Tabela \ref{comp2}, foram retidas apenas duas componentes. Nessa tabela, também é possível ver que para criar o rank, a componente principal mais indicada é a primeira, pois é um contraste entre os resultados das provas de tempo e distância, o que reforça as correlações encontradas anteriormente. Os pesos das provas de corrida são positivos, já os pesos das provas de desempenho medidas em distância são negativos. Como estamos utilizando a matriz de correlações, os resultados do desempenho de cada atleta estão padronizados. Ou seja, para variáveis de tempo, atletas com valores negativos (tempo abaixo da média) possuem um desempenho melhor. Para as variáveis de distância, atletas com valores negativos (distância abaixo da média) possuem um desempenho pior. Com isso, os atletas que se destacaram no heptatlo teriam um escore menor. Portanto, para melhor interpretação do escore, o mesmo foi multiplicado por -1, pois, desta forma, atletas com escore mais alto tiveram um desempenho melhor.
 
 Os resultados estão na Tabela \ref{rank}. Podemos ver que o rank para algumas atletas foi alterado com a análise de componentes principais.
 
@@ -843,7 +843,7 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 
 ## Introdução
 
-Os dados foram retirados de um estudo feita para comparar a relação entre status socioeconômico dos pais com a saúde mental dos estudados. As classificações de status foram de A (alto) até E (baixo) e para saúde foram boa, presença fraca de sintomas, presença moderada de sintomas e debilitado. O número de indivíduos testados foi de 1760 indivíduos, distribuídos da seguinte forma:
+Os dados foram retirados de um estudo feito para comparar a relação entre status socioeconômico dos pais com a saúde mental dos estudantes. As classificações de status foram de A (alto) até E (baixo) e para saúde foram boa, presença fraca de sintomas, presença moderada de sintomas e debilitado. O número de indivíduos testados foi de 1760 indivíduos, distribuídos da seguinte forma:
 
 \begin{table}[H]
 \centering
@@ -869,7 +869,7 @@ Para realizar a análise desse banco, foi utilizado o software estatístico R (R
 
 ## LETRA A
 
-O modelo probabilístico gerador da tabela de contigência é uma multinomial de tamanho 1760 e 20 categorias. Considerando $p_{ij}$ a probabilidade de pertencer as categorias $i$ de Saúde Mental e $j$ de Status socioeconômico dos pais, em que $p_{i.} = \sum_{j = 1}^Jp_{ij}$ e $p_{.j} = \sum_{i = 1}^Ip_{ij}$ são as probabilidades marginais de cada unidade amostral pertencer, respectivamente, à categoria $i$ de Saúde Mental e à categoria $j$ de Status socioeconômico dos pais. Há então o interesse de testar a seguinte hipótese:
+O modelo probabilístico gerador da tabela de contingência é uma multinomial de tamanho 1760 e 20 categorias. Considerando $p_{ij}$ a probabilidade de pertencer às categorias $i$ de Saúde Mental e $j$ de Status socioeconômico dos pais, em que $p_{i.} = \sum_{j = 1}^Jp_{ij}$ e $p_{.j} = \sum_{i = 1}^Ip_{ij}$ são as probabilidades marginais de cada unidade amostral pertencer, respectivamente, à categoria $i$ de Saúde Mental e à categoria $j$ de Status socioeconômico dos pais. Há então o interesse de testar a seguinte hipótese:
 
 \begin{equation}
 \label{modeloanovaRCBD}
@@ -879,7 +879,7 @@ H_1: p_{ij} \neq p_{i.}p_{.j}, \textit{para pelo menos um par (i,j)}
 \end{array}\right.
 \end{equation}
 
-Ou seja, $H_0$: as variáveis são estatísticamente independentes e $H_1$: caso contrário. Deste modo, sob $H_0$, temos a estatística do teste $Q = \sum_{i=1}^I\sum_{j=1}^J\frac{(X_{ij} - E_{ij})^2}{E_{ij}}$, em que $E_{ij} = \frac{X_{i.}X_{.j}}{X_{..}}$. Sob a suposição de idependência e com tamanho amostral suficiente grande, temos que $Q \approx \chi^2_{(I-1)(J-1)}$. Mais informações sobre a metodologia podem ser encontradas em Azevedo (2020).
+Ou seja, $H_0$: as variáveis são estatisticamente independentes e $H_1$: caso contrário. Deste modo, sob $H_0$, temos a estatística do teste $Q = \sum_{i=1}^I\sum_{j=1}^J\frac{(X_{ij} - E_{ij})^2}{E_{ij}}$, em que $E_{ij} = \frac{X_{i.}X_{.j}}{X_{..}}$. Sob a suposição de independência e com tamanho amostral suficientemente grande, temos que $Q \approx \chi^2_{(I-1)(J-1)}$. Mais informações sobre a metodologia podem ser encontradas em Azevedo (2020).
 
 
 
@@ -938,7 +938,7 @@ for (i in 1:lin){linhas[i,] = linhas[i,]/sum(linhas[i,])*100}
 \end{tabular}
 \end{table}
 
-Analisando o perfil de colunas na Tabela \ref{PerfCol}, vemos que a maioria das pessoas com pais nos status A possuem saúde mental boa ou debilitada, em relação ao status B com saude mental boa, sintomas fracos ou sintomas moderados, o status C com saúde mental boa ou sinomas fracos, o status D com sintomas fracos ou debilitado, e por fim, no status E a maioria tem sintomas moderados ou estão debilitadas.
+Analisando o perfil de colunas na Tabela \ref{PerfCol}, vemos que a maioria das pessoas com pais nos status A possuem saúde mental boa ou debilitada, em relação ao status B com saúde mental boa, sintomas fracos ou sintomas moderados, o status C com saúde mental boa ou sintomas fracos, o status D com sintomas fracos ou debilitado, e por fim, no status E a maioria tem sintomas moderados ou estão debilitadas.
 
 ```{r}
 n = sum(`Saúde mental`)
@@ -977,7 +977,7 @@ inercia<-summary(resultCA)$scree # names(summary(resultCA))
 #xtable(cbind(sqrt(inercia[,2]), inercia[,2],inercia[,3],inercia[,4]),digits=4)
 ```
 
-A Tabela \ref{inercia} apresenta a incércia e a proporção de variabilidade explicada das duas primeiras componentes. Vemos que o percentual de variabilidade explicada pelas duas é de quase 95%, ou seja, explicam muito sobre os dados.
+A Tabela \ref{inercia} apresenta a inércia e a proporção de variabilidade explicada das duas primeiras componentes. Vemos que o percentual de variabilidade explicada pelas duas é de quase 95%, ou seja, explicam muito sobre os dados.
 
 \begin{table}[H]
 \centering
@@ -994,7 +994,7 @@ A Tabela \ref{inercia} apresenta a incércia e a proporção de variabilidade ex
 \end{tabular}
 \end{table}
 
-Vemos na Figura \ref{biplot3} o gráfico Bi-plot. Podemos dizer que o status A está mais relacionada com saúde mental debilitada que as demais, os status B e C estão mais relacionadas com presença fraca, o status D está mais relacionada à presença moderada e o status E está mais longe da saúde mental boa.
+Vemos na Figura \ref{biplot3} o gráfico Bi-plot. Podemos dizer que o status A está mais relacionado com saúde mental debilitada que as demais, os status B e C estão mais relacionados com presença fraca, o status D está mais relacionado à presença moderada e o status E está mais longe da saúde mental boa.
 
 
 ```{r,fig.cap="Bi-Plot das duas primeiras componentes.\\label{biplot3}", fig.height=4.5}
@@ -1073,7 +1073,7 @@ Gravidez & 4,47 & 15,34 & 3,92 & 87,62 & 0,00 & 3,00 & 17,00 & 0,81 & 2,91 \\
 
 Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela \ref{corr4} contém a matriz de correlação das pacientes com e sem diabetes.
 
-As Figuras \ref{box_pos} e \ref{qq_pos}, que estão no Apêndice e a Figura \ref{hist_pos} contém, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg} e \ref{qq_neg}, que estão no Apêndice e a Figura \ref{hist_neg} contém, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
+As Figuras \ref{box_pos} e \ref{qq_pos}, que estão no Apêndice e a Figura \ref{hist_pos} contêm, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg} e \ref{qq_neg}, que estão no Apêndice e a Figura \ref{hist_neg} contém, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
 
 ```{r}
 SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
@@ -1104,11 +1104,11 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #SumIN
 ```
 
-```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes positivo.\\label{disp_pos}"}
+```{r,fig.cap="Matriz de gráfico de dispersão dos pacientes com diabetes positivo.\\label{disp_pos}"}
 #plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
-```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes negativo.\\label{disp_neg}"}
+```{r,fig.cap="Matriz de gráfico de dispersão dos pacientes com diabetes negativo.\\label{disp_neg}"}
 #plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
@@ -1176,7 +1176,7 @@ hist(indiN[,7],probability=TRUE,main="Idade",xlab="",ylab="")
 
 ## Análise Inferencial
 
-A análise discriminante para duas populações foi a metodologia escolhida para a classificação entre diabetes positiva e diabetes negativa. Sabe-se que existem suposições para o modelo. Dois metódos equivalentes, um que supõe normalidade multivariada e homocedasticidade entre as duas populações e outro que somente supõe homocedasticidade entre as duas populações (Método de Fisher).
+A análise discriminante para duas populações foi a metodologia escolhida para a classificação entre diabetes positiva e diabetes negativa. Sabe-se que existem suposições para o modelo. Dois métodos equivalentes, um que supõe normalidade multivariada e homocedasticidade entre as duas populações e outro que somente supõe homocedasticidade entre as duas populações (Método de Fisher).
 
 Um teste de homocedasticidade, com nível de significância de 0,05, retornou um p-valor de, aproximadamente, 0,0228. Portanto, rejeitamos a hipótese de homocedasticidade entre as duas populações. 
 
@@ -1371,7 +1371,7 @@ boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez")
 boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose")
 boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão")
 boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps")
-boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulinaa")
+boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulina")
 boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC")
 boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade")
 ```
@@ -1408,5 +1408,6 @@ qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC",cex=1.2) %>% invisible()
 qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade",cex=1.2) %>% invisible()
 ```
+
 
 
