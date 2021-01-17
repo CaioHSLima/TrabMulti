@@ -72,11 +72,11 @@ library(ca)
 {\bf \Large Trabalho}\\[5.5cm] 
 
 \begin{flushright}
-{ Carlos Caminho Oco RA 168624 \\ 
-marfloy Chaves eduardo RA 173733\\
-Caio Henrique de Sousa Lima RA 214144\\ 
-Piupiu Mendes Pazelli RA 219494\\
-Nathan Blusa Amaarela Soltinho RA 222854} \\[5cm] 
+{ Caio Henrique de Sousa Lima RA 214144\\
+Carlos Eduardo Kamioka RA 168624 \\ 
+Giovanni Torres Chaves RA 198105\\
+Júlio Mendes Pazelli RA 219494\\
+Nathan Blusamarello de Souto RA 222854} \\[5cm] 
 \end{flushright}
 
 
