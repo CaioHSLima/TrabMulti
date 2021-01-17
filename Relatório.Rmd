@@ -1023,7 +1023,14 @@ indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigre
 
 ## Análise descritiva
 
+A Tabela \ref{med_pos} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
 
+A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos no-
+tar correlações positivas e correlações negativas entre as variáveis. A Tabela 8 contem a matriz
+de covariância dos resultados de cada prova. Podemos notar que as provas de corrida são ne-
+gativamente correlacionadas com as provas de desempenho medidas em metros. A mesma coisa
+acontece comparando a covariância entre as provas de desempenho medidas em metros com as
+provas de corrida.
 
 ```{r}
 SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
@@ -1049,23 +1056,23 @@ colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
   \hline
   \multicolumn{10}{||c||}{Positivo} \\
   \hline
-Gravidez & 4.47 & 15.34 & 3.92 & 87.62 & 0.00 & 3.00 & 17.00 & 0.81 & 2.91 \\ 
-  Glicose & 145.19 & 890.39 & 29.84 & 20.55 & 78.00 & 144.50 & 198.00 & -0.14 & 2.08 \\ 
-  Pressão & 74.08 & 169.56 & 13.02 & 17.58 & 30.00 & 74.00 & 110.00 & -0.13 & 3.96 \\ 
-  Tríceps & 32.96 & 92.98 & 9.64 & 29.25 & 7.00 & 33.00 & 63.00 & 0.10 & 3.01 \\ 
-  Insulina & 206.85 & 17609.26 & 132.70 & 64.15 & 14.00 & 169.50 & 846.00 & 1.86 & 7.31 \\ 
-  Massa & 35.78 & 45.36 & 6.73 & 18.82 & 22.90 & 34.60 & 67.10 & 1.36 & 6.78 \\ 
-  Idade & 35.94 & 113.10 & 10.63 & 29.59 & 21.00 & 33.00 & 60.00 & 0.57 & 2.20 \\
+Gravidez & 4,47 & 15,34 & 3,92 & 87,62 & 0,00 & 3,00 & 17,00 & 0,81 & 2,91 \\ 
+  Glicose & 145,19 & 890,39 & 29,84 & 20,55 & 78,00 & 144,50 & 198,00 & -0,14 & 2,08 \\ 
+  Pressão & 74,08 & 169,56 & 13,02 & 17,58 & 30,00 & 74,00 & 110,00 & -0,13 & 3,96 \\ 
+  Tríceps & 32,96 & 92,98 & 9,64 & 29,25 & 7,00 & 33,00 & 63,00 & 0,10 & 3,01 \\ 
+  Insulina & 206,85 & 17609,26 & 132,70 & 64,15 & 14,00 & 169,50 & 846,00 & 1,86 & 7,31 \\ 
+  Massa & 35,78 & 45,36 & 6,73 & 18,82 & 22,90 & 34,60 & 67,10 & 1,36 & 6,78 \\ 
+  Idade & 35,94 & 113,10 & 10,63 & 29,59 & 21,00 & 33,00 & 60,00 & 0,57 & 2,20 \\ 
   \hline
   \multicolumn{10}{||c||}{Negativo} \\
   \hline
-  Gravidez & 2.72 & 6.85 & 2.62 & 96.20 & 0.00 & 2.00 & 13.00 & 1.49 & 5.23 \\ 
-  Glicose & 111.43 & 607.23 & 24.64 & 22.11 & 56.00 & 107.50 & 197.00 & 0.72 & 3.51 \\ 
-  Pressão & 68.97 & 141.44 & 11.89 & 17.24 & 24.00 & 70.00 & 106.00 & -0.16 & 3.68 \\ 
-  Tríceps & 27.25 & 108.87 & 10.43 & 38.29 & 7.00 & 27.00 & 60.00 & 0.35 & 2.49 \\ 
-  Insulina & 130.85 & 10532.13 & 102.63 & 78.43 & 15.00 & 105.00 & 744.00 & 2.50 & 11.81 \\ 
-  Massa & 31.75 & 46.17 & 6.79 & 21.40 & 18.20 & 31.25 & 57.30 & 0.43 & 3.13 \\ 
-  Idade & 28.35 & 80.80 & 8.99 & 31.71 & 21.00 & 25.00 & 81.00 & 2.20 & 9.13 \\ 
+  Gravidez & 2,72 & 6,85 & 2,62 & 96,20 & 0,00 & 2,00 & 13,00 & 1,49 & 5,23 \\ 
+  Glicose & 111,43 & 607,23 & 24,64 & 22,11 & 56,00 & 107,50 & 197,00 & 0,72 & 3,51 \\ 
+  Pressão & 68,97 & 141,44 & 11,89 & 17,24 & 24,00 & 70,00 & 106,00 & -0,16 & 3,68 \\ 
+  Tríceps & 27,25 & 108,87 & 10,43 & 38,29 & 7,00 & 27,00 & 60,00 & 0,35 & 2,49 \\ 
+  Insulina & 130,85 & 10532,13 & 102,63 & 78,43 & 15,00 & 105,00 & 744,00 & 2,50 & 11,81 \\ 
+  Massa & 31,75 & 46,17 & 6,79 & 21,40 & 18,20 & 31,25 & 57,30 & 0,43 & 3,13 \\ 
+  Idade & 28,35 & 80,80 & 8,99 & 31,71 & 21,00 & 25,00 & 81,00 & 2,20 & 9,13 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -1085,6 +1092,8 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 ```
 
 2)Diagrama de dispersão
+
+
 
 Positivo
 
