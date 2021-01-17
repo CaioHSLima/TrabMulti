@@ -15,6 +15,7 @@ header-includes:
 - \usepackage[style=abnt]{biblatex}
 - \addbibresource{ref.bib}
 - \usepackage{fontspec}
+- \usepackage[onehalfspacing]{setspace}
 - \usepackage{geometry}
    \geometry{
    a4paper,
@@ -73,15 +74,14 @@ library(ca)
 
 \begin{flushright}
 { Caio Henrique de Sousa Lima RA 214144\\
-Carlos Eduardo Kamioka RA 168624 \\ 
+Carlos Eduardo Lima Kamioka RA 168624 \\ 
 Giovanni Torres Chaves RA 198105\\
 Júlio Mendes Pazelli RA 219494\\
-Nathan Blusamarello de Souto RA 222854} \\[5cm] 
+Nathan Brusamarello de Souto RA 222854} \\[5cm] 
 \end{flushright}
 
 
-{Campinas}\\
-{2020}
+{Campinas - 2021}\\
 \end{center}
 \end{titlepage}
 
@@ -512,6 +512,8 @@ Utilizando a metodologia MRNLM e o teste CBU, concluimos que as médias entre os
 
 \textit{Azevedo, C. L. N. (2020). Notas de aula sobre análise multivariada de
 dados} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
+
+\newpage
 
 \subsection*{Apendice}
 
@@ -1159,7 +1161,7 @@ Como nenhum dos dois modelos tem suas suposições respeitadas, não há diferen
 
 A probabilidade à priori foi definida como a proporção de observações de cada categoria do banco de dados (cerca de 67\% sem diabetes e 33\% com diabetes). Mais informações sobre a metodologia podem ser encontradas em Azevedo (2020).
 
-O banco de dados foi separado em treino e teste. No conjunto de treino, a análise discriminante foi aplicada. A Tabela \ref{confusao} contém a matriz de confusão da análise discriminante no conjunto de teste. Com isso, a taxa de erro aparente foi de, aproximadamente, 31\% e a taxa de erro ótimo foi de, aproximadamente, 39\%.
+O banco de dados foi separado em treino e teste. No conjunto de treino, a análise discriminante foi aplicada. A Tabela \ref{confusao} contém a matriz de confusão da análise discriminante no conjunto de teste. Com isso, a taxa de erro aparente foi de, aproximadamente, 18\% e a taxa de erro ótimo foi de, aproximadamente, 25\%.
 
 ```{r}
 set.seed(198105)
@@ -1176,13 +1178,13 @@ atrein <- indid[treino,]
 ```
 
 ```{r}
-m.X <- rbind(indid[1:130,1:7],indid[131:392,1:7])
+m.X <- rbind(indid[263:392,1:7],indid[1:262,1:7])
 Sp = c(rep("P",130),rep("N",262))
 m.Indi <- data.frame(m.X,Sp)
 #table(m.Indi$Sp[treino])
 #result.ad <- lda(Sp~., m.Iris, prior = c(1,1)/2,subset = treino)
 result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(2,1)/3,subset = treino)
-#result.ad
+result.ad
 ```
 
 ```{r}
@@ -1201,6 +1203,7 @@ data.teste <- m.Indi[-treino,8]
 
 ```{r}
 tc <- table(data.teste,pred)
+#tc
 #xtable(tc)
 ```
 \begin{table}[ht]
@@ -1211,8 +1214,8 @@ tc <- table(data.teste,pred)
   \hline
  & Negativo & Positivo \\ 
   \hline
-  Negativo & 123 &   8 \\ 
-  Positivo &  53 &  12 \\ 
+  Negativo & 119 &   12 \\ 
+  Positivo &  24 &  41 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -1265,8 +1268,10 @@ datadados<-data.frame(y,grupo)
 colnames(datadados)<-c("y","dados")
 medados<-ddply(datadados,.(grupo),summarise,media=mean(y),dp=sqrt(var(y)),vari=var(y),minimo=min(y),mediana=quantile(y,0.5),maximo=max(y),n=length(y))
 colnames(medados)<-c("Grupo","Média","DP","Var.","Mínimo","Mediana","Máximo","n")
-#xtable(medados)
+xtable(medados)
 ```
+
+
 
 A Tabela \ref{discmed} contém as medidas resumo das funções discriminantes. O grupo positivo tem a média negativa para a função discriminante, enquanto que o grupo negativo tem a média positiva. Na Figura \ref{dendisc} temos os boxplots das funções discriminantes (A) e as densidades estimadas das funções discriminantes (B), respectivamente. Através delas podemos notar que grande parte dos valores das funções discriminantes estão sobrepostos. Com isso, a classificação se torna confusa, obtendo a taxa de erro aparente e taxa de erro ótimo altos.
 
@@ -1278,8 +1283,8 @@ A Tabela \ref{discmed} contém as medidas resumo das funções discriminantes. O
   \hline
  & Grupo & Média & DP & Var. & Mínimo & Mediana & Máximo & n \\ 
   \hline
-1 & Negativo & 0,39 & 0,93 & 0,87 & -3,32 & 0,57 & 2,06 & 131 \\ 
-  2 & Positivo & -0,78 & 0,92 & 0,85 & -3,67 & -0,71 & 0,70 &  65 \\ 
+1 & Negativo & 0,20 & 1,27 & 1,61 & -2,45 & 0,09 & 2,91 & 131 \\ 
+  2 & Positivo & -0,57 & 0,90 & 0,82 & -2,49 & -0,71 & 1,96 &  65 \\ 
    \hline
 \end{tabular}
 \end{table}
