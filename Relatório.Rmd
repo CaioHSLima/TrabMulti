@@ -170,15 +170,17 @@ A matriz de covariância para ambos os sexos, vista na Tabela \ref{covF}, parece
 
 \begin{table}[H]
 \centering
-\caption{Matriz de Covariâncias (F = Fem, M = Masc).}
+\caption{Matriz de Covariâncias.}
 \label{covF}
-\begin{tabular}{r|rrr|rrr}
+\begin{tabular}{|r|rrr|rrr|}
   \hline
- & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\ 
+  & \multicolumn{3}{c|}{Feminino} & \multicolumn{3}{c|}{Masculino} \\
   \hline
-  length & 451,39 & 271,17 & 168,70 & 138,77 & 79,15 & 37,38\\ 
-  width & 271,17 & 171,73 & 103,29 & 79,15 & 50,04 & 21,65\\ 
-  height & 168,70 & 103,29 & 66,65 & 37,38 & 21,65 & 11,26\\ 
+ & Comprimento & Largura & Altura & Comprimento & Largura & Altura \\ 
+  \hline
+  Comprimento & 451,39 & 271,17 & 168,70 & 138,77 & 79,15 & 37,38\\ 
+  Largura & 271,17 & 171,73 & 103,29 & 79,15 & 50,04 & 21,65\\ 
+  Altura & 168,70 & 103,29 & 66,65 & 37,38 & 21,65 & 11,26\\ 
    \hline
 \end{tabular}
 \end{table}
@@ -196,11 +198,13 @@ A matriz de covariância para ambos os sexos, vista na Tabela \ref{covF}, parece
 
 \begin{table}[ht]
 \centering
-\caption{Matriz de Correlação (F = Fem, M = Masc).}
+\caption{Matriz de Correlação}
 \label{Corr}
-\begin{tabular}{l|rrr|rrr}
+\begin{tabular}{|r|rrr|rrr|}
   \hline
- & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\  
+  & \multicolumn{3}{c|}{Feminino} & \multicolumn{3}{c|}{Masculino} \\
+  \hline
+ & Comprimento & Largura & Altura & Comprimento & Largura & Altura \\  
   \hline
 Comprimento & 1,00 & 0,97 & 0,97 & 1,00 & 0,95 & 0,95 \\  
   Largura & 0,97 & 1,00 & 0,97 & 0,95 & 1,00 & 0,91 \\ 
@@ -391,6 +395,8 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 #summary.manova(m.ajuste,test="Hotelling-Lawley")
 #summary.manova(m.ajuste,test="Roy")
 ```
+
+
 
 Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram serem diferentes entre os sexos, e assim, para observar inferencialmente essa diferença foi realizado um teste de Box. Obteve-se uma estatística de 24,04 e um p-valor de 0.0005, logo temos que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e como visto na Tabela \ref{MANOVA1}, rejeitamos a hipótese dos vetores serem iguais. 
 
@@ -671,7 +677,7 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 
 ## Análise inferencial
 
-O objetivo principal da análise é classificar os atletas, com relação as variáveis medidas, bem como reduzir a dimensão dos dados, para futuras análises, veja mais ...
+O objetivo principal da análise é classificar os atletas, com relação as variáveis medidas, bem como reduzir a dimensão dos dados, para futuras análises. A metodologia utilizada para a devida classificação foi a Análise de Componentes Principais, veja mais em [1].
 
 Podemos ver pela Figura \ref{scree} e Tabela \ref{var_exp} que duas componentes principais explicam, aproximadamente, 80\% da variabilidade dos dados. Com isso, como podemos ver na Tabela \ref{comp2}, foram retidas apenas duas componentes. Nessa tabela, também é possível ver que para criar o rank, a componente principal mais indicada é a primeira, pois é um contraste entre os resultados das provas de tempo e distância, o que reforça as correlações encontradas anteriormente. Os pesos das provas de corrida são positivos, já os pesos das provas de desempenho medidas em distância são negativos. Como estamos utilizando a matriz de correlações, os resultados do desempenho de cada atleta estão padronizados. Ou seja, para variáveis de tempo, atletas com valores negativos (tempo abaixo da média) possuem um desempenho melhor. Para as variáveis de distância, atletas com valores negativos (distância abaixo da média) possuem um desempenho pior. Com isso, os atletas que se destacaram no heptatlo teriam um escore menor. Portanto, para melhor interpretabilidade do escore, o mesmo foi multiplicado por -1, pois, desta forma, atletas com escore mais alto tiveram um desempenho melhor.
 
@@ -785,7 +791,16 @@ Joyner-Kersee (USA) & 1 & 4,12 & 1 & Braun (FRG) & 14 & -0,00 & 14 \\
 \end{tabular}
 \end{table}
 
-## Apêndice
+## Conclusão
+
+
+
+\subsection*{Referências}
+
+\textit{Azevedo, C. L. N. (2020). Notas de aula sobre análise multivariada de
+dados} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
+
+\subsection*{Apêndice}
 
 ```{r}
 #xtable(cov(hep))
@@ -812,6 +827,8 @@ hurdles & 0,54 & -0,05 & -0,72 & 0,55 & -0,32 & -0,02 & 4,76 \\
 \end{table}
 
 \newpage
+
+
 
 
 # Questão 3
