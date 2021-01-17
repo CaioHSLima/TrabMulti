@@ -519,34 +519,34 @@ dados} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
 
 ```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
 par(mfrow=c(2,3))
-boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Comprimento (F)")
-boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Largura (F)")
-boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Altura (F)")
-boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Comprimento (M)")
-boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Largura (M)")
-boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Altura (M)")
+boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Comprimento (Feminino)")
+boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Largura (Feminino)")
+boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Altura (Feminino)")
+boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Comprimento (Masculino)")
+boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Largura (Masculino)")
+boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Altura (Masculino)")
 ```
 
 
 ```{r,fig.cap="Histogramas das variáveis por sexo.\\label{histTurtle}"}
 par(mfrow=c(2,3))
-hist(turtleF$length,probability=TRUE,main="Comprimento (F)",xlab="",ylab="")
-hist(turtleF$width,probability=TRUE,main="Largura (F)",xlab="",ylab="")
-hist(turtleF$height,probability=TRUE,main="Altura (F)",xlab="",ylab="")
-hist(turtleM$length,probability=TRUE,main="Comprimento (M)",xlab="",ylab="")
-hist(turtleM$width,probability=TRUE,main="Largura (M)",xlab="",ylab="")
-hist(turtleM$height,probability=TRUE,main="Altura (M)",xlab="",ylab="")
+hist(turtleF$length,probability=TRUE,main="Comprimento (Feminino)",xlab="",ylab="")
+hist(turtleF$width,probability=TRUE,main="Largura (Feminino)",xlab="",ylab="")
+hist(turtleF$height,probability=TRUE,main="Altura (Feminino)",xlab="",ylab="")
+hist(turtleM$length,probability=TRUE,main="Comprimento (Masculino)",xlab="",ylab="")
+hist(turtleM$width,probability=TRUE,main="Largura (Masculino)",xlab="",ylab="")
+hist(turtleM$height,probability=TRUE,main="Altura (Masculino)",xlab="",ylab="")
 ```
 
 
 ```{r,fig.cap="QQplots das variáveis por sexo.\\label{qqTurtle}"}
 par(mfrow=c(2,3))
-qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (F)",cex=1.2) %>% invisible()
-qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (Feminino)",cex=1.2) %>% invisible()
+qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (Feminino)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (Feminino)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (Masculino)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (Masculino)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (Masculino)",cex=1.2)%>% invisible()
 ```
 
 \newpage
@@ -1130,24 +1130,24 @@ Gravidez & 1,00 & 0,02 & 0,18 & -0,07 & -0,00 & -0,19 & 0,60 \\
 
 ```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes positivo.\\label{hist_pos}"}
 par(mfrow=c(2,4))
-hist(indiP[,1],probability=TRUE,main="Gravidez (P)",xlab="",ylab="")
-hist(indiP[,2],probability=TRUE,main="Glicose (P)",xlab="",ylab="")
-hist(indiP[,3],probability=TRUE,main="Pressão (P)",xlab="",ylab="")
-hist(indiP[,4],probability=TRUE,main="Tríceps (P)",xlab="",ylab="")
-hist(indiP[,5],probability=TRUE,main="Insulinaa (P)",xlab="",ylab="")
-hist(indiP[,6],probability=TRUE,main="IMC (P)",xlab="",ylab="")
-hist(indiP[,7],probability=TRUE,main="Idade (P)",xlab="",ylab="")
+hist(indiP[,1],probability=TRUE,main="Gravidez",xlab="",ylab="")
+hist(indiP[,2],probability=TRUE,main="Glicose",xlab="",ylab="")
+hist(indiP[,3],probability=TRUE,main="Pressão",xlab="",ylab="")
+hist(indiP[,4],probability=TRUE,main="Tríceps",xlab="",ylab="")
+hist(indiP[,5],probability=TRUE,main="Insulina",xlab="",ylab="")
+hist(indiP[,6],probability=TRUE,main="IMC",xlab="",ylab="")
+hist(indiP[,7],probability=TRUE,main="Idade",xlab="",ylab="")
 ```
 
 ```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes negativo.\\label{hist_neg}"}
 par(mfrow=c(2,4))
-hist(indiN[,1],probability=TRUE,main="Gravidez (N)",xlab="",ylab="")
-hist(indiN[,2],probability=TRUE,main="Glicose (N)",xlab="",ylab="")
-hist(indiN[,3],probability=TRUE,main="Pressão (N)",xlab="",ylab="")
-hist(indiN[,4],probability=TRUE,main="Tríceps (N)",xlab="",ylab="")
-hist(indiN[,5],probability=TRUE,main="Insulinaa (N)",xlab="",ylab="")
-hist(indiN[,6],probability=TRUE,main="IMC (N)",xlab="",ylab="")
-hist(indiN[,7],probability=TRUE,main="Idade (N)",xlab="",ylab="")
+hist(indiN[,1],probability=TRUE,main="Gravidez",xlab="",ylab="")
+hist(indiN[,2],probability=TRUE,main="Glicose",xlab="",ylab="")
+hist(indiN[,3],probability=TRUE,main="Pressão",xlab="",ylab="")
+hist(indiN[,4],probability=TRUE,main="Tríceps",xlab="",ylab="")
+hist(indiN[,5],probability=TRUE,main="Insulina",xlab="",ylab="")
+hist(indiN[,6],probability=TRUE,main="IMC",xlab="",ylab="")
+hist(indiN[,7],probability=TRUE,main="Idade",xlab="",ylab="")
 ```
 
 
@@ -1337,46 +1337,46 @@ Portanto, para o conjunto de dados em questão, como os vetores de médias são 
 
 ```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes positivo.\\label{box_pos}"}
 par(mfrow=c(2,4))
-boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez (P)")
-boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose (P)")
-boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão (P)")
-boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps (P)")
-boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (P)")
-boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC (P)")
-boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade (P)")
+boxplot(indiP[,1],cex=1.2,cex.lab=1.2,main="Gravidez")
+boxplot(indiP[,2],cex=1.2,cex.lab=1.2,main="Glicose")
+boxplot(indiP[,3],cex=1.2,cex.lab=1.2,main="Pressão")
+boxplot(indiP[,4],cex=1.2,cex.lab=1.2,main="Tríceps")
+boxplot(indiP[,5],cex=1.2,cex.lab=1.2,main="Insulinaa")
+boxplot(indiP[,6],cex=1.2,cex.lab=1.2,main="IMC")
+boxplot(indiP[,7],cex=1.2,cex.lab=1.2,main="idade")
 ```
 
 ```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes negativo.\\label{box_neg}"}
 par(mfrow = c(2,4))
-boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez (N)")
-boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose (N)")
-boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão (N)")
-boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps (N)")
-boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulinaa (N)")
-boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
-boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
+boxplot(indiN[,1],cex=1.2,cex.lab=1.2,main="Gravidez")
+boxplot(indiN[,2],cex=1.2,cex.lab=1.2,main="Glicose")
+boxplot(indiN[,3],cex=1.2,cex.lab=1.2,main="Pressão")
+boxplot(indiN[,4],cex=1.2,cex.lab=1.2,main="Tríceps")
+boxplot(indiN[,5],cex=1.2,cex.lab=1.2,main="Insulina")
+boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC")
+boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade")
 ```
 
 ```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_pos}"}
 par(mfrow=c(2,4))
-qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade",cex=1.2) %>% invisible()
 ```
 
-```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_neg}"}
+```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes negativo.\\label{qq_neg}"}
 par(mfrow=c(2,4))
-qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão (P)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulinaa (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (N)",cex=1.2) %>% invisible()
-qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Glicose",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pressão",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Tríceps",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Insulina",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC",cex=1.2) %>% invisible()
+qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade",cex=1.2) %>% invisible()
 ```
 
 
