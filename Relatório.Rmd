@@ -37,6 +37,7 @@ opts_chunk$set(eval=T)
 opts_chunk$set(include=T)
 opts_chunk$set(fig.align="center")
 opts_chunk$set(fig.height = 4)
+options(OutDec = ",")
 library(plyr)
 library(readr)
 library(ggplot2)
@@ -102,7 +103,6 @@ turtleM = turtle %>% filter(sex == "M") %>% dplyr::select(-sex)
 ```
 
 ## Análise descritiva 
-
 
 ```{r}
 SumF<- cbind(round(apply(turtleF,2,mean),4),round(apply(turtleF,2,var),4),
@@ -550,20 +550,24 @@ qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xla
 qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (M)",cex=1.2)%>% invisible()
 ```
 
-# Questão 2:
-Questão 6 Lista 4
-ACP
+\newpage
 
-Dados
+# Questão 2:
+
+## Introdução
+
+O banco de dados é composto pelos resultados de 25 atletas em provas que compõem o heptatlo, nas olímpiadas de 1988, em Seul. São 7 resultados de cada prova do heptatlo e o escore total na competição. O estudo tem como objetivo utilizar a metodologia das componentes principais para caracterizar as atletas, com relação as variáveis medidas. Para realizar a análise desse banco, foi utilizado o software estatístico R. 
 
 ```{r}
 hep = heptathlon[,1:7]
 nvar <- 8
 ```
-removido escore pelo fato de ser combinação das demais variaveis (resposta)
-se fico em primeiro nos 200m ganho 500 pontos
 
 ## Análise descritiva
+
+Antes de iniciar nossa análise, foi retirado a variável escore total. O motivo da remoção, foi devido ao fato de que a variável é, de certa forma, uma combinação linear das outras variáveis. Podendo trazer viés para o futuro rank gerado.
+
+A Tabela \ref{med_res2} contem as medidas resumo dos resultados das provas. Podemos notar que a maioria das variáveis não tem uma curtose ideal (próxima de 3) e que os coeficientes de assimetria também não foram ideais. Também é possível notar que para as provas shot, javelin e run800m, os resultados das atletas foram mais dispersos comparado com as outras variáveis.
 
 ```{r}
 SumHep<- cbind(round(apply(hep,2,mean),4),round(apply(hep,2,var),4),
@@ -580,26 +584,26 @@ colnames(SumHep)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 
 \begin{table}[H]
 \centering
-\caption{Medidas resumo dos resultados}
+\caption{Medidas resumo dos resultados das provas}
 \label{med_res2}
 \begin{tabular}{rrrrrrrrrr}
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
   \hline
-hurdles & 13.84 & 0.54 & 0.74 & 5.32 & 12.69 & 13.75 & 16.42 & 1.65 & 7.22 \\ 
-  highjump & 1.78 & 0.01 & 0.08 & 4.37 & 1.50 & 1.80 & 1.86 & -1.99 & 7.87 \\ 
-  shot & 13.12 & 2.23 & 1.49 & 11.37 & 10.00 & 12.88 & 16.23 & 0.18 & 2.78 \\ 
-  run200m & 24.65 & 0.94 & 0.97 & 3.93 & 22.56 & 24.83 & 26.61 & -0.17 & 2.62 \\ 
-  longjump & 6.15 & 0.22 & 0.47 & 7.71 & 4.88 & 6.25 & 7.27 & -0.48 & 4.28 \\ 
-  javelin & 41.48 & 12.57 & 3.55 & 8.55 & 35.68 & 40.28 & 47.50 & 0.16 & 1.89 \\ 
-  run800m & 136.05 & 68.74 & 8.29 & 6.09 & 124.20 & 134.74 & 163.43 & 1.40 & 5.89 \\ 
+hurdles & 13,84 & 0,54 & 0,74 & 5,32 & 12,69 & 13,75 & 16,42 & 1,65 & 7,22 \\ 
+  highjump & 1,78 & 0,01 & 0,08 & 4,37 & 1,50 & 1,80 & 1,86 & -1,99 & 7,87 \\ 
+  shot & 13,12 & 2,23 & 1,49 & 11,37 & 10,00 & 12,88 & 16,23 & 0,18 & 2,78 \\ 
+  run200m & 24,65 & 0,94 & 0,97 & 3,93 & 22,56 & 24,83 & 26,61 & -0,17 & 2,62 \\ 
+  longjump & 6,15 & 0,22 & 0,47 & 7,71 & 4,88 & 6,25 & 7,27 & -0,48 & 4,28 \\ 
+  javelin & 41,48 & 12,57 & 3,55 & 8,55 & 35,68 & 40,28 & 47,50 & 0,16 & 1,89 \\ 
+  run800m & 136,05 & 68,74 & 8,29 & 6,09 & 124,20 & 134,74 & 163,43 & 1,40 & 5,89 \\ 
    \hline
 \end{tabular}
 \end{table}
 
-2)Diagrama de dispersão
+A Figura \ref{disp2} contém a matriz de gráfico de dispersões dos resultados de cada prova. Podemos notar correlações positivas e correlações negativas entre as variáveis. A Tabela \ref{cov2} contem a matriz de covariância dos resultados de cada prova. Podemos notar que as provas de corrida são negativamente correlacionadas com as provas de desempenho medidas em metros. A mesma coisa acontece comparando a covariância entre as provas de desempenho medidas em metros com as provas de corrida.
 
-```{r,fig.cap="Matriz de gráfico de dispersões.\\label{disp2}"}
+```{r,fig.cap="Matriz de gráfico de dispersões entre as variáveis.\\label{disp2}"}
 plot(hep,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
@@ -616,97 +620,68 @@ plot(hep,cex=1.5,cex.lab=1.5,pch=1)
   \hline
  & hurdles & highjump & shot & run200m & longjump & javelin & run800m \\ 
   \hline
-hurdles & 0.54 & -0.05 & -0.72 & 0.55 & -0.32 & -0.02 & 4.76 \\ 
-  highjump & -0.05 & 0.01 & 0.05 & -0.04 & 0.03 & 0.00 & -0.38 \\ 
-  shot & -0.72 & 0.05 & 2.23 & -0.99 & 0.53 & 1.42 & -5.19 \\ 
-  run200m & 0.55 & -0.04 & -0.99 & 0.94 & -0.38 & -1.14 & 4.96 \\ 
-  longjump & -0.32 & 0.03 & 0.53 & -0.38 & 0.22 & 0.11 & -2.75 \\ 
-  javelin & -0.02 & 0.00 & 1.42 & -1.14 & 0.11 & 12.57 & 0.59 \\ 
-  run800m & 4.76 & -0.38 & -5.19 & 4.96 & -2.75 & 0.59 & 68.74 \\ 
+hurdles & 0,54 & -0,05 & -0,72 & 0,55 & -0,32 & -0,02 & 4,76 \\ 
+  highjump & -0,05 & 0,01 & 0,05 & -0,04 & 0,03 & 0,00 & -0,38 \\ 
+  shot & -0,72 & 0,05 & 2,23 & -0,99 & 0,53 & 1,42 & -5,19 \\ 
+  run200m & 0,55 & -0,04 & -0,99 & 0,94 & -0,38 & -1,14 & 4,96 \\ 
+  longjump & -0,32 & 0,03 & 0,53 & -0,38 & 0,22 & 0,11 & -2,75 \\ 
+  javelin & -0,02 & 0,00 & 1,42 & -1,14 & 0,11 & 12,57 & 0,59 \\ 
+  run800m & 4,76 & -0,38 & -5,19 & 4,96 & -2,75 & 0,59 & 68,74 \\
    \hline
 \end{tabular}
 \end{table}
 
-```{r}
-#xtable(cor(hep))
-#cor(hep)
-```
-
-\begin{table}[H]
-\centering
-\caption{Matriz de correlações}
-\label{corr2}
-\begin{tabular}{rrrrrrrr}
-  \hline
- & hurdles & highjump & shot & run200m & longjump & javelin & run800m \\ 
-  \hline
-hurdles & 1.00 & -0.81 & -0.65 & 0.77 & -0.91 & -0.01 & 0.78 \\ 
-  highjump & -0.81 & 1.00 & 0.44 & -0.49 & 0.78 & 0.00 & -0.59 \\ 
-  shot & -0.65 & 0.44 & 1.00 & -0.68 & 0.74 & 0.27 & -0.42 \\ 
-  run200m & 0.77 & -0.49 & -0.68 & 1.00 & -0.82 & -0.33 & 0.62 \\ 
-  longjump & -0.91 & 0.78 & 0.74 & -0.82 & 1.00 & 0.07 & -0.70 \\ 
-  javelin & -0.01 & 0.00 & 0.27 & -0.33 & 0.07 & 1.00 & 0.02 \\ 
-  run800m & 0.78 & -0.59 & -0.42 & 0.62 & -0.70 & 0.02 & 1.00 \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-5) Boxplot
+As Figuras \ref{box2}, \ref{hist2} e \ref{qq2} contém os boxplots, os histogramas e os QQplots dos resultados de cada prova, respectivamente. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada. Já a Figura \ref{correlo2} contém o correlograma dos resultados de cada prova. Nele, reforça-se a ideia de que as provas de corrida pertencem a um grupo e as provas de desempenho medidas em distância a outro. Ou seja, a correlações entre provas de grupos distintos são negativas e, correlações do mesmo grupo, positivas.
 
 ```{r,fig.cap="Boxplots das variáveis.\\label{box2}"}
 par(mfrow=c(2,4))
-boxplot(hep[,1],cex=1.2,cex.lab=1.2,main="100m Barreiras")
-boxplot(hep[,2],cex=1.2,cex.lab=1.2,main="Salto em altura")
-boxplot(hep[,3],cex=1.2,cex.lab=1.2,main="Arremesso de peso")
-boxplot(hep[,4],cex=1.2,cex.lab=1.2,main="200m rasos")
-boxplot(hep[,5],cex=1.2,cex.lab=1.2,main="Salto em distância")
-boxplot(hep[,6],cex=1.2,cex.lab=1.2,main="Lançamento dardos")
-boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="800m rasos")
+boxplot(hep[,1],cex=1.2,cex.lab=1.2,main="hurdles")
+boxplot(hep[,2],cex=1.2,cex.lab=1.2,main="highjump")
+boxplot(hep[,3],cex=1.2,cex.lab=1.2,main="shot")
+boxplot(hep[,4],cex=1.2,cex.lab=1.2,main="run200m")
+boxplot(hep[,5],cex=1.2,cex.lab=1.2,main="longjump")
+boxplot(hep[,6],cex=1.2,cex.lab=1.2,main="javelin")
+boxplot(hep[,7],cex=1.2,cex.lab=1.2,main="run800m")
 #boxplot(hep[,8],cex=1.2,cex.lab=1.2,main="Pontuação total")
 ```
 
-#histograms
 
 ```{r,fig.cap="Histogramas das variáveis.\\label{hist2}"}
 par(mfrow=c(2,4))
-hist(hep[,1],probability=TRUE,main="100m Barreiras",xlab="",ylab="")
-hist(hep[,2],probability=TRUE,main="Salto em altura",xlab="",ylab="")
-hist(hep[,3],probability=TRUE,main="Arremesso de peso",xlab="",ylab="")
-hist(hep[,4],probability=TRUE,main="200m rasos",xlab="",ylab="")
-hist(hep[,5],probability=TRUE,main="Salto em distância",xlab="",ylab="")
-hist(hep[,6],probability=TRUE,main="Lançamento dardos",xlab="",ylab="")
-hist(hep[,7],probability=TRUE,main="800m rasos",xlab="",ylab="")
+hist(hep[,1],probability=TRUE,main="hurdles",xlab="",ylab="")
+hist(hep[,2],probability=TRUE,main="highjump",xlab="",ylab="")
+hist(hep[,3],probability=TRUE,main="shot",xlab="",ylab="")
+hist(hep[,4],probability=TRUE,main="run200m",xlab="",ylab="")
+hist(hep[,5],probability=TRUE,main="longjump",xlab="",ylab="")
+hist(hep[,6],probability=TRUE,main="javelin",xlab="",ylab="")
+hist(hep[,7],probability=TRUE,main="run800m",xlab="",ylab="")
 #hist(hep[,8],probability=TRUE,main="Pontuação total",xlab="",ylab="")
 ```
 
-# qqplots
-
 ```{r,fig.cap="QQplots das variáveis.\\label{qq2}"}
 par(mfrow=c(2,4))
-qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="100m Barreiras",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em altura",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Arremesso de peso",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="200m rasos",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Salto em distância",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Lançamento dardos",cex=1.2) %>% invisible()
-qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="800m rasos",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="hurdles",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,2]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="highjump",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,3]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="shot",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,4]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="run200m",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="longjump",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="javelin",cex=1.2) %>% invisible()
+qqPlot(scale(hep[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="run800m",cex=1.2) %>% invisible()
 #qqPlot(scale(hep[,8]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Pontuação total",cex=1.2)
 ```
 
-Análise inferencial
 
 ```{r,fig.cap="Correlograma das variáveis.\\label{correlo2}"}
 corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75) 
 ```
-## ACP
 
+## Análise inferencial
 
-0 - Descritiva
-1 - Suposições, dois grupos (variaveis tempo e distancia)
-2 - ACP 2 comp 80%
-3 - CP1 para o rank devido ao fato de fazer sentido com a direção das variáveis.
-4 - Abordar novas classificações bem diferentes (12º->6º)
+O objetivo principal da análise é classificar os atletas, com relação as variáveis medidas, bem como reduzir a dimensão dos dados, para futuras análises, veja mais ...
 
+Podemos ver pela Figura \ref{scree} e Tabela \ref{var_exp} que duas componentes principais explicam, aproximadamente, 80\% da variabilidade dos dados. Com isso, como podemos ver na Tabela \ref{comp2}, foram retidas apenas duas componentes. Nessa tabela, também é possível ver que para criar o rank, a componente principal mais indicada é a primeira, pois é um contraste entre os resultados das provas de tempo e distância, o que reforça as correlações encontradas anteriormente. Os pesos das provas de corrida são positivos, já os pesos das provas de desempenho medidas em distância são negativos. Como estamos utilizando a matriz de correlações, os resultados do desempenho de cada atleta estão padronizados. Ou seja, para variáveis de tempo, atletas com valores negativos (tempo abaixo da média) possuem um desempenho melhor. Para as variáveis de distância, atletas com valores negativos (distância abaixo da média) possuem um desempenho pior. Com isso, os atletas que se destacaram no heptatlo teriam um escore menor. Portanto, para melhor interpretabilidade do escore, o mesmo foi multiplicado por -1, pois, desta forma, atletas com escore mais alto tiveram um desempenho melhor.
+
+Os resultados estão na Tabela \ref{rank}. Podemos ver que o rank para algumas atletas foi alterado com a análise de componentes principais.
 
 ```{r}
 p=7
@@ -728,8 +703,11 @@ pca_importance <- function(x) {
 
 #corr.cp.var <- aut.vec*sqrt(m.aut.val)
 #summary(result.cp.cor)$importance
+```
 
-screeplot(result.cp.cor,type=c("lines"),main="autovalores",cex=1.2,cex.lab=1.2,cex.main=1.2)
+
+```{r,fig.cap="Screeplot das variáveis.\\label{scree}"}
+screeplot(result.cp.cor,type=c("lines"),main="",cex=1.2,cex.lab=1.2,cex.main=1.2)
 
 #result.cp.cor$loadings[1:7,1:2]
 #xtable(result.cp.cor$loadings[1:7,1:2] %>% as.data.frame())
@@ -741,16 +719,15 @@ cp1 = result.cp.cor$loadings[,1]
 \centering
 \caption{Variância Explicada}
 \label{var_exp}
-\begin{tabular}{rrrrrrrr}
+\begin{tabular}{rp{1cm}p{1cm}p{1cm}p{1cm}p{1cm}p{1cm}p{1cm}}
   \hline
  & Comp.1 & Comp.2 & Comp.3 & Comp.4 & Comp.5 & Comp.6 & Comp.7 \\ 
   \hline
-PVE (\%) & 63.72 & 17.06 & 7.44 & 6.53 & 3.50 & 1.04 & 0.70 \\ 
-  PVEA (\%) & 63.72 & 80.78 & 88.22 & 94.75 & 98.26 & 99.30 & 100.00 \\ 
+PVE (\%) & 63,72 & 17,06 & 7,44 & 6,53 & 3,50 & 1,04 & 0,70 \\ 
+  PVEA (\%) & 63,72 & 80,78 & 88,22 & 94,75 & 98,26 & 99,30 & 100,00 \\  
    \hline
 \end{tabular}
 \end{table}
-
 
 \begin{table}[H]
 \centering
@@ -760,21 +737,16 @@ PVE (\%) & 63.72 & 17.06 & 7.44 & 6.53 & 3.50 & 1.04 & 0.70 \\
   \hline
  & Comp.1 & Comp.2 \\ 
   \hline
-hurdles & 0.45 & 0.16 \\ 
-  highjump & -0.38 & -0.25 \\ 
-  shot & -0.36 & 0.29 \\ 
-  run200m & 0.41 & -0.26 \\ 
-  longjump & -0.46 & -0.06 \\ 
-  javelin & -0.08 & 0.84 \\ 
-  run800m & 0.37 & 0.22 \\ 
+hurdles & 0,45 & 0,16 \\ 
+  highjump & -0,38 & -0,25 \\ 
+  shot & -0,36 & 0,29 \\ 
+  run200m & 0,41 & -0,26 \\ 
+  longjump & -0,46 & -0,06 \\ 
+  javelin & -0,08 & 0,84 \\ 
+  run800m & 0,37 & 0,22 \\ 
    \hline
 \end{tabular}
 \end{table}
-
-
-Classificação
-Escore da primeira componente principal.
-acho q isso ta certo
 
 ```{r}
 hep = scale(heptathlon[,1:7])
@@ -791,7 +763,6 @@ row.names(h_new_score)<- nominhos
 colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
 
 #xtable(h_new_score[14:25,])
-
 ```
 
 
@@ -803,25 +774,48 @@ colnames(h_new_score)<-c("Classificação original","Escore","Novo rank")
   \hline
  Atleta & Rank & Escore PCA & Novo rank & Atleta & Rank & Escore PCA & Novo rank\\ 
   \hline
-Joyner-Kersee (USA) & 1 & 4.12 & 1 & Braun (FRG) & 14 & -0.00 & 14 \\ 
-  John (GDR) & 2 & 2.88 & 2 & Ruotsalainen (FIN) & 13 & -0.02 & 15 \\ 
-  Behmer (GDR) & 3 & 2.65 & 3 & Yuping (CHN) & 15 & -0.09 & 16 \\ 
-  Sablovskaite (URS) & 5 & 1.36 & 4 & Hagger (GB) & 17 & -0.17 & 17 \\ 
-  Choubenkova (URS) & 4 & 1.34 & 5 & Brown (USA) & 18 & -0.52 & 18 \\ 
-  Schulz (GDR) & 12 & 1.19 & 6 & Mulliner (GB) & 20 & -1.09 & 19 \\ 
-  Fleming (AUS) & 7 & 1.10 & 7 & Hautenauve (BEL) & 19 & -1.13 & 20 \\ 
-  Greiner (USA) & 6 & 1.04 & 8 & Kytola (FIN) & 21 & -1.45 & 21 \\ 
-  Lajbnerova (CZE) & 8 & 0.92 & 9 & Geremias (BRA) & 22 & -2.01 & 22 \\ 
-  Bouraga (URS) & 10 & 0.76 & 10 & Hui-Ing (TAI) & 23 & -2.88 & 23 \\ 
-  Wijnsma (HOL) & 11 & 0.56 & 11 & Jeong-Mi (KOR) & 24 & -2.97 & 24 \\ 
-  Dimitrova (BUL) & 9 & 0.53 & 12 & Launa (PNG) & 25 & -6.27 & 25 \\ 
-  Scheider (SWI) & 16 & 0.14 & 13 \\
+Joyner-Kersee (USA) & 1 & 4,12 & 1 & Braun (FRG) & 14 & -0,00 & 14 \\  
+  John (GDR) & 2 & 2,88 & 2 & Ruotsalainen (FIN) & 13 & -0,02 & 15 \\ 
+  Behmer (GDR) & 3 & 2,65 & 3 & Yuping (CHN) & 15 & -0,09 & 16 \\ 
+  Sablovskaite (URS) & 5 & 1,36 & 4 & Hagger (GB) & 17 & -0,17 & 17 \\ 
+  Choubenkova (URS) & 4 & 1,34 & 5 & Brown (USA) & 18 & -0,52 & 18 \\ 
+  Schulz (GDR) & 12 & 1,19 & 6 & Mulliner (GB) & 20 & -1,09 & 19 \\  
+  Fleming (AUS) & 7 & 1,10 & 7 & Hautenauve (BEL) & 19 & -1,13 & 20 \\ 
+  Greiner (USA) & 6 & 1,04 & 8 & Kytola (FIN) & 21 & -1,45 & 21 \\  
+  Lajbnerova (CZE) & 8 & 0,92 & 9 & Geremias (BRA) & 22 & -2,01 & 22 \\  
+  Bouraga (URS) & 10 & 0,76 & 10 & Hui-Ing (TAI) & 23 & -2,88 & 23 \\  
+  Wijnsma (HOL) & 11 & 0,56 & 11 & Jeong-Mi (KOR) & 24 & -2,97 & 24 \\  
+  Dimitrova (BUL) & 9 & 0,53 & 12 & Launa (PNG) & 25 & -6,27 & 25 \\  
+  Scheider (SWI) & 16 & 0,14 & 13 \\ 
    \hline
 \end{tabular}
 \end{table}
 
+## Apêndice
 
+```{r}
+#xtable(cor(hep))
+#cor(hep)
+```
 
+\begin{table}[H]
+\centering
+\caption{Matriz de correlações}
+\label{corr2}
+\begin{tabular}{rrrrrrrr}
+  \hline
+ & hurdles & highjump & shot & run200m & longjump & javelin & run800m \\ 
+  \hline
+hurdles & 1,00 & -0,81 & -0,65 & 0,77 & -0,91 & -0,01 & 0,78 \\ 
+  highjump & -0,81 & 1,00 & 0,44 & -0,49 & 0,78 & 0,00 & -0,59 \\ 
+  shot & -0,65 & 0,44 & 1,00 & -0,68 & 0,74 & 0,27 & -0,42 \\ 
+  run200m & 0,77 & -0,49 & -0,68 & 1,00 & -0,82 & -0,33 & 0,62 \\ 
+  longjump & -0,91 & 0,78 & 0,74 & -0,82 & 1,00 & 0,07 & -0,70 \\ 
+  javelin & -0,01 & 0,00 & 0,27 & -0,33 & 0,07 & 1,00 & 0,02 \\ 
+  run800m & 0,78 & -0,59 & -0,42 & 0,62 & -0,70 & 0,02 & 1,00 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
 
 # Questão 3
