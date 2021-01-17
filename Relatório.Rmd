@@ -772,7 +772,7 @@ Joyner-Kersee (USA) & 1 & 4,12 & 1 & Braun (FRG) & 14 & -0,00 & 14 \\
 
 ## Conclusão
 
-
+A partir da classificação pela Análise de Componentes Principais (ACP), foi possível notar que o ranking gerado pelo escore da ACP foi diferente comparado com o ranking original do escore total. Como por exemplo, a atleta Schulz, da República Democrática Alemã, tinha ficado em décimo segundo lugar. Com o ranking feito a partir da primeira componente principal, a mesma atleta ficou em sexto lugar.
 
 \subsection*{Referências}
 
@@ -826,9 +826,6 @@ corrplot(cor(hep), order = "hclust", tl.col='black', tl.cex=.75)
 ```
 
 \newpage
-
-
-
 
 # Questão 3
 
