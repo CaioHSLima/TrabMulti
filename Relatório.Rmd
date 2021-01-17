@@ -1025,9 +1025,9 @@ indiN = indi %>% filter(diabetes == "neg") %>% dplyr::select(-c(diabetes,pedigre
 
 ## Análise descritiva
 
-A Tabela \ref{med} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
+A Tabela \ref{med_res4} contém as medidas resumo das portadoras da herança genética "prima". Podemos notar que, com exceção de "Gravidez" e "Tríceps" para o caso de diabetes positiva, a maioria das variáveis não tem uma curtose ideal (próxima de 3) e o coeficiente de assimetria da maioria das variáveis também não foram ideais.
 
-A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela...
+A Figura \ref{disp_pos} e \ref{disp_neg} contém, respectivamente, a matriz de gráfico de dispersões das pacientes com diabetes e sem diabetes. Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela \ref{corr4} contém a matriz de correlação das pacientes com e sem diabetes.
 
 As Figuras \ref{box_pos}, \ref{hist_pos} e \ref{qq_pos} contém, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg}, ref{hist_pos} e \ref{qq_neg} possuem, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
 
@@ -1048,7 +1048,7 @@ colnames(SumIP)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 \begin{table}[H]
 \centering
 \caption{Medidas resumo das variáveis dos pacientes com diabetes positivo e negativo}
-\label{med}
+\label{med_res4}
 \begin{tabular}{rrrrrrrrrr}
   \hline
  & Média & Var. & DP & CV(\%) & Min. & Med. & Max. & CA & Cur. \\ 
@@ -1090,7 +1090,6 @@ colnames(SumIN)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #SumIN
 ```
 
-
 ```{r,fig.cap="Matriz de gráfico de dispersões dos pacientes com diabetes positivo.\\label{disp_pos}"}
 plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
 ```
@@ -1099,58 +1098,15 @@ plot(indiP,cex=1.5,cex.lab=1.5,pch=1)
 plot(indiN,cex=1.5,cex.lab=1.5,pch=1)
 ```
 
-
-
-```{r}
-#xtable(cov(indiP))
-#cov(indiP)
-```
-\begin{table}[H]
-\centering
-\caption{Matriz de covariâncias dos pacientes com diabetes positivo}
-\label{cov_pos}
-\begin{tabular}{rrrrrrrr}
-  \hline
-  \multicolumn{8}{||c||}{Positivo} \\
-  \hline
- & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\ 
-  \hline
-Gravidez & 15,34 & 2,17 & 9,00 & -2,67 & -1,73 & -4,90 & 25,19 \\ 
-  Glicose & 2,17 & 890,39 & 35,98 & 10,82 & 1576,11 & -5,35 & 60,11 \\ 
-  Pressão & 9,00 & 35,98 & 169,56 & 19,72 & -126,61 & 17,02 & 37,49 \\ 
-  Tríceps & -2,67 & 10,82 & 19,72 & 92,98 & 66,34 & 38,44 & -12,60 \\ 
-  Insulina & -1,73 & 1576,11 & -126,61 & 66,34 & 17609,26 & -17,50 & 310,66 \\ 
-  Massa & -4,90 & -5,35 & 17,02 & 38,44 & -17,50 & 45,36 & -12,63 \\ 
-  Idade & 25,19 & 60,11 & 37,49 & -12,60 & 310,66 & -12,63 & 113,10 \\
-  \hline
-  \multicolumn{8}{||c||}{Negativo} \\
-  \hline
-  & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\
-  \hline
-  Gravidez & 6,85 & 8,72 & 5,41 & 2,71 & 1,80 & -0,78 & 16,48 \\ 
-  Glicose & 8,72 & 607,23 & 46,15 & 27,16 & 1560,34 & 25,46 & 47,03 \\ 
-  Pressão & 5,41 & 46,15 & 141,44 & 26,33 & 152,53 & 24,79 & 25,86 \\ 
-  Tríceps & 2,71 & 27,16 & 26,33 & 108,87 & 163,90 & 46,90 & 18,76 \\ 
-  Insulina & 1,80 & 1560,34 & 152,53 & 163,90 & 10532,13 & 190,04 & 48,66 \\ 
-  Massa & -0,78 & 25,46 & 24,79 & 46,90 & 190,04 & 46,17 & 3,56 \\ 
-  Idade & 16,48 & 47,03 & 25,86 & 18,76 & 48,66 & 3,56 & 80,80 \\
-   \hline
-\end{tabular}
-\end{table}
-
-
-4) Matriz de correlações
-
-Positivo
-
 ```{r}
 #xtable(cor(indiP))
 #cor(indiP)
 ```
+
 \begin{table}[H]
 \centering
 \caption{Matriz de correlações dos pacientes com diabetes positivo}
-\label{corr_pos}
+\label{corr4}
 \begin{tabular}{rrrrrrrr}
   \hline
   \multicolumn{8}{||c||}{Positivo} \\
@@ -1180,7 +1136,6 @@ Gravidez & 1,00 & 0,02 & 0,18 & -0,07 & -0,00 & -0,19 & 0,60 \\
 \end{tabular}
 \end{table}
 
-Boxplot
 
 ```{r,fig.cap="Boxplots das variáveis dos pacientes com diabetes positivo.\\label{box_pos}"}
 par(mfrow=c(2,4))
@@ -1204,8 +1159,6 @@ boxplot(indiN[,6],cex=1.2,cex.lab=1.2,main="IMC (N)")
 boxplot(indiN[,7],cex=1.2,cex.lab=1.2,main="Idade (N)")
 ```
 
-histograms
-
 ```{r,fig.cap="Histogramas das variáveis dos pacientes com diabetes positivo.\\label{hist_pos}"}
 par(mfrow=c(2,4))
 hist(indiP[,1],probability=TRUE,main="Gravidez (P)",xlab="",ylab="")
@@ -1228,8 +1181,6 @@ hist(indiN[,6],probability=TRUE,main="IMC (N)",xlab="",ylab="")
 hist(indiN[,7],probability=TRUE,main="Idade (N)",xlab="",ylab="")
 ```
 
- qqplots
-
 ```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_pos}"}
 par(mfrow=c(2,4))
 qqPlot(scale(indiP[,1]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Gravidez (P)",cex=1.2) %>% invisible()
@@ -1240,7 +1191,6 @@ qqPlot(scale(indiP[,5]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="IMC (P)",cex=1.2) %>% invisible()
 qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (P)",cex=1.2) %>% invisible()
 ```
-
 
 ```{r,fig.cap="QQplots das variáveis dos pacientes com diabetes positivo.\\label{qq_neg}"}
 par(mfrow=c(2,4))
@@ -1253,7 +1203,9 @@ qqPlot(scale(indiP[,6]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="q
 qqPlot(scale(indiP[,7]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Idade (N)",cex=1.2) %>% invisible()
 ```
 
-# Classificação:
+## Análise Inferencial
+
+#Classificação:
 
 ```{r}
 set.seed(198105)
@@ -1265,13 +1217,13 @@ treinoN <- sort(sample(131:392,131,replace=FALSE)) #50% das observações para t
 treino <- c(treinoP,treinoN)
 ```
 
-Amostra de treino
+#Amostra de treino
 
 ```{r}
 atrein <- indid[treino,]
 ```
 
-Matriz de correlações muito parecidas. Método de Fisher
+#Matriz de correlações muito parecidas. Método de Fisher
 
 ```{r}
 m.X <- rbind(indid[1:130,1:7],indid[131:392,1:7])
@@ -1283,7 +1235,7 @@ result.ad <- lda(Sp~., m.Indi[,1:7], prior = c(2,1)/3,subset = treino)
 result.ad
 ```
 
-# predizendo os grupos na amostra teste
+#predizendo os grupos na amostra teste
 
 ```{r}
 pred<-predict(result.ad, m.Indi[-treino, ])$class
@@ -1296,14 +1248,14 @@ y <-predict(result.ad, m.Indi[-treino, ])$x
 ```
 
 
-# Pegando a amostra teste
+#Pegando a amostra teste
 
 ```{r}
 data.teste <- m.Indi[-treino,8]
 ```
 
 
-# Tabela de classificação
+#Tabela de classificação
 
 ```{r}
 tc <- table(data.teste,pred)
@@ -1322,14 +1274,14 @@ tc
 \end{tabular}
 \end{table}
 
-TEA
+#TEA
 
 ```{r}
 TEA <- (tc[1,2]+tc[2,1])/sum(tc)
 100*TEA
 ```
 
-Método de normalidade
+#Método de normalidade
 
 ```{r}
 m.dados.iris <- m.Indi[treino,]
@@ -1389,6 +1341,44 @@ legend(3.8,0.6,lwd=c(2,2),col=c(1,2),legend=c("Positivo","Negativo"),bty="n",cex
 #hist(y[grupo=="N"],probability=TRUE,cex=1.2,cex.lab=1.2)
 ```
 
+## Apêndice
 
+```{r}
+#xtable(cov(indiP))
+#cov(indiP)
+```
+
+\begin{table}[H]
+\centering
+\caption{Matriz de covariâncias dos pacientes com diabetes positivo}
+\label{cov4}
+\begin{tabular}{rrrrrrrr}
+  \hline
+  \multicolumn{8}{||c||}{Positivo} \\
+  \hline
+ & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\ 
+  \hline
+Gravidez & 15,34 & 2,17 & 9,00 & -2,67 & -1,73 & -4,90 & 25,19 \\ 
+  Glicose & 2,17 & 890,39 & 35,98 & 10,82 & 1576,11 & -5,35 & 60,11 \\ 
+  Pressão & 9,00 & 35,98 & 169,56 & 19,72 & -126,61 & 17,02 & 37,49 \\ 
+  Tríceps & -2,67 & 10,82 & 19,72 & 92,98 & 66,34 & 38,44 & -12,60 \\ 
+  Insulina & -1,73 & 1576,11 & -126,61 & 66,34 & 17609,26 & -17,50 & 310,66 \\ 
+  Massa & -4,90 & -5,35 & 17,02 & 38,44 & -17,50 & 45,36 & -12,63 \\ 
+  Idade & 25,19 & 60,11 & 37,49 & -12,60 & 310,66 & -12,63 & 113,10 \\
+  \hline
+  \multicolumn{8}{||c||}{Negativo} \\
+  \hline
+  & Gravidez & Glicose & Pressão & Tríceps & Insulina & Massa & Idade \\
+  \hline
+  Gravidez & 6,85 & 8,72 & 5,41 & 2,71 & 1,80 & -0,78 & 16,48 \\ 
+  Glicose & 8,72 & 607,23 & 46,15 & 27,16 & 1560,34 & 25,46 & 47,03 \\ 
+  Pressão & 5,41 & 46,15 & 141,44 & 26,33 & 152,53 & 24,79 & 25,86 \\ 
+  Tríceps & 2,71 & 27,16 & 26,33 & 108,87 & 163,90 & 46,90 & 18,76 \\ 
+  Insulina & 1,80 & 1560,34 & 152,53 & 163,90 & 10532,13 & 190,04 & 48,66 \\ 
+  Massa & -0,78 & 25,46 & 24,79 & 46,90 & 190,04 & 46,17 & 3,56 \\ 
+  Idade & 16,48 & 47,03 & 25,86 & 18,76 & 48,66 & 3,56 & 80,80 \\
+   \hline
+\end{tabular}
+\end{table}
 
 
