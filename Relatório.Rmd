@@ -130,7 +130,7 @@ colnames(SumM)<-c("Média","Var.","DP","CV(%)","Min.","Med.","Max.",
 #xtable(rbind(SumF,SumM))
 ```
 
-A Tabela \ref{desc} apresenta as medidas resumo das tartarugas, dividas por sexo. Observa-se que as médias das medidas das fêmeas foram maiores que as dos machos, e do mesmo modo as variâncias são bem maiores para o sexo feminino. 
+A Tabela \ref{desc} apresenta as medidas resumo das tartarugas, dividas por sexo. Observa-se que as médias das medidas das fêmeas foram maiores que as dos machos, e do mesmo modo as variâncias são bem maiores para o sexo feminino. As assimetrias estão em torno de zero e as curtoses entre 2 e 3, para ambos os sexos.
 
 \begin{table}[H]
 \centering
@@ -151,18 +151,15 @@ Comprimento (F)& 136.00 & 451.39 & 21.25 & 15.62 & 98.00 & 136.50 & 177.00 & -0.
 \end{tabular}
 \end{table}
 
+A Figura \ref{dispF} mostra que, para ambos os sexos, as medidas de altura, largura e comprimento das tartarugas estão muito correlacionadas e com tendência positiva.
 
-```{r,fig.cap="Matriz de gráfico de dispersões sexo feminino.\\label{dispF}"}
-plot(turtleF,cex=1.5,cex.lab=1.5,pch=1)
+```{r,fig.cap="Matriz de gráfico de dispersões sexo feminino.\\label{dispF}", fig.height=2.5}
+library(lattice) 
+splom(~turtle[1:3]|sex, data = turtle,  pscales = 0, xlab = "", varname.cex = 0.6,
+      varnames = c("Comprimento", "Largura", "Altura"), col = "black")
 ```
 
-
-```{r,fig.cap="Matriz de gráfico de dispersões sexo masculino.\\label{dispM}"}
-plot(turtleM,cex=1.5,cex.lab=1.5,pch=1)
-```
-
-Para ambos os sexos, as medidas de altura, largura e comprimento são bastante correlacionadas.
-
+A matriz de covariância para ambos os sexos, vista na Tabela \ref{covF}, parecem ser diferentes, na qual as medidas do sexo masculino aparentam ter variância bem menor se comparado ao sexo feminino. Pode ser visto também na Tabela \ref{Corr} que as matrizes de correlação são aparentemente diferentes, em que as medidas são mais correlacionadas para as fêmeas.
 
 ```{r}
 #xtable(cov(turtleF))
@@ -170,7 +167,7 @@ Para ambos os sexos, as medidas de altura, largura e comprimento são bastante c
 
 \begin{table}[H]
 \centering
-\caption{Matriz de covariâncias (F = Fem, M = Masc)}
+\caption{Matriz de Covariâncias (F = Fem, M = Masc).}
 \label{covF}
 \begin{tabular}{r|rrr|rrr}
   \hline
@@ -189,65 +186,33 @@ Para ambos os sexos, as medidas de altura, largura e comprimento são bastante c
 ```
 
 
-A matriz de covariância para ambos os sexos parecem ser diferentes, na qual as medidas do sexo masculino aparentam ter variância bem menor se comparado ao sexo feminino.
-
-
-##########
-4) Matriz de correlações
-
-Feminino
-
 ```{r}
 #xtable(cor(turtleF))
-cor(turtleF)
-```
-
-Masculino
-
-```{r}
 #xtable(cor(turtleM))
-cor(turtleM)
 ```
 
-Como dito anteriormente, as correlações parecem ser bem altas entre as medidas (já era esperado).
-##########
+\begin{table}[ht]
+\centering
+\caption{Matriz de Correlação (F = Fem, M = Masc).}
+\label{Corr}
+\begin{tabular}{l|rrr|rrr}
+  \hline
+ & Comprimento (F)& Largura (F) & Altura (F) & Comprimento (M)& Largura (M) & Altura (M) \\  
+  \hline
+Comprimento & 1.00 & 0.97 & 0.97 & 1.00 & 0.95 & 0.95 \\  
+  Largura & 0.97 & 1.00 & 0.97 & 0.95 & 1.00 & 0.91 \\ 
+  Altura & 0.97 & 0.97 & 1.00 & 0.95 & 0.91 & 1.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+Os boxplots da Figura \ref{boxTurtle} mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} e os gráficos quantil-quantil da Figura \ref{qqTurtle} aparentam seguir uma distribuição diferente da normal, visto que não são simetricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
 
 
-```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
-par(mfrow=c(2,3))
-boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Comprimento (F)")
-boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Largura (F)")
-boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Altura (F)")
-boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Comprimento (M)")
-boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Largura (M)")
-boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Altura (M)")
-```
 
-
-```{r,fig.cap="Histogramas das variáveis por sexo.\\label{histTurtle}"}
-par(mfrow=c(2,3))
-hist(turtleF$length,probability=TRUE,main="Comprimento (F)",xlab="",ylab="")
-hist(turtleF$width,probability=TRUE,main="Largura (F)",xlab="",ylab="")
-hist(turtleF$height,probability=TRUE,main="Altura (F)",xlab="",ylab="")
-hist(turtleM$length,probability=TRUE,main="Comprimento (M)",xlab="",ylab="")
-hist(turtleM$width,probability=TRUE,main="Largura (M)",xlab="",ylab="")
-hist(turtleM$height,probability=TRUE,main="Altura (M)",xlab="",ylab="")
-```
-
-
-```{r,fig.cap="QQplots das variáveis por sexo.\\label{qqTurtle}"}
-par(mfrow=c(2,3))
-qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (F)",cex=1.2) %>% invisible()
-qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (F)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (M)",cex=1.2)%>% invisible()
-qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (M)",cex=1.2)%>% invisible()
-```
-
-Olhando para boxplot,histogramas e qqplots, as variáveis não parecem seguir uma distribuição normal.
 
 ## Análise inferencial
+
 
 
 ```{r}
@@ -354,6 +319,61 @@ Teste.CBU.M<-function(fit.model,m.Sigma.P,p,q,m.C,m.U,m.M)
   cat("Matriz M :","\n")
   print(m.M)
 }
+
+# mY: matriz de dados
+# mresult: resultado da função manova
+# var: escolha da variável (1,2,..)
+# typeresid:
+  # univariate (RS-veja slides)
+  # multivariate (RSM-veja slides)
+# wplot:
+  # diagnostics: quatro gráficos
+  # envelope: gráfico de envelope
+  
+gen.graf.resid<-function(mY,mresult,var,typeresid,wplot){
+mresiduo <- mresult$residuals
+mbeta <- coef(mresult) 
+mX <- as.matrix(model.matrix(mresult))
+n <- nrow(mX)
+p <- ncol(mbeta)
+q <- nrow(mbeta)
+mSigma<-t(mY-mX%*%mbeta)%*%(mY-mX%*%mbeta)/(n-q)
+if (typeresid == "univariate")
+{
+auxres <- diag((diag(n) - mX%*%solve(t(mX)%*%mX)%*%t(mX)))
+mresiduo <- mresiduo/(sqrt((matrix(auxres,n,p))%*%diag(diag(mSigma))))
+}
+else if (typeresid == "multivariate")
+{
+mresiduo <- t(solve(t(chol(mSigma)))%*%t(mresiduo))
+}
+mfit <- fitted.values(mresult)
+#
+if (wplot == "diagnostics")
+{
+par(mfrow =c(2,2))
+plot(mresiduo[,var],ylim=c(min(-3,min(mresiduo[,var])),max(3,max(mresiduo[,var]))),xlab="índice",ylab="resíduo studentizado")
+abline(-2,0,lty=2)
+abline(2,0,lty=2)
+abline(0,0,lty=2)
+#
+plot(mfit[,var],mresiduo[,var],ylim=c(min(-3,min(mresiduo[,var])),max(3,max(mresiduo[,var]))),xlab="valor ajustado",ylab="resíduo studentizado")
+abline(-2,0,lty=2)
+abline(2,0,lty=2)
+abline(0,0,lty=2)
+#
+hist(mresiduo[,var],probability=TRUE,xlab="resíduo studentizado",main="",ylab="densidade")
+#
+qqPlot((mresiduo[,var]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab=paste("quantil do resíduo studentizado"),cex=1.2)
+}
+
+else if (wplot == "envelope")
+{
+par(mfrow =c(1,1))
+qqPlot((mresiduo[,var]),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab=paste("quantil do resíduo studentizado"),cex=1.2)
+}
+}
+
 ```
 
 ```{r}
@@ -376,19 +396,8 @@ fit.model<-m.ajuste <- manova(as.matrix(turtled) ~ sex)
 #summary.manova(m.ajuste,test="Roy")
 ```
 
-\begin{table}[H]
-\centering
-\caption{Teste de Box-Cox para homocedasticidade}
-\label{Boxhom}
-\begin{tabular}{rrr}
 
-  \hline
- & Estatística do teste & p-valor  \\ 
-  \hline
- Box-Cox & 24.04 & 0.0005 \\ 
-   \hline
-\end{tabular}
-\end{table}
+Como visto na Análise Descritiva, as matrizes de covariâncias aparentaram serem diferentes entre os sexos, e assim, para observar inferencialmente essa diferença foi realizado um teste de Box. Obteve-se uma estatística de 24,04 e um p-valor de 0.0005, logo temos que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e como visto na Tabela \ref{MANOVA1}, rejeitamos a hipótese dos vetores serem iguais. 
 
 \begin{table}[H]
 \centering
@@ -407,7 +416,7 @@ Roy & 1.45 & 21.28 & $<$ 0.0001  \\
 \end{tabular}
 \end{table}
 
-Para observar inferencialmente a diferença entre as matrizes de covariância de cada grupo, foi realizado um teste de Box-cox, e tivemos como resultado que as matrizes realmente são diferentes. Após isso, foi realizado uma MANOVA com o objetivo de visualizar se existe diferença entre os vetores de médias para ambos os sexos, e também foi rejeitada a hipótese de que elas são iguais. Dessa forma, queremos ver em qual medidas essas diferenças são mais acentuadas, portanto aplicamos um teste CBU.
+Foi estimado então os parâmetros do modelo, como visto na Tabela \ref{MRNLM}, e vemos que todos foram significativos. Dessa forma, é interessante verificar quais medidas se diferem entre os sexos, e portanto aplicamos um teste CBU. O teste CBU, Tabela \ref{CBUtestes}, mostra que todas as medidas são estatísticasmente diferentes entre os sexos.
 
 
 ```{r}
@@ -481,15 +490,65 @@ m.U <- rbind(0,0,1)
 #Teste.CBU.M(fit.model,m.Sigma.P,p,G,m.C1,m.U,m.M)
 ```
 
-Observando o resultado dos teste CBU, podemos observar que as diferenças estão em todas as medidas (largura, comprimento e altura).
+
+Avaliando os resíduos do modelo ajustado nas Figuras \ref{rs1}, \ref{rs2} e \ref{rs3}, referentes ao Comprimento, Largura e Altura, respectivamente, podemos observar que a suposição de homocedasticidade e de normalidade não parecem ser razoáveis.
+
+
+```{r,fig.cap="Análise de Resíduos - Comprimento \\label{rs1}"}
+gen.graf.resid(turtled %>% as.matrix(), fit.model, 1, "univariate", "diagnostics") %>% invisible()
+```
+
+```{r,fig.cap="Análise de Resíduos - Largura \\label{rs2}"}
+gen.graf.resid(turtled %>% as.matrix(), fit.model, 2, "univariate", "diagnostics") %>% invisible()
+```
+
+```{r,fig.cap="Análise de Resíduos - Altura \\label{rs3}"}
+gen.graf.resid(turtled %>% as.matrix(), fit.model, 3, "univariate", "diagnostics") %>% invisible()
+```
+
+
+## Conclusão
+
+\subsection*{Referências}
+
+\textit{Azevedo, C. L. N. (2020). Notas de aula sobre análise multivariada de
+dados} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
+
+\subsection*{Apendice}
 
 
 
+```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
+par(mfrow=c(2,3))
+boxplot(turtleF[,1],cex=1.2,cex.lab=1.2,main="Comprimento (F)")
+boxplot(turtleF[,2],cex=1.2,cex.lab=1.2,main="Largura (F)")
+boxplot(turtleF[,3],cex=1.2,cex.lab=1.2,main="Altura (F)")
+boxplot(turtleM[,1],cex=1.2,cex.lab=1.2,main="Comprimento (M)")
+boxplot(turtleM[,2],cex=1.2,cex.lab=1.2,main="Largura (M)")
+boxplot(turtleM[,3],cex=1.2,cex.lab=1.2,main="Altura (M)")
+```
 
-Aqui eu não sei o que falar
 
-OBS: DEPOIS TEM QUE VER A LISTA FEITA PRA VER SE FALTA ALGO
+```{r,fig.cap="Histogramas das variáveis por sexo.\\label{histTurtle}"}
+par(mfrow=c(2,3))
+hist(turtleF$length,probability=TRUE,main="Comprimento (F)",xlab="",ylab="")
+hist(turtleF$width,probability=TRUE,main="Largura (F)",xlab="",ylab="")
+hist(turtleF$height,probability=TRUE,main="Altura (F)",xlab="",ylab="")
+hist(turtleM$length,probability=TRUE,main="Comprimento (M)",xlab="",ylab="")
+hist(turtleM$width,probability=TRUE,main="Largura (M)",xlab="",ylab="")
+hist(turtleM$height,probability=TRUE,main="Altura (M)",xlab="",ylab="")
+```
 
+
+```{r,fig.cap="QQplots das variáveis por sexo.\\label{qqTurtle}"}
+par(mfrow=c(2,3))
+qqPlot(scale(turtleF$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (F)",cex=1.2) %>% invisible()
+qqPlot(scale(turtleF$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleF$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (F)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$length),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Comprimento (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$width),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Largura (M)",cex=1.2)%>% invisible()
+qqPlot(scale(turtleM$height),dist="norm",mean=0,sd=1,col.lines=1,grid="FALSE",xlab="quantil da N(0,1)",ylab="Altura (M)",cex=1.2)%>% invisible()
+```
 
 # Questão 2:
 Questão 6 Lista 4
