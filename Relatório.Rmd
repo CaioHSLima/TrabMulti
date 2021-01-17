@@ -213,7 +213,7 @@ Comprimento & 1,00 & 0,97 & 0,97 & 1,00 & 0,95 & 0,95 \\
 \end{tabular}
 \end{table}
 
-Os boxplots da Figura \ref{boxTurtle} mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} e os gráficos quantil-quantil da Figura \ref{qqTurtle} aparentam seguir uma distribuição diferente da normal, visto que não são simetricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
+Os boxplots da Figura \ref{boxTurtle} (Apêndice) mostram que há uma aparente diferença entre os sexos nas três medidas e nota-se que no Comprimento e na Altura dos machos há uma assimetria em torno da mediana, o que pode indicar uma não normalidade. Da mesma forma, os histogramas vistos na Figura \ref{histTurtle} (Apêndice) e os gráficos quantil-quantil da Figura \ref{qqTurtle} (Apêndice) aparentam seguir uma distribuição diferente da normal, visto que não são simetricas e alguns possuem caudas pesadas. Mesmo com estas observações, iremos continuar com a análise inferencial.
 
 ## Análise inferencial
 
@@ -519,7 +519,7 @@ dados.} <https://www.ime.unicamp.br/~cnaber/Material_AM_2S_2020.htm>.
 
 \newpage
 
-\subsection*{Apendice}
+\subsection*{Apêndice}
 
 ```{r,fig.cap="Boxplots das variáveis por sexo.\\label{boxTurtle}"}
 par(mfrow=c(2,3))
@@ -658,7 +658,7 @@ hurdles & 1,00 & -0,81 & -0,65 & 0,77 & -0,91 & -0,01 & 0,78 \\
 \end{tabular}
 \end{table}
 
-As Figuras \ref{box2}, \ref{hist2} e \ref{qq2} (estão no Apêndice) contém os boxplots, os histogramas e os QQplots dos resultados de cada prova, respectivamente. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada. Já a Figura \ref{correlo2} contém o correlograma dos resultados de cada prova. Nele, reforça-se a ideia de que as provas de corrida pertencem a um grupo e as provas de desempenho medidas em distância a outro. Ou seja, a correlações entre provas de grupos distintos são negativas e, correlações do mesmo grupo, positivas.
+As Figuras \ref{box2}, \ref{hist2} e \ref{qq2} (estão no Apêndice) contém os boxplots, os histogramas e os QQplots dos resultados de cada prova, respectivamente. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada. Já a Figura \ref{correlo2} (Apêndice) contém o correlograma dos resultados de cada prova. Nele, reforça-se a ideia de que as provas de corrida pertencem a um grupo e as provas de desempenho medidas em distância a outro. Ou seja, a correlações entre provas de grupos distintos são negativas e, correlações do mesmo grupo, positivas.
 
 ## Análise inferencial
 
@@ -1073,7 +1073,7 @@ Gravidez & 4,47 & 15,34 & 3,92 & 87,62 & 0,00 & 3,00 & 17,00 & 0,81 & 2,91 \\
 
 Podemos notar correlações consideráveis para os pares "Gravidez" e "Idade", "Massa" e "Tríceps" e "Insulina" e "Glicose" sendo que este último par só possui valores consideráveis para o grupo das pacientes sem diabetes. A Tabela \ref{corr4} contém a matriz de correlação das pacientes com e sem diabetes.
 
-As Figuras \ref{box_pos}, \ref{hist_pos} e \ref{qq_pos} contém, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg}, ref{hist_pos} e \ref{qq_neg} possuem, respectivamente, os boxplots, os histogramas e os QQplots de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
+As Figuras \ref{box_pos} e \ref{qq_pos}, que estão no Apêndice e a Figura \ref{hist_pos} contém, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes com diabetes. Além disso, as Figuras \ref{box_neg} e \ref{qq_neg}, que estão no Apêndice e a Figura \ref{hist_neg} contém, respectivamente, os boxplots, os QQplots e os histogramas de cada variável das pacientes sem diabetes. Podemos perceber, pelas figuras, a existência de pelo menos uma variável que não segue uma distribuição normal. Sendo assim, rejeita-se a normalidade multivariada.
 
 ```{r}
 SumIP<- cbind(round(apply(indiP,2,mean),4),round(apply(indiP,2,var),4),
